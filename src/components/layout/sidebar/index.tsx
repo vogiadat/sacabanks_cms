@@ -1,32 +1,24 @@
-import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded'
 import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded'
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import GroupRoundedIcon from '@mui/icons-material/GroupRounded'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
-import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import SupportRoundedIcon from '@mui/icons-material/SupportRounded'
 import Avatar from '@mui/joy/Avatar'
 import Box from '@mui/joy/Box'
-import Button from '@mui/joy/Button'
-import Card from '@mui/joy/Card'
-import Chip from '@mui/joy/Chip'
 import Divider from '@mui/joy/Divider'
 import GlobalStyles from '@mui/joy/GlobalStyles'
 import IconButton from '@mui/joy/IconButton'
 import Input from '@mui/joy/Input'
-import LinearProgress from '@mui/joy/LinearProgress'
 import List from '@mui/joy/List'
 import ListItem from '@mui/joy/ListItem'
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton'
 import ListItemContent from '@mui/joy/ListItemContent'
 import Sheet from '@mui/joy/Sheet'
-import Stack from '@mui/joy/Stack'
 import Typography from '@mui/joy/Typography'
 import * as React from 'react'
 
+import { Link } from '@tanstack/react-router'
 import { closeSidebar } from '../../../utils'
 import ColorSchemeToggle from '../ColorSchemeToggle'
 import { sidebarList } from './data'
@@ -142,82 +134,37 @@ export default function Sidebar() {
             '--ListItem-radius': (theme) => theme.vars.radius.sm
           }}
         >
-          {sidebarList.map((item) => (
-            <SidebarItem {...item} key={item.href} />
-          ))}
-
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton onClick={() => setOpen(!open)}>
-                  <AssignmentRoundedIcon />
-                  <ListItemContent>
-                    <Typography level='title-sm'>Tasks</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon sx={{ transform: open ? 'rotate(180deg)' : 'none' }} />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>All tasks</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Backlog</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>In progress</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Done</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton role='menuitem' component='a' href='/joy-ui/getting-started/templates/messages/'>
-              <QuestionAnswerRoundedIcon />
-              <ListItemContent>
-                <Typography level='title-sm'>Messages</Typography>
-              </ListItemContent>
-              <Chip size='sm' color='primary' variant='solid'>
-                4
-              </Chip>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton onClick={() => setOpen(!open)}>
-                  <GroupRoundedIcon />
-                  <ListItemContent>
-                    <Typography level='title-sm'>Users</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon sx={{ transform: open ? 'rotate(180deg)' : 'none' }} />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton
-                    role='menuitem'
-                    component='a'
-                    href='/joy-ui/getting-started/templates/profile-dashboard/'
+          {sidebarList.map((item, index) => {
+            if (item.items) {
+              return (
+                <ListItem nested key={index}>
+                  <Toggler
+                    renderToggle={({ open, setOpen }) => (
+                      <ListItemButton onClick={() => setOpen(!open)}>
+                        {item.icon}
+                        <ListItemContent>
+                          <Typography level='title-sm'>{item.title}</Typography>
+                        </ListItemContent>
+                        <KeyboardArrowDownIcon sx={{ transform: open ? 'rotate(180deg)' : 'none' }} />
+                      </ListItemButton>
+                    )}
                   >
-                    My profile
-                  </ListItemButton>
+                    <List sx={{ gap: 0.5 }}>
+                      {item.items.map((child, index) => (
+                        <ListItem sx={{ mt: index === 0 ? 0.5 : undefined }} key={index}>
+                          <ListItemButton role='menuitem' component={Link} to={child.href}>
+                            {child.title}
+                          </ListItemButton>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Toggler>
                 </ListItem>
-                <ListItem>
-                  <ListItemButton>Create a new user</ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton>Roles & permission</ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
+              )
+            }
+
+            return <SidebarItem {...item} key={index} />
+          })}
         </List>
 
         <List
@@ -243,19 +190,6 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
         </List>
-        <Card invertedColors variant='soft' color='warning' size='sm' sx={{ boxShadow: 'none' }}>
-          <Stack direction='row' justifyContent='space-between' alignItems='center'>
-            <Typography level='title-sm'>Used space</Typography>
-            <IconButton size='sm'>
-              <CloseRoundedIcon />
-            </IconButton>
-          </Stack>
-          <Typography level='body-xs'>Your team has used 80% of your available space. Need more?</Typography>
-          <LinearProgress variant='outlined' value={80} determinate sx={{ my: 1 }} />
-          <Button size='sm' variant='solid'>
-            Upgrade plan
-          </Button>
-        </Card>
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>

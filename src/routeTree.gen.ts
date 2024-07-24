@@ -23,6 +23,12 @@ const masterLayoutIndexLazyImport = createFileRoute('/(master)/_layout/')()
 const masterLayoutOrderIndexLazyImport = createFileRoute(
   '/(master)/_layout/order/',
 )()
+const masterLayoutCategoryIndexLazyImport = createFileRoute(
+  '/(master)/_layout/category/',
+)()
+const masterLayoutBannerIndexLazyImport = createFileRoute(
+  '/(master)/_layout/banner/',
+)()
 
 // Create/Update Routes
 
@@ -61,6 +67,26 @@ const masterLayoutOrderIndexLazyRoute = masterLayoutOrderIndexLazyImport
     import('./routes/(master)/_layout/order/index.lazy').then((d) => d.Route),
   )
 
+const masterLayoutCategoryIndexLazyRoute = masterLayoutCategoryIndexLazyImport
+  .update({
+    path: '/category/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/category/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const masterLayoutBannerIndexLazyRoute = masterLayoutBannerIndexLazyImport
+  .update({
+    path: '/banner/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/banner/index.lazy').then((d) => d.Route),
+  )
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -93,6 +119,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof masterLayoutIndexLazyImport
       parentRoute: typeof masterLayoutImport
     }
+    '/(master)/_layout/banner/': {
+      id: '/_layout/banner/'
+      path: '/banner'
+      fullPath: '/banner'
+      preLoaderRoute: typeof masterLayoutBannerIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
+    '/(master)/_layout/category/': {
+      id: '/_layout/category/'
+      path: '/category'
+      fullPath: '/category'
+      preLoaderRoute: typeof masterLayoutCategoryIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
     '/(master)/_layout/order/': {
       id: '/_layout/order/'
       path: '/order'
@@ -109,6 +149,8 @@ export const routeTree = rootRoute.addChildren({
   masterRoute: masterRoute.addChildren({
     masterLayoutRoute: masterLayoutRoute.addChildren({
       masterLayoutIndexLazyRoute,
+      masterLayoutBannerIndexLazyRoute,
+      masterLayoutCategoryIndexLazyRoute,
       masterLayoutOrderIndexLazyRoute,
     }),
   }),
@@ -138,6 +180,8 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/",
       "children": [
         "/_layout/",
+        "/_layout/banner/",
+        "/_layout/category/",
         "/_layout/order/"
       ]
     },
@@ -146,6 +190,14 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/": {
       "filePath": "(master)/_layout/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/banner/": {
+      "filePath": "(master)/_layout/banner/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/category/": {
+      "filePath": "(master)/_layout/category/index.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/order/": {

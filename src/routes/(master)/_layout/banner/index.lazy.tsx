@@ -1,0 +1,5 @@
+import { createLazyFileRoute } from '@tanstack/react-router'
+
+export const Route = createLazyFileRoute('/(master)/_layout/banner/')({
+  component: () => <div>Hello /(master)/banner/!</div>
+})
