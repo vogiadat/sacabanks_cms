@@ -10,7 +10,8 @@ export const formSchema = z.object({
       (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
       'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
-    .optional()
+    .optional(),
+  previewImage: z.string().optional()
 })
 
 export type CategoryForm = z.infer<typeof formSchema>

@@ -8,11 +8,14 @@ type Props<T extends FieldValues> = {
   label?: string
   form: UseFormReturn<T, unknown, undefined>
   name: Path<T>
+  defaultPreviewImage?: string
 }
 
-const FormFieldImage = <T extends FieldValues>({ label, form, name }: Props<T>) => {
+const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPreviewImage }: Props<T>) => {
   const { control } = form
-  const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null>(null)
+  const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null | undefined>(defaultPreviewImage)
+
+  console.log({ defaultPreviewImage })
 
   return (
     <Controller

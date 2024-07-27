@@ -22,3 +22,8 @@ export function toggleSidebar() {
     }
   }
 }
+
+export const getRandomImageUrl = () => {
+  const randomId = Math.floor(Math.random() * 1000)
+  return `https://picsum.photos/seed/${randomId}/800/600`
+}
