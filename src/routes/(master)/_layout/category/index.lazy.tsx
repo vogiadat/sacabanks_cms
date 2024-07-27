@@ -1,4 +1,4 @@
-import { Add } from '@mui/icons-material'
+import Create from '@/components/category/create'
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined'
 import { Box, Button, Chip, Typography } from '@mui/joy'
 import AspectRatio from '@mui/joy/AspectRatio'
@@ -24,9 +24,8 @@ export const Route = createLazyFileRoute('/(master)/_layout/category/')({
         <Typography level='h2' component='h1'>
           Categories
         </Typography>
-        <Button color='primary' startDecorator={<Add />} size='sm'>
-          New
-        </Button>
+
+        <Create />
       </Box>
 
       <Box>
@@ -66,7 +65,7 @@ export const Route = createLazyFileRoute('/(master)/_layout/category/')({
               aria-label='Explore Bahamas Islands'
               sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
             >
-              Explore
+              Chỉnh sửa
             </Button>
           </CardContent>
         </Card>
