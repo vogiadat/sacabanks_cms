@@ -1,5 +1,169 @@
+import { userApi } from '@/apis/user.api'
+import { Pagination, Search, Table } from '@/components/base'
+import Filter from '@/components/base/Filter'
+import { ColumDef } from '@/components/base/Table'
+import { IUserItem } from '@/interfaces'
+import { Add } from '@mui/icons-material'
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Sheet,
+  Typography
+} from '@mui/joy'
+import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
-  component: () => <div>Hello /(master)/_layout/user/!</div>
+  component: Page
 })
+
+function Page() {
+  const { data, error, isLoading, status } = useQuery({
+    queryKey: userApi.getKeyForList(),
+    queryFn: () => userApi.getList()
+  })
+
+  const userList = data?.data.data
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          mb: 1,
+          gap: 1,
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'start', sm: 'center' },
+          flexWrap: 'wrap',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Typography level='h2' component='h1' textColor={'primary.500'}>
+          Người Dùng
+        </Typography>
+        <Button color='primary' startDecorator={<Add />} size='sm'>
+          Tạo mới
+        </Button>
+      </Box>
+
+      <Box
+        className='SearchAndFilters-tabletUp'
+        sx={{
+          borderRadius: 'sm',
+          py: 2,
+          display: { xs: 'none', sm: 'flex' },
+          flexWrap: 'wrap',
+          gap: 1.5,
+          '& > *': {
+            minWidth: { xs: '120px', md: '160px' }
+          }
+        }}
+      >
+        <Search label='Tìm kiếm người dùng' />
+
+        <Filter
+          name='Quyền Hạn'
+          items={[
+            { value: 1, label: 'Quản Trị Viên Cao Cấp' },
+            { value: 2, label: 'Quản Trị Viên' },
+            { value: 3, label: 'Nhà Cung Cấp' },
+            { value: 4, label: 'Khách Hàng' }
+          ]}
+          onChange={console.log}
+        />
+
+        <Filter
+          name='Sắp xếp'
+          items={[
+            { value: 'ASC', label: 'Giá tăng dần' },
+            { value: 'DESC', label: 'Giá giảm dần' }
+          ]}
+          selectProps={{
+            placeholder: 'sắp xếp theo'
+          }}
+          onChange={console.log}
+        />
+      </Box>
+
+      <Sheet
+        className='OrderTableContainer'
+        variant='outlined'
+        sx={{
+          display: { xs: 'none', sm: 'initial' },
+          width: '100%',
+          borderRadius: 'sm',
+          flexShrink: 1,
+          overflow: 'auto',
+          minHeight: 0
+        }}
+      >
+        <Table<IUserItem> rows={userList ?? []} columns={columnDef} />
+      </Sheet>
+
+      <Pagination />
+    </>
+  )
+}
+
+interface UserForm extends IUserItem {
+  actions?: string
+}
+
+const columnDef: ColumDef<UserForm>[] = [
+  {
+    associate: 'email',
+    label: 'Thông Tin',
+    render: (row) => (
+      <Box display={'flex'} gap={1} alignItems={'center'}>
+        <Avatar size='sm'>{row.username.at(0)}</Avatar>
+        <Sheet sx={{ bgcolor: 'inherit' }}>
+          <Typography fontWeight={600} gutterBottom>
+            {row.username}
+          </Typography>
+          <Typography level='body-xs' gutterBottom>
+            {row.email}
+          </Typography>
+        </Sheet>
+      </Box>
+    )
+  },
+  {
+    associate: 'phoneNumber',
+    label: 'Số Điện Thoại'
+  },
+  {
+    associate: 'role',
+    label: 'Quyền Hạn',
+    render: (row) => row.role.name
+  },
+  {
+    associate: 'actions',
+    label: '',
+    render: RowMenu
+  }
+]
+
+function RowMenu() {
+  return (
+    <Dropdown>
+      <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}>
+        <MoreHorizRoundedIcon />
+      </MenuButton>
+      <Menu size='sm' sx={{ minWidth: 140 }}>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Rename</MenuItem>
+        <MenuItem>Move</MenuItem>
+        <Divider />
+        <MenuItem color='danger'>Delete</MenuItem>
+      </Menu>
+    </Dropdown>
+  )
+}

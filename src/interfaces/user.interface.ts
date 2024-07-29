@@ -26,7 +26,7 @@ export interface IUserItem extends IBaseItem {
   linkWebsite: string
   shortNameCompany: string
   avatar: string
-  banner: null
+  banner: string
   collab: string
   profits: string
 }
