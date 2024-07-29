@@ -5,11 +5,14 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import FormProduct from '@/components/product/FormProduct'
 
-export const Route = createFileRoute('/(master)/_layout/product/update')({
+export const Route = createFileRoute('/(master)/_layout/product/update/$id')({
   component: () => <Page />
 })
 
 function Page() {
+  const { id } = Route.useParams()
+  console.log('🚀 ~ Page ~ id:', id)
+
   return (
     <>
       <Box
@@ -58,8 +61,8 @@ const fakeUpdateProductData = {
   dimensionW: 60,
   dimensionH: 45,
   netWeight: 20,
-  price: 299.99,
-  quantity: 50,
+  price: '299.99',
+  quantity: '50',
   mainPhoto: 'https://photo.znews.vn/w660/Uploaded/mdf_nsozxd/2019_04_30/1_1.jpg',
   tags: 'pha cong, xe tank, dinh doc lap, cmt8, 1945',
   desc: 'Cách mạng tháng Tám còn gọi là Tổng khởi nghĩa tháng Tám là tên gọi ngành sử học chính thống tại Việt Nam hiện nay dùng để chỉ việc phong trào Việt Minh tiến hành khởi nghĩa chống Đế quốc Nhật Bản, buộc Đế quốc Việt Nam bàn giao chính quyền trung ương và các địa phương và buộc Bảo Đại phải thoái vị trong tháng 8 năm',

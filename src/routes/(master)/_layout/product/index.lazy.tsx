@@ -3,6 +3,7 @@ import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { image_default } from '@/constants/image.constant'
+import { sliceText } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
@@ -18,7 +19,6 @@ function Page() {
     queryKey: productApi.getKeyForMyProduct(),
     queryFn: () => productApi.getMyProduct()
   })
-  console.log('🚀 ~ Page ~ data:', data?.data.data)
 
   const rows = data?.data.data.map((item: IProductTable) => {
     return {
@@ -121,7 +121,6 @@ interface IProductTable {
 }
 
 const columnDef: ColumDef<IProductTable>[] = [
-  { associate: 'id', label: 'ID' },
   {
     associate: 'mainPhoto',
     label: 'Image',
