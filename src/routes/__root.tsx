@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { CssBaseline, CssVarsProvider } from '@mui/joy'
 import { extendTheme } from '@mui/joy/styles'
@@ -37,6 +38,7 @@ export const Route = createRootRoute({
           {/* expand={false} */}
           <Toaster richColors position='top-center' duration={3000} />
           <TanStackRouterDevtools />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </>
     )
