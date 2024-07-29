@@ -4,13 +4,14 @@ import { ColumDef } from '@/components/base/Table'
 import { getRandomImageUrl } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: () => <Page />
 })
 
 function Page() {
+  const { navigate } = useRouter()
   return (
     <>
       <Box
@@ -27,7 +28,7 @@ function Page() {
         <Typography level='h2' component='h1'>
           Sản Phẩm
         </Typography>
-        <Button color='primary' startDecorator={<Add />} size='sm'>
+        <Button onClick={() => navigate({ to: '/product/create' })} color='primary' startDecorator={<Add />} size='sm'>
           Tạo mới
         </Button>
       </Box>

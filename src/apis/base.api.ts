@@ -6,7 +6,7 @@ import { axiosClient, getHeaderRequest } from '@/utils'
 //   key: string
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category'
+type EndpointType = 'category' | 'product'
 
 export class BaseApi<T> {
   protected endpoint: string

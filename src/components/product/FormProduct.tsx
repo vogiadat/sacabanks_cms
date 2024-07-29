@@ -51,11 +51,11 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput name='price' form={form} label='Giá' inputProps={{ placeholder: '10.000.000' }} />
+              <FomFieldInput name='price' form={form} label='Giá' inputProps={{ type: 'number' }} />
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput name='quantity' form={form} label='Số lượng' inputProps={{ placeholder: '100' }} />
+              <FomFieldInput name='quantity' form={form} label='Số lượng' inputProps={{ type: 'number' }} />
             </Grid>
 
             <Grid xs={12} lg={6}>
@@ -77,6 +77,7 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
           </Grid>
         </Grid>
 
+        {/*//SECTION: Image */}
         <Grid xs={12} lg={4} columns={12} container sx={{ height: 'max-content' }}>
           <Grid xs={12}>
             <Typography level='h4' component='h3'>
@@ -109,7 +110,7 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
           name='desc'
           form={form}
           label='Mô Tả'
-          textAreaProps={{ placeholder: 'Toàn qúa đẹp khai, ...', minRows: 5 }}
+          textAreaProps={{ placeholder: 'Thêm mô tả cho sản phẩm của bạn', minRows: 5 }}
         />
       </Box>
 

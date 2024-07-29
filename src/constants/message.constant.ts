@@ -23,7 +23,7 @@ export const APP_MESSAGE = {
     NUMBER_INVALID: 'This field must be a number',
     NUMBER_POSITIVE: 'This field must be greater than or equal to 0',
 
-    FIELD_INVALID: 'This field is invalid',
+    FIELD_INVALID: 'Kiểu dữ liệu không hợp lệ',
     EMAIL_INVALID: 'Email sai định dạng "email@example.com"',
     CONFIRM_PASSWORD_NOT_MATCH: 'Confirm password do not match',
 
