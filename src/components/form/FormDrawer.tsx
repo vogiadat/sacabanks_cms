@@ -15,9 +15,21 @@ type Props<T extends FieldValues> = {
   form: UseFormReturn<T, unknown, undefined>
   onSubmit: (value: T) => void
   onClose: () => void
+  isLoading?: boolean
+  isEdit?: boolean
+  id?: string
 }
 
-const FormDrawer = <T extends FieldValues>({ open, onClose, children, form, onSubmit }: Props<T>) => {
+const FormDrawer = <T extends FieldValues>({
+  open,
+  onClose,
+  children,
+  form,
+  onSubmit,
+  isLoading = false,
+  isEdit = false,
+  id
+}: Props<T>) => {
   const { handleSubmit } = form
   return (
     <Drawer
@@ -47,13 +59,24 @@ const FormDrawer = <T extends FieldValues>({ open, onClose, children, form, onSu
             overflow: 'auto'
           }}
         >
-          <DialogTitle>New Category</DialogTitle>
+          <DialogTitle>{isEdit ? 'Cập nhật' : 'Thêm mới'}</DialogTitle>
           <ModalClose />
           <Divider sx={{ mt: 'auto' }} />
           <DialogContent sx={{ gap: 2 }}>{children}</DialogContent>
           <Stack direction='row' justifyContent='end' useFlexGap spacing={1}>
-            <Button type='submit' sx={{ flexGrow: '1' }}>
-              Save
+            {isEdit && id && (
+              <Button
+                type='button'
+                sx={{ flexGrow: '1' }}
+                disabled={isLoading}
+                color='danger'
+                onClick={() => console.log('xoá ...', id)}
+              >
+                Xoá
+              </Button>
+            )}
+            <Button type='submit' sx={{ flexGrow: '1' }} disabled={isLoading}>
+              {isEdit ? 'Cập nhật' : 'Thêm mới'}
             </Button>
           </Stack>
         </Sheet>

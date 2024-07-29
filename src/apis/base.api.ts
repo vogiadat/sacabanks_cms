@@ -6,7 +6,7 @@ import { axiosClient, getHeaderRequest } from '@/utils'
 //   key: string
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category'
+type EndpointType = 'category' | 'upload'
 
 export class BaseApi<T> {
   protected endpoint: string
@@ -38,6 +38,14 @@ export class BaseApi<T> {
     const headers = getHeaderRequest(headerType)
 
     return await axiosClient.post(this.endpoint, data, {
+      headers
+    })
+  }
+
+  async patch(id: string, data: T, headerType?: HeaderType) {
+    const headers = getHeaderRequest(headerType)
+
+    return await axiosClient.patch(`${this.endpoint}/${id}`, data, {
       headers
     })
   }

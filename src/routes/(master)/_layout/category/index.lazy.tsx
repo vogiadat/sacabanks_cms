@@ -3,8 +3,9 @@ import CardCategory from '@/components/category/CardCategory'
 import Create from '@/components/category/create'
 import WhiteList from '@/components/category/WhiteList'
 import { LoadingFullPage } from '@/components/loading'
+import { image_default } from '@/constants/image.constant'
 import { ICategoryItem } from '@/interfaces'
-import { getRandomImageUrl } from '@/utils'
+import { getImageById, getRandomImageUrl } from '@/utils'
 import { HeartBroken } from '@mui/icons-material'
 import { Box, Button, Grid, Stack, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
@@ -52,25 +53,48 @@ function Page() {
 
       <WhiteList open={openWhiteList} setOpen={setOpenWhiteList} />
 
-      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        {isLoading ? (
-          <LoadingFullPage isChild />
-        ) : (
-          categoryList &&
-          categoryList.map((item, index) => (
-            <Grid xs={12} md={6} lg={4} xl={3} key={index}>
-              <CardCategory
-                onAddToCategoryHome={() => setOpenWhiteList(true)}
-                category={{
-                  name: item.name,
-                  image: getRandomImageUrl(),
-                  rank: item.rank
-                }}
-              />
-            </Grid>
-          ))
-        )}
-      </Grid>
+      <Box
+        component='div'
+        sx={{
+          height: '100%',
+          overflow: 'scroll',
+          overflowX: 'hidden'
+        }}
+      >
+        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          {isLoading ? (
+            <Box
+              sx={{
+                height: '100vh',
+                width: '100%'
+              }}
+            >
+              <LoadingFullPage isChild />
+            </Box>
+          ) : (
+            categoryList &&
+            categoryList.map((item, index) => {
+              const getImage = getImageById(item.image)
+              const image = getImage ? getImage : image_default
+
+              return (
+                <Grid xs={12} md={6} lg={4} xl={3} key={index}>
+                  <CardCategory
+                    onAddToCategoryHome={() => setOpenWhiteList(true)}
+                    category={{
+                      id: item.id,
+                      name: item.name,
+                      image,
+                      rank: item.rank,
+                      imageId: item.image
+                    }}
+                  />
+                </Grid>
+              )
+            })
+          )}
+        </Grid>
+      </Box>
     </>
   )
 }

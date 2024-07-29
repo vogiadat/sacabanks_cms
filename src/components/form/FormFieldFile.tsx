@@ -16,7 +16,7 @@ const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPrevi
   const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null | undefined>(defaultPreviewImage)
   // console.log('🚀 ~ FormFieldImage ~ previewFile:', previewFile)
 
-  console.log({ defaultPreviewImage })
+  // console.log({ defaultPreviewImage })
 
   return (
     <Controller
