@@ -8,7 +8,7 @@ import * as path from 'path'
 export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
   server: {
-    port: 3000
+    port: 4000
   },
   css: {
     devSourcemap: true

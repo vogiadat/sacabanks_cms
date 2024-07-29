@@ -1,13 +1,13 @@
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE, REQUIRED_MESSAGE } from '@/utils/ErrorForm'
+import { APP_MESSAGE, APP_RULE } from '@/constants'
 import { z } from 'zod'
 
 export const formSchema = z.object({
-  name: z.string({ message: REQUIRED_MESSAGE }).min(1, { message: REQUIRED_MESSAGE }),
+  name: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   image: z
     .instanceof(File)
-    .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
+    .refine((file) => file.size <= APP_RULE.FILE.MAX_FILE_SIZE, `File size should be less than 5MB.`)
     .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+      (file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type),
       'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
     .optional(),
