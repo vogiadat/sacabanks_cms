@@ -20,6 +20,15 @@ import { Route as masterLayoutImport } from './routes/(master)/_layout'
 const masterImport = createFileRoute('/(master)')()
 const authLoginLazyImport = createFileRoute('/(auth)/login')()
 const masterLayoutIndexLazyImport = createFileRoute('/(master)/_layout/')()
+const masterLayoutUserIndexLazyImport = createFileRoute(
+  '/(master)/_layout/user/',
+)()
+const masterLayoutSupplierIndexLazyImport = createFileRoute(
+  '/(master)/_layout/supplier/',
+)()
+const masterLayoutProductIndexLazyImport = createFileRoute(
+  '/(master)/_layout/product/',
+)()
 const masterLayoutOrderIndexLazyImport = createFileRoute(
   '/(master)/_layout/order/',
 )()
@@ -28,6 +37,9 @@ const masterLayoutCategoryIndexLazyImport = createFileRoute(
 )()
 const masterLayoutBannerIndexLazyImport = createFileRoute(
   '/(master)/_layout/banner/',
+)()
+const masterLayoutActiveUserIndexLazyImport = createFileRoute(
+  '/(master)/_layout/active-user/',
 )()
 
 // Create/Update Routes
@@ -58,6 +70,35 @@ const masterLayoutIndexLazyRoute = masterLayoutIndexLazyImport
     import('./routes/(master)/_layout/index.lazy').then((d) => d.Route),
   )
 
+const masterLayoutUserIndexLazyRoute = masterLayoutUserIndexLazyImport
+  .update({
+    path: '/user/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/user/index.lazy').then((d) => d.Route),
+  )
+
+const masterLayoutSupplierIndexLazyRoute = masterLayoutSupplierIndexLazyImport
+  .update({
+    path: '/supplier/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/supplier/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const masterLayoutProductIndexLazyRoute = masterLayoutProductIndexLazyImport
+  .update({
+    path: '/product/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/product/index.lazy').then((d) => d.Route),
+  )
+
 const masterLayoutOrderIndexLazyRoute = masterLayoutOrderIndexLazyImport
   .update({
     path: '/order/',
@@ -86,6 +127,18 @@ const masterLayoutBannerIndexLazyRoute = masterLayoutBannerIndexLazyImport
   .lazy(() =>
     import('./routes/(master)/_layout/banner/index.lazy').then((d) => d.Route),
   )
+
+const masterLayoutActiveUserIndexLazyRoute =
+  masterLayoutActiveUserIndexLazyImport
+    .update({
+      path: '/active-user/',
+      getParentRoute: () => masterLayoutRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(master)/_layout/active-user/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 
 // Populate the FileRoutesByPath interface
 
@@ -119,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof masterLayoutIndexLazyImport
       parentRoute: typeof masterLayoutImport
     }
+    '/(master)/_layout/active-user/': {
+      id: '/_layout/active-user/'
+      path: '/active-user'
+      fullPath: '/active-user'
+      preLoaderRoute: typeof masterLayoutActiveUserIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
     '/(master)/_layout/banner/': {
       id: '/_layout/banner/'
       path: '/banner'
@@ -140,6 +200,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof masterLayoutOrderIndexLazyImport
       parentRoute: typeof masterLayoutImport
     }
+    '/(master)/_layout/product/': {
+      id: '/_layout/product/'
+      path: '/product'
+      fullPath: '/product'
+      preLoaderRoute: typeof masterLayoutProductIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
+    '/(master)/_layout/supplier/': {
+      id: '/_layout/supplier/'
+      path: '/supplier'
+      fullPath: '/supplier'
+      preLoaderRoute: typeof masterLayoutSupplierIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
+    '/(master)/_layout/user/': {
+      id: '/_layout/user/'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof masterLayoutUserIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
   }
 }
 
@@ -149,9 +230,13 @@ export const routeTree = rootRoute.addChildren({
   masterRoute: masterRoute.addChildren({
     masterLayoutRoute: masterLayoutRoute.addChildren({
       masterLayoutIndexLazyRoute,
+      masterLayoutActiveUserIndexLazyRoute,
       masterLayoutBannerIndexLazyRoute,
       masterLayoutCategoryIndexLazyRoute,
       masterLayoutOrderIndexLazyRoute,
+      masterLayoutProductIndexLazyRoute,
+      masterLayoutSupplierIndexLazyRoute,
+      masterLayoutUserIndexLazyRoute,
     }),
   }),
   authLoginLazyRoute,
@@ -180,9 +265,13 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/",
       "children": [
         "/_layout/",
+        "/_layout/active-user/",
         "/_layout/banner/",
         "/_layout/category/",
-        "/_layout/order/"
+        "/_layout/order/",
+        "/_layout/product/",
+        "/_layout/supplier/",
+        "/_layout/user/"
       ]
     },
     "/login": {
@@ -190,6 +279,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/": {
       "filePath": "(master)/_layout/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/active-user/": {
+      "filePath": "(master)/_layout/active-user/index.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/banner/": {
@@ -202,6 +295,18 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/order/": {
       "filePath": "(master)/_layout/order/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/product/": {
+      "filePath": "(master)/_layout/product/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/supplier/": {
+      "filePath": "(master)/_layout/supplier/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/user/": {
+      "filePath": "(master)/_layout/user/index.lazy.tsx",
       "parent": "/_layout"
     }
   }
