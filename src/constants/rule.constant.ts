@@ -9,10 +9,8 @@ export const APP_RULE = {
 
   FORM: {
     MIN_LENGTH_GENERAL: 1,
-
     MIN_LENGTH_NAME: 3,
     MAX_LENGTH_NAME: 100,
-
     MAX_LENGTH_VARCHAR: 255
   },
 
