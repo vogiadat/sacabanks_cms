@@ -27,12 +27,12 @@ function Page() {
         }}
       >
         <Typography level='h2' component='h1'>
-          Categories
+          Danh Mục
         </Typography>
 
         <Stack direction='row' justifyContent='center' alignItems='center' spacing={1}>
           <Button color='success' startDecorator={<HeartBroken />} size='sm' onClick={() => setOpenWhiteList(true)}>
-            White List
+            Nổi Bật
           </Button>
           <Create />
         </Stack>
@@ -42,7 +42,7 @@ function Page() {
 
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         {[...Array(8).keys()].map((_, index) => (
-          <Grid xs={6} md={4} lg={3} xl={2} key={index}>
+          <Grid xs={12} md={6} lg={4} xl={3} key={index}>
             <CardCategory
               onAddToCategoryHome={() => setOpenWhiteList(true)}
               category={{
