@@ -51,7 +51,6 @@ const FormDrawer = <T extends FieldValues>({ open, onClose, children, form, onSu
           <ModalClose />
           <Divider sx={{ mt: 'auto' }} />
           <DialogContent sx={{ gap: 2 }}>{children}</DialogContent>
-
           <Stack direction='row' justifyContent='end' useFlexGap spacing={1}>
             <Button type='submit' sx={{ flexGrow: '1' }}>
               Save
