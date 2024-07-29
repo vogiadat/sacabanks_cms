@@ -4,7 +4,7 @@ import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { authApi } from '@/api'
+import { authApi } from '@/apis'
 import { APP_MESSAGE } from '@/constants'
 import { useCheckAuth, useFakeRender, useShowToastTanStack } from '@/hooks'
 import { LoginType } from '@/types'

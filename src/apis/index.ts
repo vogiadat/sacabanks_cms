@@ -1,4 +1,4 @@
 // ! Need export base.api first line to initial, please dont change the order on this file
-export * from '@/api/base.api'
+export * from '@/apis/base.api'
 // ! END
-export * from '@/api/auth.api'
+export * from '@/apis/auth.api'
