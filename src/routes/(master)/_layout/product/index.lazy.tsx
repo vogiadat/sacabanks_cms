@@ -1,16 +1,37 @@
+import { productApi } from '@/apis'
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { getRandomImageUrl } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
+import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: () => <Page />
 })
 
 function Page() {
+  const { navigate } = useRouter()
+  const { data } = useQuery({
+    queryKey: productApi.getKeyForMyProduct(),
+    queryFn: () => productApi.getMyProduct()
+  })
+  console.log('🚀 ~ Page ~ data:', data?.data.data)
+
+  const rows = data?.data.data.map((item: IProductTable | any) => {
+    return {
+      id: item.id,
+      title: item.title,
+      tags: item.tags,
+      image: getRandomImageUrl(),
+      price: item.price,
+      numberProductService: (item as any).user.numberProductService,
+      companyName: (item as any).user.shortNameCompany
+    }
+  })
+
   return (
     <>
       <Box
@@ -27,7 +48,7 @@ function Page() {
         <Typography level='h2' component='h1'>
           Sản Phẩm
         </Typography>
-        <Button color='primary' startDecorator={<Add />} size='sm'>
+        <Button onClick={() => navigate({ to: '/product/create' })} color='primary' startDecorator={<Add />} size='sm'>
           Tạo mới
         </Button>
       </Box>
@@ -81,7 +102,7 @@ function Page() {
           minHeight: 0
         }}
       >
-        <Table<ProductHardCode> rows={rows} columns={columnDef} />
+        {rows && rows.length > 0 && <Table<IProductTable> rows={rows} columns={columnDef} />}
       </Sheet>
 
       <Pagination />
@@ -89,7 +110,7 @@ function Page() {
   )
 }
 
-interface ProductHardCode {
+interface IProductTable {
   id: number
   mainPhoto: string
   title: string
@@ -99,19 +120,7 @@ interface ProductHardCode {
   price: number
 }
 
-const rows: ProductHardCode[] = [
-  {
-    id: 1,
-    mainPhoto: getRandomImageUrl(),
-    title: 'Hello bà già',
-    tags: 'New, Hot',
-    companyName: 'Viet Travel',
-    numberProductService: 20,
-    price: 20000
-  }
-]
-
-const columnDef: ColumDef<ProductHardCode>[] = [
+const columnDef: ColumDef<IProductTable>[] = [
   { associate: 'id', label: 'ID' },
   {
     associate: 'mainPhoto',
@@ -124,7 +133,7 @@ const columnDef: ColumDef<ProductHardCode>[] = [
   },
   {
     associate: 'tags',
-    label: 'Tiêu Đề'
+    label: 'Tags'
   },
   {
     associate: 'companyName',

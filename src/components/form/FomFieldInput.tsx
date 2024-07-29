@@ -17,6 +17,7 @@ const FomFieldInput = <T extends FieldValues>({ inputProps, label, form, name }:
       control={control}
       name={name}
       render={({ field: { onBlur, ref, onChange, value }, fieldState }) => {
+        // console.log('🚀 ~ FomFieldInput ~ value:', name, typeof value)
         const error = fieldState.error?.message
 
         return (
