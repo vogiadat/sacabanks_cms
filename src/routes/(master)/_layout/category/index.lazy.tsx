@@ -1,9 +1,13 @@
+import { categoryApi } from '@/apis/category.api'
 import CardCategory from '@/components/category/CardCategory'
 import Create from '@/components/category/create'
 import WhiteList from '@/components/category/WhiteList'
+import { LoadingFullPage } from '@/components/loading'
+import { ICategoryItem } from '@/interfaces'
 import { getRandomImageUrl } from '@/utils'
 import { HeartBroken } from '@mui/icons-material'
 import { Box, Button, Grid, Stack, Typography } from '@mui/joy'
+import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -13,6 +17,14 @@ export const Route = createLazyFileRoute('/(master)/_layout/category/')({
 
 function Page() {
   const [openWhiteList, setOpenWhiteList] = useState(false)
+
+  const { data, error, isLoading, status } = useQuery({
+    queryKey: categoryApi.getKeyForList(),
+    queryFn: () => categoryApi.getList()
+  })
+
+  const categoryList = data?.data.data as ICategoryItem[]
+
   return (
     <>
       <Box
@@ -41,18 +53,23 @@ function Page() {
       <WhiteList open={openWhiteList} setOpen={setOpenWhiteList} />
 
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        {[...Array(8).keys()].map((_, index) => (
-          <Grid xs={12} md={6} lg={4} xl={3} key={index}>
-            <CardCategory
-              onAddToCategoryHome={() => setOpenWhiteList(true)}
-              category={{
-                name: 'Yosemite National Park',
-                image: getRandomImageUrl(),
-                rank: 1
-              }}
-            />
-          </Grid>
-        ))}
+        {isLoading ? (
+          <LoadingFullPage isChild />
+        ) : (
+          categoryList &&
+          categoryList.map((item, index) => (
+            <Grid xs={12} md={6} lg={4} xl={3} key={index}>
+              <CardCategory
+                onAddToCategoryHome={() => setOpenWhiteList(true)}
+                category={{
+                  name: item.name,
+                  image: getRandomImageUrl(),
+                  rank: item.rank
+                }}
+              />
+            </Grid>
+          ))
+        )}
       </Grid>
     </>
   )

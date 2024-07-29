@@ -6,7 +6,7 @@ import { axiosClient, getHeaderRequest } from '@/utils'
 //   key: string
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'users'
+type EndpointType = 'category'
 
 export class BaseApi<T> {
   protected endpoint: string
@@ -17,7 +17,15 @@ export class BaseApi<T> {
     this.key = endpoint
   }
 
-  getKeyFindById(id: string) {
+  getKeyForList() {
+    return [this.key, 'getList']
+  }
+
+  async getList() {
+    return await axiosClient.get(`${this.endpoint}`)
+  }
+
+  getKeyForFindById(id: string) {
     return [this.key, 'findById', id]
   }
 

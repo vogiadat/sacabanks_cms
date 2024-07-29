@@ -14,6 +14,7 @@ type Props<T extends FieldValues> = {
 const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPreviewImage }: Props<T>) => {
   const { control } = form
   const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null | undefined>(defaultPreviewImage)
+  // console.log('🚀 ~ FormFieldImage ~ previewFile:', previewFile)
 
   console.log({ defaultPreviewImage })
 
@@ -54,20 +55,30 @@ const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPrevi
                 cursor: 'pointer'
               }}
             >
-              <Box position={'absolute'} zIndex={'10'}>
-                <AddAPhotoRounded />
-              </Box>
-
-              {previewFile && (
-                <img
-                  srcSet={previewFile.toString()}
-                  src={previewFile.toString()}
-                  alt={'img'}
-                  loading='lazy'
-                  style={{
-                    width: '100%'
+              {previewFile ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '200px'
                   }}
-                />
+                >
+                  <img
+                    srcSet={previewFile.toString()}
+                    src={previewFile.toString()}
+                    alt={'img'}
+                    loading='lazy'
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '10px'
+                    }}
+                  />
+                </Box>
+              ) : (
+                <Box position={'absolute'} zIndex={'10'}>
+                  <AddAPhotoRounded />
+                </Box>
               )}
 
               <VisuallyHiddenInput ref={ref} type='file' onChange={handleFileChange} />

@@ -27,7 +27,7 @@ export const APP_MESSAGE = {
     EMAIL_INVALID: 'Email sai định dạng "email@example.com"',
     CONFIRM_PASSWORD_NOT_MATCH: 'Confirm password do not match',
 
-    ADD_SUCCESS: 'Add a new record success !',
+    ADD_SUCCESS: 'Thêm thành công !',
     ADD_FAILED: 'Oops! Add new record failed !',
 
     UPDATE_STATUS_SUCCESS: 'Update status success!', // Using only change status

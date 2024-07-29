@@ -1,16 +1,22 @@
 import { Box } from '@mui/joy'
 import { LoadingItem } from '@/components/loading'
 
-export const LoadingFullPage = () => {
+interface Props {
+  isChild?: boolean
+}
+
+export const LoadingFullPage = ({ isChild = false }: Props) => {
   return (
     <Box
       component={'div'}
       sx={{
-        height: '100vh',
+        width: '100%',
+        height: isChild ? '100%' : '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ddd'
+        backgroundColor: '#ddd',
+        borderRadius: isChild ? '8px' : '0'
       }}
     >
       <LoadingItem />
