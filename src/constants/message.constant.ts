@@ -30,7 +30,7 @@ export const APP_MESSAGE = {
     ADD_SUCCESS: 'Thêm thành công !',
     ADD_FAILED: 'Lỗi! Thêm mới thất bại !',
 
-    UPDATE_STATUS_SUCCESS: 'Update status success!', // Using only change status
+    UPDATE_STATUS_SUCCESS: 'Cập nhật thành công!', // Using only change status
     UPDATE_SUCCESS: 'Cập nhật thành công !',
     UPDATE_FAILED: 'Lỗi! Cập nhật thất bại !',
 

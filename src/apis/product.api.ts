@@ -13,10 +13,6 @@ class ProductApi extends BaseApi<IProductItem> {
   getKeyForMyProduct() {
     return [this.key, 'getList', 'my_product']
   }
-
-  async getProductDetail(id: string) {
-    return await axiosClient.get(`${this.endpoint}/${id}`)
-  }
 }
 
 export const productApi = new ProductApi()

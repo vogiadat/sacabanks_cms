@@ -36,16 +36,18 @@ export const getImageById = (id: string) => {
   return `${APP_CONFIG.BASE_URL.API}/upload/files/${id}`
 }
 
-
-export const sliceText = (
-  text: string = '',
-  maxLength: number = 30,
-  replaceText: string = '...'
-): string => {
+export const sliceText = (text: string = '', maxLength: number = 30, replaceText: string = '...'): string => {
   if (!text) return ''
   const newText = text?.replace(/(&nbsp;)/gi, ' ').replace(/(<([^>]+)>)/gi, '')
-  if (newText.length > maxLength)
-    return `${newText.slice(0, maxLength)}${replaceText}`
+  if (newText.length > maxLength) return `${newText.slice(0, maxLength)}${replaceText}`
 
   return newText
+}
+
+export function generateSlug(input: string): string {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
 }
