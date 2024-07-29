@@ -28,11 +28,11 @@ export const APP_MESSAGE = {
     CONFIRM_PASSWORD_NOT_MATCH: 'Confirm password do not match',
 
     ADD_SUCCESS: 'Thêm thành công !',
-    ADD_FAILED: 'Oops! Add new record failed !',
+    ADD_FAILED: 'Lỗi! Thêm mới thất bại !',
 
     UPDATE_STATUS_SUCCESS: 'Update status success!', // Using only change status
-    UPDATE_SUCCESS: 'Update the record success !',
-    UPDATE_FAILED: 'Oops! Update the record failed !',
+    UPDATE_SUCCESS: 'Cập nhật thành công !',
+    UPDATE_FAILED: 'Lỗi! Cập nhật thất bại !',
 
     DELETE_SUCCESS: 'Delete the record success !',
     DELETE_FAILED: 'Oops! Delete the record failed !'

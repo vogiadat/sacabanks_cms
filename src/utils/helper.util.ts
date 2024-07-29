@@ -1,3 +1,5 @@
+import { APP_CONFIG } from '@/constants'
+
 export function openSidebar() {
   if (typeof window !== 'undefined') {
     document.body.style.overflow = 'hidden'
@@ -26,4 +28,10 @@ export function toggleSidebar() {
 export const getRandomImageUrl = () => {
   const randomId = Math.floor(Math.random() * 1000)
   return `https://picsum.photos/seed/${randomId}/800/600`
+}
+
+export const getImageById = (id: string) => {
+  if (!id) return ''
+
+  return `${APP_CONFIG.BASE_URL.API}/upload/files/${id}`
 }
