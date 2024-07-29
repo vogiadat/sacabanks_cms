@@ -25,7 +25,7 @@ export const sidebarList: SidebarType[] = [
     href: 'Website UI',
     icon: <ColorLensIcon />,
     items: [
-      { title: 'Banner', href: '/banner' },
+      { title: 'Ảnh Bìa', href: '/banner' },
       { title: 'Danh mục', href: '/category' }
     ]
   },
