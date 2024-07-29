@@ -2,15 +2,20 @@ import Box from '@mui/joy/Box'
 import Breadcrumbs from '@mui/joy/Breadcrumbs'
 import Link from '@mui/joy/Link'
 import Typography from '@mui/joy/Typography'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 
 import Header from '@/components/layout/Header'
 import Sidebar from '@/components/layout/sidebar'
+import { checkAuthenticated } from '@/utils'
 
 export const Route = createFileRoute('/(master)/_layout')({
+  // ! Authentication
+  beforeLoad: () => {
+    if (!checkAuthenticated()) throw redirect({ to: '/login' })
+  },
   component: () => (
     <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
       <Header />

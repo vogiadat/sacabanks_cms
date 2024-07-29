@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 
 import { APP_CONFIG, APP_MESSAGE } from '@/constants'
+import { getAuthStore } from '@/utils'
 import { toast } from 'sonner'
 
 const axiosClient: AxiosInstance = axios.create({
@@ -10,6 +11,28 @@ const axiosClient: AxiosInstance = axios.create({
     'Content-Type': 'application/json'
   }
 })
+
+axiosClient.interceptors.request.use(
+  (config) => {
+    const authStore = getAuthStore()
+
+    if (authStore?.accessToken) {
+      config.headers.Authorization = `Bearer ${authStore?.accessToken}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
+axiosClient.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    const prevReq = error.config
+    return Promise.reject(error)
+  }
+)
 
 export function showAxiosError(error: any) {
   if (error?.response && error.response?.data) {

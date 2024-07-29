@@ -24,7 +24,7 @@ export const APP_MESSAGE = {
     NUMBER_POSITIVE: 'This field must be greater than or equal to 0',
 
     FIELD_INVALID: 'This field is invalid',
-    EMAIL_INVALID: 'Invalid email ! email@example.com',
+    EMAIL_INVALID: 'Email sai định dạng "email@example.com"',
     CONFIRM_PASSWORD_NOT_MATCH: 'Confirm password do not match',
 
     ADD_SUCCESS: 'Add a new record success !',
@@ -53,7 +53,7 @@ export const APP_MESSAGE = {
     LOGIN_REQUIRED: 'Please login before continue access this feature',
 
     REGISTER_SUCCESS: 'Successfully ! Check inbox or spam on your email to continue verify',
-    LOGIN_SUCCESS: 'You have logged in successfully!',
+    LOGIN_SUCCESS: 'Đăng nhập thành công',
     LOGOUT_SUCCESS: 'You have logged out successfully!',
     VERIFY_SUCCESS: 'Your email has been verified! You can now login',
 

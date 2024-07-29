@@ -1,12 +1,13 @@
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 import { CssBaseline, CssVarsProvider } from '@mui/joy'
 import { extendTheme } from '@mui/joy/styles'
 
 import { APP_CONFIG } from '@/constants'
-import { useEffect } from 'react'
+import { Toaster } from 'sonner'
+import { checkAuthenticated } from '@/utils'
 
 const theme = extendTheme({
   colorSchemes: {
@@ -33,6 +34,8 @@ export const Route = createRootRoute({
             <CssBaseline />
             <Outlet />
           </CssVarsProvider>
+          {/* expand={false} */}
+          <Toaster richColors position='top-center' duration={3000} />
           <TanStackRouterDevtools />
         </QueryClientProvider>
       </>

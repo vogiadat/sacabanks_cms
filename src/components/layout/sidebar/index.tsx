@@ -18,8 +18,8 @@ import Sheet from '@mui/joy/Sheet'
 import Typography from '@mui/joy/Typography'
 import * as React from 'react'
 
-import { Link } from '@tanstack/react-router'
-import { closeSidebar } from '../../../utils'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { closeSidebar, removeAuthStore } from '@/utils'
 import ColorSchemeToggle from '../ColorSchemeToggle'
 import { sidebarList } from './data'
 import SidebarItem from './SidebarItem'
@@ -54,6 +54,12 @@ function Toggler({
 }
 
 export default function Sidebar() {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    removeAuthStore()
+    navigate({ to: '/login' })
+  }
   return (
     <Sheet
       className='Sidebar'
@@ -202,7 +208,7 @@ export default function Sidebar() {
           <Typography level='title-sm'>Siriwat K.</Typography>
           <Typography level='body-xs'>siriwatk@test.com</Typography>
         </Box>
-        <IconButton size='sm' variant='plain' color='neutral'>
+        <IconButton size='sm' variant='plain' color='neutral' onClick={handleLogout}>
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

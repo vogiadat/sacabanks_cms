@@ -1,11 +1,20 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { authApi } from '@/api'
+import { APP_MESSAGE } from '@/constants'
+import { useCheckAuth, useFakeRender, useShowToastTanStack } from '@/hooks'
+import { LoginType } from '@/types'
+import { loginSchema, saveAuthStore } from '@/utils'
 
 import ColorSchemeToggle from '@/components/layout/ColorSchemeToggle'
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded'
 import { SvgIcon } from '@mui/joy'
 import Box from '@mui/joy/Box'
 import Button from '@mui/joy/Button'
-import Checkbox from '@mui/joy/Checkbox'
 import Divider from '@mui/joy/Divider'
 import FormControl from '@mui/joy/FormControl'
 import FormLabel from '@mui/joy/FormLabel'
@@ -15,20 +24,50 @@ import Input from '@mui/joy/Input'
 import Link from '@mui/joy/Link'
 import Stack from '@mui/joy/Stack'
 import Typography from '@mui/joy/Typography'
-import * as React from 'react'
-
-interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement
-  password: HTMLInputElement
-  persistent: HTMLInputElement
-}
-interface SignInFormElement extends HTMLFormElement {
-  readonly elements: FormElements
-}
+import { InputError } from '@/components'
+import { useEffect, useState } from 'react'
+import { LoadingFullPage, LoadingItem } from '@/components/loading'
 
 export const Route = createLazyFileRoute('/(auth)/login')({
   component: () => {
-    return (
+    const {
+      register,
+      handleSubmit,
+      formState: { errors }
+    } = useForm<z.infer<typeof loginSchema>>({
+      resolver: zodResolver(loginSchema)
+    })
+
+    const navigate = useNavigate()
+    const isRendering = useFakeRender()
+
+    const { mutate, isSuccess, isPending, error } = useMutation({
+      mutationFn: (data: LoginType) => authApi.postLogin(data),
+      onSuccess(res, variables, ctx) {
+        const loginResponseType = {
+          accessToken: res?.data.data as string
+        }
+
+        saveAuthStore(loginResponseType)
+        navigate({ to: '/' })
+      }
+    })
+
+    const handleSubmitForm = async (values: z.infer<typeof loginSchema>) => {
+      console.log('🚀 ~ handleSubmitForm ~ values:', values)
+      mutate({
+        username: values.email,
+        password: values.password
+      })
+    }
+
+    useCheckAuth()
+
+    useShowToastTanStack(APP_MESSAGE.AUTH.LOGIN_SUCCESS, isSuccess, error)
+
+    return isRendering ? (
+      <LoadingFullPage />
+    ) : (
       <>
         <GlobalStyles
           styles={{
@@ -115,7 +154,13 @@ export const Route = createLazyFileRoute('/(auth)/login')({
                     </Link>
                   </Typography>
                 </Stack>
-                <Button variant='soft' color='neutral' fullWidth startDecorator={<GoogleIcon />}>
+                <Button
+                  variant='soft'
+                  color='neutral'
+                  fullWidth
+                  startDecorator={<GoogleIcon />}
+                  onClick={() => console.log('clicked login google')}
+                >
                   Continue with Google
                 </Button>
               </Stack>
@@ -129,40 +174,30 @@ export const Route = createLazyFileRoute('/(auth)/login')({
                 or
               </Divider>
               <Stack gap={4} sx={{ mt: 2 }}>
-                <form
-                  onSubmit={(event: React.FormEvent<SignInFormElement>) => {
-                    event.preventDefault()
-                    const formElements = event.currentTarget.elements
-                    const data = {
-                      email: formElements.email.value,
-                      password: formElements.password.value,
-                      persistent: formElements.persistent.checked
-                    }
-                    alert(JSON.stringify(data, null, 2))
-                  }}
-                >
-                  <FormControl required>
+                <form onSubmit={handleSubmit(handleSubmitForm)}>
+                  <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input type='email' name='email' />
+                    <Input type='email' {...register('email')} />
+                    {errors.email && <InputError message={errors.email.message} />}
                   </FormControl>
-                  <FormControl required>
+                  <FormControl>
                     <FormLabel>Password</FormLabel>
-                    <Input type='password' name='password' />
+                    <Input type='password' {...register('password')} />
+                    {errors.password && <InputError message={errors.password.message} />}
                   </FormControl>
                   <Stack gap={4} sx={{ mt: 2 }}>
                     <Box
                       sx={{
                         display: 'flex',
-                        justifyContent: 'space-between',
+                        justifyContent: 'flex-end',
                         alignItems: 'center'
                       }}
                     >
-                      <Checkbox size='sm' label='Remember me' name='persistent' />
                       <Link level='title-sm' href='#replace-with-a-link'>
                         Forgot your password?
                       </Link>
                     </Box>
-                    <Button type='submit' fullWidth>
+                    <Button type='submit' fullWidth disabled={isPending}>
                       Sign in
                     </Button>
                   </Stack>
