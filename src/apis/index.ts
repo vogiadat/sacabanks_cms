@@ -2,5 +2,6 @@
 export * from '@/apis/base.api'
 // ! END
 export * from '@/apis/auth.api'
+export * from '@/apis/product.api'
 export * from '@/apis/upload.api'
 export * from '@/apis/category.api'

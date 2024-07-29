@@ -3,10 +3,10 @@ import { axiosClient, getHeaderRequest } from '@/utils'
 
 // interface BaseApiConfig<T> {
 //   endpoint: string
-//   key: string
+//   key: string45
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category' | 'upload' | 'user'
+type EndpointType = 'category' | 'upload' | 'user' | 'product'
 
 export class BaseApi<T> {
   protected endpoint: string

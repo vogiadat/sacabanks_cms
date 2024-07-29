@@ -2,7 +2,7 @@ import { APP_MESSAGE, APP_RULE } from '@/constants'
 import { z } from 'zod'
 
 export const formSchema = z.object({
-  title: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  title: z.string({ message: APP_MESSAGE.FORM.FIELD_INVALID }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   slug: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   itemNumber: z
     .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
@@ -15,8 +15,8 @@ export const formSchema = z.object({
   dimensionW: z.number({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   dimensionH: z.number({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   netWeight: z.number({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
-  price: z.number({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
-  quantity: z.number({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  price: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  quantity: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   mainPhoto: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   tags: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   desc: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
@@ -50,8 +50,8 @@ export const initProduct: ProductForm = {
   dimensionW: 0,
   dimensionH: 0,
   netWeight: 0,
-  price: 0,
-  quantity: 0,
+  price: '0',
+  quantity: '0',
   mainPhoto: '',
   tags: '',
   desc: '',
