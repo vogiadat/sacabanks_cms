@@ -11,9 +11,10 @@ import { formSchema, ProductForm } from './FormSchema'
 interface Props {
   defaultValues: ProductForm
   onSubmit: (_value: ProductForm) => void
+  isLoading?: boolean
 }
 
-const FormProduct = ({ defaultValues, onSubmit }: Props) => {
+const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
   const form = useForm<ProductForm>({
     resolver: zodResolver(formSchema),
     defaultValues
@@ -120,7 +121,7 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
       </Box>
 
       <Box mt={4}>
-        <Button sx={{ width: '100%' }} type='submit'>
+        <Button loading={isLoading} sx={{ width: '100%' }} type='submit'>
           Save
         </Button>
       </Box>
