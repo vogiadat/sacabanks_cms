@@ -20,7 +20,7 @@ export const formSchema = z.object({
   mainPhoto: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   tags: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   desc: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
-  categoryId: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  categoryId: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).optional(),
   listDetails: z.array(
     z.object({
       name: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),

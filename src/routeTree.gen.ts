@@ -14,9 +14,9 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as masterLayoutImport } from './routes/(master)/_layout'
-import { Route as masterLayoutProductUpdateImport } from './routes/(master)/_layout/product/update'
 import { Route as masterLayoutProductCreateImport } from './routes/(master)/_layout/product/create'
-import { Route as masterLayoutProductDetailsIdImport } from './routes/(master)/_layout/product/details.$id'
+import { Route as masterLayoutProductUpdateIdImport } from './routes/(master)/_layout/product/update.$id'
+import { Route as masterLayoutProductDetailIdImport } from './routes/(master)/_layout/product/detail.$id'
 
 // Create Virtual Routes
 
@@ -143,19 +143,20 @@ const masterLayoutActiveUserIndexLazyRoute =
       ),
     )
 
-const masterLayoutProductUpdateRoute = masterLayoutProductUpdateImport.update({
-  path: '/product/update',
-  getParentRoute: () => masterLayoutRoute,
-} as any)
-
 const masterLayoutProductCreateRoute = masterLayoutProductCreateImport.update({
   path: '/product/create',
   getParentRoute: () => masterLayoutRoute,
 } as any)
 
-const masterLayoutProductDetailsIdRoute =
-  masterLayoutProductDetailsIdImport.update({
-    path: '/product/details/$id',
+const masterLayoutProductUpdateIdRoute =
+  masterLayoutProductUpdateIdImport.update({
+    path: '/product/update/$id',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+
+const masterLayoutProductDetailIdRoute =
+  masterLayoutProductDetailIdImport.update({
+    path: '/product/detail/$id',
     getParentRoute: () => masterLayoutRoute,
   } as any)
 
@@ -196,13 +197,6 @@ declare module '@tanstack/react-router' {
       path: '/product/create'
       fullPath: '/product/create'
       preLoaderRoute: typeof masterLayoutProductCreateImport
-      parentRoute: typeof masterLayoutImport
-    }
-    '/(master)/_layout/product/update': {
-      id: '/_layout/product/update'
-      path: '/product/update'
-      fullPath: '/product/update'
-      preLoaderRoute: typeof masterLayoutProductUpdateImport
       parentRoute: typeof masterLayoutImport
     }
     '/(master)/_layout/active-user/': {
@@ -254,11 +248,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof masterLayoutUserIndexLazyImport
       parentRoute: typeof masterLayoutImport
     }
-    '/(master)/_layout/product/details/$id': {
-      id: '/_layout/product/details/$id'
-      path: '/product/details/$id'
-      fullPath: '/product/details/$id'
-      preLoaderRoute: typeof masterLayoutProductDetailsIdImport
+    '/(master)/_layout/product/detail/$id': {
+      id: '/_layout/product/detail/$id'
+      path: '/product/detail/$id'
+      fullPath: '/product/detail/$id'
+      preLoaderRoute: typeof masterLayoutProductDetailIdImport
+      parentRoute: typeof masterLayoutImport
+    }
+    '/(master)/_layout/product/update/$id': {
+      id: '/_layout/product/update/$id'
+      path: '/product/update/$id'
+      fullPath: '/product/update/$id'
+      preLoaderRoute: typeof masterLayoutProductUpdateIdImport
       parentRoute: typeof masterLayoutImport
     }
   }
@@ -271,7 +272,6 @@ export const routeTree = rootRoute.addChildren({
     masterLayoutRoute: masterLayoutRoute.addChildren({
       masterLayoutIndexLazyRoute,
       masterLayoutProductCreateRoute,
-      masterLayoutProductUpdateRoute,
       masterLayoutActiveUserIndexLazyRoute,
       masterLayoutBannerIndexLazyRoute,
       masterLayoutCategoryIndexLazyRoute,
@@ -279,7 +279,8 @@ export const routeTree = rootRoute.addChildren({
       masterLayoutProductIndexLazyRoute,
       masterLayoutSupplierIndexLazyRoute,
       masterLayoutUserIndexLazyRoute,
-      masterLayoutProductDetailsIdRoute,
+      masterLayoutProductDetailIdRoute,
+      masterLayoutProductUpdateIdRoute,
     }),
   }),
   authLoginLazyRoute,
@@ -309,7 +310,6 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_layout/",
         "/_layout/product/create",
-        "/_layout/product/update",
         "/_layout/active-user/",
         "/_layout/banner/",
         "/_layout/category/",
@@ -317,7 +317,8 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/product/",
         "/_layout/supplier/",
         "/_layout/user/",
-        "/_layout/product/details/$id"
+        "/_layout/product/detail/$id",
+        "/_layout/product/update/$id"
       ]
     },
     "/login": {
@@ -329,10 +330,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/product/create": {
       "filePath": "(master)/_layout/product/create.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/product/update": {
-      "filePath": "(master)/_layout/product/update.tsx",
       "parent": "/_layout"
     },
     "/_layout/active-user/": {
@@ -363,8 +360,12 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "(master)/_layout/user/index.lazy.tsx",
       "parent": "/_layout"
     },
-    "/_layout/product/details/$id": {
-      "filePath": "(master)/_layout/product/details.$id.tsx",
+    "/_layout/product/detail/$id": {
+      "filePath": "(master)/_layout/product/detail.$id.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/product/update/$id": {
+      "filePath": "(master)/_layout/product/update.$id.tsx",
       "parent": "/_layout"
     }
   }

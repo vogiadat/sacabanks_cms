@@ -1,18 +1,20 @@
+import { image_default } from '@/constants/image.constant'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid, Typography } from '@mui/joy'
 import { useForm } from 'react-hook-form'
 import FomFieldInput from '../form/FomFieldInput'
 import FomFieldInputNumber from '../form/FomFieldInputNumber'
+import FormFieldImage from '../form/FormFieldFile'
 import FormTextArea from '../form/FormTextArea'
 import { formSchema, ProductForm } from './FormSchema'
-import FormFieldImage from '../form/FormFieldFile'
 
 interface Props {
   defaultValues: ProductForm
   onSubmit: (_value: ProductForm) => void
+  isLoading?: boolean
 }
 
-const FormProduct = ({ defaultValues, onSubmit }: Props) => {
+const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
   const form = useForm<ProductForm>({
     resolver: zodResolver(formSchema),
     defaultValues
@@ -84,7 +86,11 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
               Hình ảnh
             </Typography>
 
-            <FormFieldImage name='mainPhotoFile' form={form} defaultPreviewImage={defaultValues.mainPhoto} />
+            <FormFieldImage
+              name='mainPhotoFile'
+              form={form}
+              defaultPreviewImage={defaultValues.mainPhoto || image_default}
+            />
           </Grid>
 
           <Grid xs={6}>
@@ -115,7 +121,7 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
       </Box>
 
       <Box mt={4}>
-        <Button sx={{ width: '100%' }} type='submit'>
+        <Button loading={isLoading} sx={{ width: '100%' }} type='submit'>
           Save
         </Button>
       </Box>
