@@ -36,7 +36,7 @@ const FormProduct = ({ defaultValues, onSubmit }: Props) => {
               <FomFieldInput
                 name='slug'
                 form={form}
-                label='Link sản phẩm(Slug)'
+                label='Link sản phẩm (Slug)'
                 inputProps={{ placeholder: '/example' }}
               />
             </Grid>

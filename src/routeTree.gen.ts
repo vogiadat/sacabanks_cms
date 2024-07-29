@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as masterLayoutImport } from './routes/(master)/_layout'
+import { Route as masterLayoutProductUpdateImport } from './routes/(master)/_layout/product/update'
 import { Route as masterLayoutProductCreateImport } from './routes/(master)/_layout/product/create'
 import { Route as masterLayoutProductDetailsIdImport } from './routes/(master)/_layout/product/details.$id'
 
@@ -142,6 +143,11 @@ const masterLayoutActiveUserIndexLazyRoute =
       ),
     )
 
+const masterLayoutProductUpdateRoute = masterLayoutProductUpdateImport.update({
+  path: '/product/update',
+  getParentRoute: () => masterLayoutRoute,
+} as any)
+
 const masterLayoutProductCreateRoute = masterLayoutProductCreateImport.update({
   path: '/product/create',
   getParentRoute: () => masterLayoutRoute,
@@ -190,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/product/create'
       fullPath: '/product/create'
       preLoaderRoute: typeof masterLayoutProductCreateImport
+      parentRoute: typeof masterLayoutImport
+    }
+    '/(master)/_layout/product/update': {
+      id: '/_layout/product/update'
+      path: '/product/update'
+      fullPath: '/product/update'
+      preLoaderRoute: typeof masterLayoutProductUpdateImport
       parentRoute: typeof masterLayoutImport
     }
     '/(master)/_layout/active-user/': {
@@ -258,6 +271,7 @@ export const routeTree = rootRoute.addChildren({
     masterLayoutRoute: masterLayoutRoute.addChildren({
       masterLayoutIndexLazyRoute,
       masterLayoutProductCreateRoute,
+      masterLayoutProductUpdateRoute,
       masterLayoutActiveUserIndexLazyRoute,
       masterLayoutBannerIndexLazyRoute,
       masterLayoutCategoryIndexLazyRoute,
@@ -295,6 +309,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_layout/",
         "/_layout/product/create",
+        "/_layout/product/update",
         "/_layout/active-user/",
         "/_layout/banner/",
         "/_layout/category/",
@@ -314,6 +329,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/product/create": {
       "filePath": "(master)/_layout/product/create.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/product/update": {
+      "filePath": "(master)/_layout/product/update.tsx",
       "parent": "/_layout"
     },
     "/_layout/active-user/": {
