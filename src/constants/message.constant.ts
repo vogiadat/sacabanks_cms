@@ -34,8 +34,8 @@ export const APP_MESSAGE = {
     UPDATE_SUCCESS: 'Cập nhật thành công !',
     UPDATE_FAILED: 'Lỗi! Cập nhật thất bại !',
 
-    DELETE_SUCCESS: 'Delete the record success !',
-    DELETE_FAILED: 'Oops! Delete the record failed !'
+    DELETE_SUCCESS: 'Xoá thành công !',
+    DELETE_FAILED: 'Lỗi! Xoá thất bại !'
   },
 
   FILE: {

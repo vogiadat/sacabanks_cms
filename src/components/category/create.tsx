@@ -52,7 +52,7 @@ const Create = () => {
   })
 
   const handleSubmit = async (_value: CategoryForm) => {
-    console.log('🚀 ~ handleSubmit ~ _value:', _value)
+    // console.log('🚀 ~ handleSubmit ~ _value:', _value)
     const uploadedFile: any = await new Promise((resolve, reject) => {
       uploadMutate(
         {

@@ -1,6 +1,6 @@
 import { AddAPhotoRounded } from '@mui/icons-material'
 import { Box, FormControl, FormLabel, Typography } from '@mui/joy'
-import { ChangeEventHandler, useState } from 'react'
+import { ChangeEventHandler, useEffect, useState } from 'react'
 import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form'
 import VisuallyHiddenInput from '../input/VisuallyHiddenInput'
 
@@ -14,9 +14,8 @@ type Props<T extends FieldValues> = {
 const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPreviewImage }: Props<T>) => {
   const { control } = form
   const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null | undefined>(defaultPreviewImage)
-  // console.log('🚀 ~ FormFieldImage ~ previewFile:', previewFile)
 
-  // console.log({ defaultPreviewImage })
+  console.log('defaultPreviewImage ::: ', defaultPreviewImage)
 
   return (
     <Controller

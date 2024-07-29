@@ -1,3 +1,6 @@
+import { ReactNode } from 'react'
+import { FieldValues, UseFormReturn } from 'react-hook-form'
+
 import { Button } from '@mui/joy'
 import DialogContent from '@mui/joy/DialogContent'
 import DialogTitle from '@mui/joy/DialogTitle'
@@ -6,8 +9,6 @@ import Drawer from '@mui/joy/Drawer'
 import ModalClose from '@mui/joy/ModalClose'
 import Sheet from '@mui/joy/Sheet'
 import Stack from '@mui/joy/Stack'
-import { ReactNode } from 'react'
-import { FieldValues, UseFormReturn } from 'react-hook-form'
 
 type Props<T extends FieldValues> = {
   open: boolean
@@ -15,6 +16,7 @@ type Props<T extends FieldValues> = {
   form: UseFormReturn<T, unknown, undefined>
   onSubmit: (value: T) => void
   onClose: () => void
+  onOpenModalConfirmDelete?: () => void
   isLoading?: boolean
   isEdit?: boolean
   id?: string
@@ -23,6 +25,7 @@ type Props<T extends FieldValues> = {
 const FormDrawer = <T extends FieldValues>({
   open,
   onClose,
+  onOpenModalConfirmDelete,
   children,
   form,
   onSubmit,
@@ -70,7 +73,7 @@ const FormDrawer = <T extends FieldValues>({
                 sx={{ flexGrow: '1' }}
                 disabled={isLoading}
                 color='danger'
-                onClick={() => console.log('xoá ...', id)}
+                onClick={onOpenModalConfirmDelete}
               >
                 Xoá
               </Button>

@@ -150,6 +150,7 @@ const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
 
       <FormCategory
         id={category.id}
+        category={category}
         defaultValues={{
           name: category.name,
           previewImage: category.image || undefined
