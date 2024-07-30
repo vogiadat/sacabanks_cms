@@ -9,6 +9,8 @@ import { extendTheme } from '@mui/joy/styles'
 import { APP_CONFIG, IS_PRODUCTION } from '@/constants'
 import { Toaster } from 'sonner'
 
+import '@/assets/css/global.css'
+
 const theme = extendTheme({
   colorSchemes: {
     light: {

@@ -1,0 +1,13 @@
+.no-scrollbar {
+  overflow: hidden;
+}
+
+/* Optional: If you want to hide scrollbars specifically on different browsers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

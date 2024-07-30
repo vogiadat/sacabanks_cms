@@ -57,9 +57,7 @@ function Toggler({
 
 export default function Sidebar() {
   const navigate = useNavigate()
-
   const { userProfile } = useUserStore()
-  console.log('🚀 ~ SidebarItem ~ userProfile:', userProfile?.role.name)
 
   const handleLogout = () => {
     removeAuthStore()

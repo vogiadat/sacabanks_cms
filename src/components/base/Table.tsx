@@ -28,6 +28,7 @@ const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) =
         '--TableCell-paddingX': '8px',
         tableLayout: 'auto'
       }}
+      // slotProps={{ root: { className: '' } }}
     >
       <thead>
         <tr>
