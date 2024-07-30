@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { userApi } from '@/apis/user.api'
 import { getUsernameFromEmail, ShowToastError, showToastQuerySuccess } from '@/utils'
 import { useMutation } from '@tanstack/react-query'
-import { UserForm, defaultValues } from './FormSchema'
+import { UserFormSchema, defaultValues } from './FormSchema'
 import FormUser from './FormUser'
 
 const CreateUser = () => {
@@ -17,8 +17,8 @@ const CreateUser = () => {
     onError: ShowToastError
   })
 
-  const handleSubmit = async (_value: UserForm) => {
-    const dataSubmit: UserForm = {
+  const handleSubmit = async (_value: UserFormSchema) => {
+    const dataSubmit: UserFormSchema = {
       username: getUsernameFromEmail(_value.email),
       email: _value.email,
       phoneNumber: _value.phoneNumber,
@@ -34,7 +34,7 @@ const CreateUser = () => {
     if (isSuccess && open) {
       setOpen(false)
     }
-  }, [isSuccess])
+  }, [isSuccess, open])
 
   return (
     <>

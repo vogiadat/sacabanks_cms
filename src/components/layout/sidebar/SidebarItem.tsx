@@ -7,6 +7,7 @@ import * as React from 'react'
 
 const SidebarItem = (props: { href: string; title: string; icon: React.ReactNode }) => {
   const { href, title, icon } = props
+
   return (
     <Link
       to={href}

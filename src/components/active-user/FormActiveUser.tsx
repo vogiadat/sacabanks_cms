@@ -1,0 +1,141 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Box, Button, Grid } from '@mui/joy'
+import { useForm } from 'react-hook-form'
+import FomFieldInput from '../form/FomFieldInput'
+import FormTextArea from '../form/FormTextArea'
+import { formSchema, ActiveUserFormSchema } from './FormSchema'
+import { Autorenew } from '@mui/icons-material'
+import { generatePassword } from '@/utils'
+
+interface Props {
+  defaultValues: ActiveUserFormSchema
+  onSubmit: (_value: ActiveUserFormSchema) => void
+  isLoading?: boolean
+}
+
+const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
+  const form = useForm<ActiveUserFormSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { ...defaultValues, phoneNumber: defaultValues.phone }
+  })
+
+  const handleGeneratePassword = () => {
+    const generatedPassword = generatePassword()
+    form.setValue('password', generatedPassword)
+  }
+
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit, console.log)}>
+      <Grid rowSpacing={2} columnSpacing={4} container>
+        <Grid rowSpacing={2} columnSpacing={4} container columns={12}>
+          <Grid xs={12} lg={6}>
+            <FomFieldInput name='email' form={form} label='Email' inputProps={{ placeholder: 'Nhập email' }} />
+          </Grid>
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              label='Mật khẩu'
+              inputProps={{
+                placeholder: 'Nhập mật khẩu',
+                type: 'password',
+                endDecorator: (
+                  <Button
+                    sx={{
+                      width: 'fit-content'
+                    }}
+                    onClick={() => handleGeneratePassword()}
+                    color='neutral'
+                    startDecorator={<Autorenew />}
+                  >
+                    Tự Động Tạo Mật Khẩu
+                  </Button>
+                )
+              }}
+              form={form}
+              name='password'
+            />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              name='fullNameOwnerCompany'
+              form={form}
+              label='Chủ Doanh Nghiệp'
+              inputProps={{ placeholder: 'Nhập chủ doanh nghiệp' }}
+            />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              name='phoneNumber'
+              form={form}
+              label='Số Điện Thoại'
+              inputProps={{ placeholder: 'Nhập số điện thoại' }}
+            />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              name='companyName'
+              form={form}
+              label='Doanh Nghiệp'
+              inputProps={{ placeholder: 'Nhập tên doanh nghiệp' }}
+            />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              name='shortNameCompany'
+              form={form}
+              label='Tên Viết Tắt'
+              inputProps={{ placeholder: 'Nhập tên doanh nghiệp viết tắt' }}
+            />
+          </Grid>
+
+          <Grid xs={12}>
+            <FomFieldInput
+              name='linkWebsite'
+              form={form}
+              label='Website'
+              inputProps={{ placeholder: 'Nhập link website' }}
+            />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              name='implementerName'
+              form={form}
+              label='Người Triển Khai'
+              inputProps={{ placeholder: 'Nhập tên người triển khai' }}
+            />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FomFieldInput
+              name='implementerPhone'
+              form={form}
+              label='Số Điện Thoại Người Triển Khai'
+              inputProps={{ placeholder: 'Nhập số điện thoại người triển khai' }}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Box mt={2}>
+        <FormTextArea
+          name='description'
+          form={form}
+          label='Mô Tả Doanh Nghiệp'
+          textAreaProps={{ placeholder: 'Thêm mô tả cho doanh nghiệp', minRows: 5 }}
+        />
+      </Box>
+
+      <Box mt={4}>
+        <Button loading={isLoading} sx={{ width: '100%' }} type='submit'>
+          Duyệt Đơn
+        </Button>
+      </Box>
+    </form>
+  )
+}
+
+export default FormActiveUser

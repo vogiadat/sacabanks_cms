@@ -16,9 +16,9 @@ export const formSchema = z.object({
   role: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED })
 })
 
-export type UserForm = z.infer<typeof formSchema>
+export type UserFormSchema = z.infer<typeof formSchema>
 
-export const defaultValues: UserForm = {
+export const defaultValues: UserFormSchema = {
   username: '',
   email: '',
   password: '',

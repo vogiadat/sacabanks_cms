@@ -4,7 +4,7 @@ import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { image_default } from '@/constants/image.constant'
 import { IProductItem } from '@/interfaces'
-import { formatUnikey, generateSlug } from '@/utils'
+// import { formatUnikey, generateSlug } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
@@ -22,10 +22,6 @@ function Page() {
   })
 
   const productList = data?.data.data
-
-  const value = 'Xin chào việt nam'
-
-  console.log(generateSlug(formatUnikey(value)))
 
   return (
     <>
@@ -149,8 +145,8 @@ const ActionsTable = ({ rowId }: { rowId: string }) => {
     navigate({ to: `update/${rowId}` })
   }
   return (
-    <Button color='primary' size='sm' onClick={handleNavigate}>
-      Chỉnh Sửa
+    <Button variant='plain' color='primary' size='sm' onClick={handleNavigate}>
+      Chi Tiết
     </Button>
   )
 }

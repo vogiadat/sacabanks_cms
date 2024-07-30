@@ -2,8 +2,8 @@ import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
-import SupportRoundedIcon from '@mui/icons-material/SupportRounded'
+// import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
+// import SupportRoundedIcon from '@mui/icons-material/SupportRounded'
 import Avatar from '@mui/joy/Avatar'
 import Box from '@mui/joy/Box'
 import Divider from '@mui/joy/Divider'
@@ -187,7 +187,7 @@ export default function Sidebar() {
           })}
         </List>
 
-        <List
+        {/* <List
           size='sm'
           sx={{
             mt: 'auto',
@@ -209,18 +209,18 @@ export default function Sidebar() {
               Settings
             </ListItemButton>
           </ListItem>
-        </List>
+        </List> */}
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <Avatar
-          variant='outlined'
-          size='sm'
-          src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286'
-        />
+        {userProfile?.avatar ? (
+          <Avatar variant='outlined' size='sm' src={userProfile.avatar} />
+        ) : (
+          <Avatar size='sm'>{userProfile?.email ?? ''}</Avatar>
+        )}
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level='title-sm'>Siriwat K.</Typography>
-          <Typography level='body-xs'>siriwatk@test.com</Typography>
+          <Typography level='title-sm'>{(userProfile?.companyName || userProfile?.username) ?? 'username'}</Typography>
+          <Typography level='body-xs'>{userProfile?.email ?? 'email@example.com'}</Typography>
         </Box>
         <IconButton size='sm' variant='plain' color='neutral' onClick={handleLogout}>
           <LogoutRoundedIcon />

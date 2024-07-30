@@ -5,9 +5,13 @@ import { ColumDef } from '@/components/base/Table'
 import CreateUser from '@/components/user/create'
 import { IUserItem } from '@/interfaces'
 import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { RoleMap } from '@/types'
+import FormUser from '@/components/user/FormUser'
+import { useState } from 'react'
+import { UserFormSchema } from '@/components/user/FormSchema'
+import { ShowToastError, showToastQuerySuccess } from '@/utils'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -138,10 +142,47 @@ const columnDef: ColumDef<UserForm>[] = [
   {
     associate: 'actions',
     label: '',
-    render: () => (
-      <Button color='primary' size='sm'>
-        Chỉnh Sửa
-      </Button>
-    )
+    render: (row) => <ActionsHandle user={row} />
   }
 ]
+
+const ActionsHandle = ({ user }: { user: UserForm }) => {
+  const [open, setOpen] = useState(false)
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => userApi.patch(user.id, data),
+    onSuccess: () => {
+      showToastQuerySuccess('UPDATE_SUCCESS')
+      setOpen(false)
+    },
+    onError: ShowToastError
+  })
+
+  const handleSubmit = async (_value: UserFormSchema) => {
+    // console.log('🚀 ~ handleSubmit update ~ _value:', _value)
+    mutate(_value)
+  }
+
+  return (
+    <>
+      <Button variant='plain' color='primary' size='sm' onClick={() => setOpen(true)}>
+        Chi Tiết
+      </Button>
+      <FormUser
+        open={open}
+        setOpen={setOpen}
+        defaultValues={{
+          email: user.email,
+          username: user.username,
+          phoneNumber: user.phoneNumber,
+          role: user.role.name,
+          address: user.address || '',
+          password: user.username
+        }}
+        onSubmit={handleSubmit}
+        id={user.id}
+        isLoading={isPending}
+      />
+    </>
+  )
+}
