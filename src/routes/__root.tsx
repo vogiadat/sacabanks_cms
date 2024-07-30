@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { CssBaseline, CssVarsProvider } from '@mui/joy'
 import { extendTheme } from '@mui/joy/styles'
 
-import { APP_CONFIG } from '@/constants'
+import { APP_CONFIG, IS_PRODUCTION } from '@/constants'
 import { Toaster } from 'sonner'
 
 const theme = extendTheme({
@@ -36,7 +36,7 @@ export const Route = createRootRoute({
           </CssVarsProvider>
           {/* expand={false} */}
           <Toaster richColors position='top-center' duration={3000} />
-          <TanStackRouterDevtools />
+          {!IS_PRODUCTION && <TanStackRouterDevtools />}
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </>
