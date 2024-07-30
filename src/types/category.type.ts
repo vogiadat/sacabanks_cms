@@ -4,5 +4,5 @@ export type CategoryType = {
   rank: number | null
   // ? Handle for edit
   id?: string
-  imageId?: string  
+  imageId?: string
 }

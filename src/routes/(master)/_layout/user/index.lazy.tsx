@@ -2,24 +2,12 @@ import { userApi } from '@/apis/user.api'
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
+import CreateUser from '@/components/user/create'
 import { IUserItem } from '@/interfaces'
-import { Add } from '@mui/icons-material'
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Dropdown,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Sheet,
-  Typography
-} from '@mui/joy'
+import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded'
+import { FilterType, RoleMap } from '@/types'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -32,6 +20,31 @@ function Page() {
   })
 
   const userList = data?.data.data
+
+  const filterList: FilterType[] = [
+    {
+      name: 'Quyền Hạn',
+      items: [
+        { value: 1, label: 'Quản Trị Viên Cao Cấp' },
+        { value: 2, label: 'Quản Trị Viên' },
+        { value: 3, label: 'Nhà Cung Cấp' },
+        { value: 4, label: 'Khách Hàng' }
+      ],
+      selectProps: { placeholder: 'Lọc theo quyền' },
+      onChange: console.log
+    },
+    {
+      name: 'Sắp xếp',
+      items: [
+        { value: 'ASC', label: 'Giá tăng dần' },
+        { value: 'DESC', label: 'Giá giảm dần' }
+      ],
+      selectProps: {
+        placeholder: 'Sắp xếp theo'
+      },
+      onChange: console.log
+    }
+  ]
 
   return (
     <>
@@ -49,48 +62,21 @@ function Page() {
         <Typography level='h2' component='h1' textColor={'primary.500'}>
           Người Dùng
         </Typography>
-        <Button color='primary' startDecorator={<Add />} size='sm'>
-          Tạo mới
-        </Button>
+        <CreateUser />
       </Box>
 
       <Box
-        className='SearchAndFilters-tabletUp'
         sx={{
           borderRadius: 'sm',
           py: 2,
-          display: { xs: 'none', sm: 'flex' },
+          display: 'flex',
           flexWrap: 'wrap',
-          gap: 1.5,
-          '& > *': {
-            minWidth: { xs: '120px', md: '160px' }
-          }
+          gap: 1.5
         }}
       >
         <Search label='Tìm kiếm người dùng' />
 
-        <Filter
-          name='Quyền Hạn'
-          items={[
-            { value: 1, label: 'Quản Trị Viên Cao Cấp' },
-            { value: 2, label: 'Quản Trị Viên' },
-            { value: 3, label: 'Nhà Cung Cấp' },
-            { value: 4, label: 'Khách Hàng' }
-          ]}
-          onChange={console.log}
-        />
-
-        <Filter
-          name='Sắp xếp'
-          items={[
-            { value: 'ASC', label: 'Giá tăng dần' },
-            { value: 'DESC', label: 'Giá giảm dần' }
-          ]}
-          selectProps={{
-            placeholder: 'sắp xếp theo'
-          }}
-          onChange={console.log}
-        />
+        <Filter filterList={filterList} />
       </Box>
 
       <Sheet
@@ -142,28 +128,18 @@ const columnDef: ColumDef<UserForm>[] = [
   {
     associate: 'role',
     label: 'Quyền Hạn',
-    render: (row) => row.role.name
+    render: (row) =>
+      Object.keys(RoleMap).map((key) => {
+        if (key === row.role.name) return RoleMap[key as keyof typeof RoleMap]
+      })
   },
   {
     associate: 'actions',
     label: '',
-    render: RowMenu
+    render: () => (
+      <Button color='primary' size='sm'>
+        Chỉnh Sửa
+      </Button>
+    )
   }
 ]
-
-function RowMenu() {
-  return (
-    <Dropdown>
-      <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}>
-        <MoreHorizRoundedIcon />
-      </MenuButton>
-      <Menu size='sm' sx={{ minWidth: 140 }}>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Rename</MenuItem>
-        <MenuItem>Move</MenuItem>
-        <Divider />
-        <MenuItem color='danger'>Delete</MenuItem>
-      </Menu>
-    </Dropdown>
-  )
-}
