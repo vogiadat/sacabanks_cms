@@ -43,7 +43,7 @@ export function showAxiosError(error: any) {
 }
 
 export const showToastQuerySuccess =
-  (type: 'ADD_SUCCESS' | 'UPDATE_SUCCESS' | 'DELETE_SUCCESS') => () => (response: AxiosResponse) => {
+  (type: 'ADD_SUCCESS' | 'UPDATE_SUCCESS' | 'DELETE_SUCCESS') => (response: AxiosResponse) => {
     const data = response?.data?.data
     if (data) {
       toast.success(APP_MESSAGE.FORM[type])

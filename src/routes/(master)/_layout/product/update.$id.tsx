@@ -27,7 +27,7 @@ function Page() {
   })
 
   const productData = data?.data?.data
-  console.log('🚀 ~ Page ~ productData:', productData)
+  // console.log('🚀 ~ Page ~ productData:', productData)
 
   const handleSubmit = (_value: ProductForm) => {
     mutate(_value)

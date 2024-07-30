@@ -34,7 +34,7 @@ export class BaseApi<T> {
   }
 
   // * Mutation
-  async create(data: T, headerType?: HeaderType) {
+  async create(data: any, headerType?: HeaderType) {
     const headers = getHeaderRequest(headerType)
 
     return await axiosClient.post(this.endpoint, data, {
