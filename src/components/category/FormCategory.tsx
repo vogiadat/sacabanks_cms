@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 import { categoryApi } from '@/apis'
 import { APP_MESSAGE } from '@/constants'
 import { ICategoryItem } from '@/interfaces'
-import { Category } from '@/types'
+import { CategoryType } from '@/types'
 
 import FomFieldInput from '@/components/form/FomFieldInput'
 import FormDrawer from '@/components/form/FormDrawer'
@@ -23,7 +23,7 @@ interface Props {
   onSubmit: (_value: CategoryForm) => void
   id?: string
   isLoading?: boolean
-  category?: Category
+  category?: CategoryType
 }
 
 const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', category, isLoading = false }: Props) => {
@@ -37,16 +37,11 @@ const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', categor
     defaultValues
   })
 
-  const {
-    mutate: mutateDelete,
-    isSuccess: isSuccessDelete,
-    isPending: isPendingDelete,
-    error: errorDelete
-  } = useMutation({
+  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationFn: (id: string) => categoryApi.delete(id),
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.setQueryData(categoryApi.getKeyForList(), (oldData: any) => {
-        console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
+        // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
         return {
           ...oldData,
           data: {

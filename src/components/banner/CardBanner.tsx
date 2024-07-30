@@ -1,4 +1,4 @@
-import { Category } from '@/types/category'
+import { CategoryType } from '@/types'
 import { Button, Typography } from '@mui/joy'
 import AspectRatio from '@mui/joy/AspectRatio'
 import Card from '@mui/joy/Card'
@@ -8,8 +8,8 @@ import { BannerForm } from './FormSchema'
 import { useState } from 'react'
 
 interface Props {
-  category: Category
-  onAddToCategoryHome: (category: Category) => void
+  category: CategoryType
+  onAddToCategoryHome: (category: CategoryType) => void
 }
 
 const CardBanner = ({ category }: Props) => {

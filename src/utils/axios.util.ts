@@ -29,7 +29,7 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (res) => res,
   async (error) => {
-    const prevReq = error.config
+    // const prevReq = error.config
     return Promise.reject(error)
   }
 )

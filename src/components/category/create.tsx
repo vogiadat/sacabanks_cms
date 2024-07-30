@@ -15,16 +15,11 @@ const Create = () => {
 
   const queryClient = useQueryClient()
 
-  const {
-    mutate: uploadMutate,
-    isSuccess: isUploadSuccess,
-    isPending: isUploadPending,
-    error: uploadError
-  } = useMutation({
+  const { mutate: uploadMutate, isPending: isUploadPending } = useMutation({
     mutationFn: (data: any) => uploadApi.create(data, 'multipart/form-data')
   })
 
-  const { mutate, isSuccess, isPending, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => categoryApi.create(data),
     onSuccess: (newValue) => {
       const newCategory = newValue?.data.data

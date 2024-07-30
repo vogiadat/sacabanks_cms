@@ -26,7 +26,7 @@ export const Route = createLazyFileRoute('/(master)/_layout/user/')({
 })
 
 function Page() {
-  const { data, error, isLoading, status } = useQuery({
+  const { data } = useQuery({
     queryKey: userApi.getKeyForList(),
     queryFn: () => userApi.getList()
   })

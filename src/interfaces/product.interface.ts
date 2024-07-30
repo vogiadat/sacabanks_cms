@@ -1,11 +1,7 @@
-import { IBaseItem } from '@/interfaces'
-import { Category } from '@/types'
-import { ListPhoto, User } from '@/types/product'
+import { IBaseItem, ICategoryItem, IUserItem } from '@/interfaces'
+import { IListPhotoItem } from '@/interfaces'
 
 export interface IProductItem extends IBaseItem {
-  id: string
-  createdAt: number
-  updatedAt: number
   title: string
   slug: string
   itemNumber: string
@@ -20,7 +16,8 @@ export interface IProductItem extends IBaseItem {
   mainPhoto: string
   tags: string
   desc: null
-  user: User
-  category: Category
-  listPhoto: ListPhoto[]
+  user: IUserItem
+  category: ICategoryItem
+  listPhoto: IListPhotoItem[]
+  // listDetails: any[]
 }

@@ -10,7 +10,9 @@ import { useCheckAuth, useFakeRender, useShowToastTanStack } from '@/hooks'
 import { LoginType } from '@/types'
 import { loginSchema, saveAuthStore } from '@/utils'
 
+import { InputError } from '@/components'
 import ColorSchemeToggle from '@/components/layout/ColorSchemeToggle'
+import { LoadingFullPage } from '@/components/loading'
 import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded'
 import { SvgIcon } from '@mui/joy'
 import Box from '@mui/joy/Box'
@@ -24,9 +26,6 @@ import Input from '@mui/joy/Input'
 import Link from '@mui/joy/Link'
 import Stack from '@mui/joy/Stack'
 import Typography from '@mui/joy/Typography'
-import { InputError } from '@/components'
-import { useEffect, useState } from 'react'
-import { LoadingFullPage, LoadingItem } from '@/components/loading'
 
 export const Route = createLazyFileRoute('/(auth)/login')({
   component: () => {
@@ -43,7 +42,7 @@ export const Route = createLazyFileRoute('/(auth)/login')({
 
     const { mutate, isSuccess, isPending, error } = useMutation({
       mutationFn: (data: LoginType) => authApi.postLogin(data),
-      onSuccess(res, variables, ctx) {
+      onSuccess(res) {
         const loginResponseType = {
           accessToken: res?.data.data as string
         }

@@ -1,4 +1,4 @@
-export type Category = {
+export type CategoryType = {
   name: string
   image: string | null
   rank: number | null

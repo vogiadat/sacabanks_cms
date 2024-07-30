@@ -5,7 +5,7 @@ import { APP_MESSAGE } from '@/constants'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
-import { Category } from '@/types/category'
+import { CategoryType } from '@/types'
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined'
 import { Button, Typography } from '@mui/joy'
 import AspectRatio from '@mui/joy/AspectRatio'
@@ -16,8 +16,8 @@ import FormCategory from './FormCategory'
 import { CategoryForm } from './FormSchema'
 
 interface Props {
-  category: Category
-  onAddToCategoryHome: (category: Category) => void
+  category: CategoryType
+  onAddToCategoryHome: (category: CategoryType) => void
 }
 
 const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
@@ -59,7 +59,7 @@ const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
 
       setIsOpen(false)
     },
-    onError: (error) => {
+    onError: () => {
       toast.error(APP_MESSAGE.FORM.UPDATE_FAILED)
     }
   })

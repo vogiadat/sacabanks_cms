@@ -19,7 +19,7 @@ export const Route = createLazyFileRoute('/(master)/_layout/category/')({
 function Page() {
   const [openWhiteList, setOpenWhiteList] = useState(false)
 
-  const { data, error, isLoading, status } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: categoryApi.getKeyForList(),
     queryFn: () => categoryApi.getList()
   })
