@@ -4,7 +4,7 @@ import React from 'react'
 
 import { userApi } from '@/apis/user.api'
 import { getUsernameFromEmail, ShowToastError, showToastQuerySuccess } from '@/utils'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { UserForm, defaultValues } from './FormSchema'
 import FormUser from './FormUser'
 

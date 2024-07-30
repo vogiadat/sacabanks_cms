@@ -1,4 +1,4 @@
-import { APP_MESSAGE, APP_RULE } from '@/constants'
+import { APP_MESSAGE } from '@/constants'
 import { z } from 'zod'
 
 export const formSchema = z.object({
