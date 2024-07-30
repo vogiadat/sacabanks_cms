@@ -23,6 +23,8 @@ import { closeSidebar, removeAuthStore } from '@/utils'
 import ColorSchemeToggle from '../ColorSchemeToggle'
 import { sidebarList } from './data'
 import SidebarItem from './SidebarItem'
+import { useUserStore } from '@/stores'
+import { RoleEnum } from '@/types'
 
 function Toggler({
   defaultExpanded = false,
@@ -55,6 +57,9 @@ function Toggler({
 
 export default function Sidebar() {
   const navigate = useNavigate()
+
+  const { userProfile } = useUserStore()
+  console.log('🚀 ~ SidebarItem ~ userProfile:', userProfile?.role.name)
 
   const handleLogout = () => {
     removeAuthStore()
@@ -141,35 +146,45 @@ export default function Sidebar() {
           }}
         >
           {sidebarList.map((item, index) => {
+            // ! Authorization
+            const isAllowRole = userProfile && item.allowRole.includes(userProfile?.role.name as RoleEnum)
+
             if (item.items) {
-              return (
-                <ListItem nested key={index}>
-                  <Toggler
-                    renderToggle={({ open, setOpen }) => (
-                      <ListItemButton onClick={() => setOpen(!open)}>
-                        {item.icon}
-                        <ListItemContent>
-                          <Typography level='title-sm'>{item.title}</Typography>
-                        </ListItemContent>
-                        <KeyboardArrowDownIcon sx={{ transform: open ? 'rotate(180deg)' : 'none' }} />
-                      </ListItemButton>
-                    )}
-                  >
-                    <List sx={{ gap: 0.5 }}>
-                      {item.items.map((child, index) => (
-                        <ListItem sx={{ mt: index === 0 ? 0.5 : undefined }} key={index}>
-                          <ListItemButton role='menuitem' component={Link} to={child.href}>
-                            {child.title}
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Toggler>
-                </ListItem>
-              )
+              if (isAllowRole) {
+                return (
+                  <ListItem nested key={index}>
+                    <Toggler
+                      renderToggle={({ open, setOpen }) => (
+                        <ListItemButton onClick={() => setOpen(!open)}>
+                          {item.icon}
+                          <ListItemContent>
+                            <Typography level='title-sm'>{item.title}</Typography>
+                          </ListItemContent>
+                          <KeyboardArrowDownIcon sx={{ transform: open ? 'rotate(180deg)' : 'none' }} />
+                        </ListItemButton>
+                      )}
+                    >
+                      <List sx={{ gap: 0.5 }}>
+                        {item.items.map((child, index) => (
+                          <ListItem sx={{ mt: index === 0 ? 0.5 : undefined }} key={index}>
+                            <ListItemButton role='menuitem' component={Link} to={child.href}>
+                              {child.title}
+                            </ListItemButton>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Toggler>
+                  </ListItem>
+                )
+              }
+              return <></>
             }
 
-            return <SidebarItem {...item} key={index} />
+            if (isAllowRole) {
+              return <SidebarItem {...item} key={index} />
+            }
+
+            return <></>
           })}
         </List>
 

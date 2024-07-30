@@ -2,7 +2,9 @@ import '@fontsource/inter'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import ReactDOM from 'react-dom/client'
 import { routeTree } from './routeTree.gen'
-const router = createRouter({ routeTree })
+import { NotFoundPage } from './routes/(master)/_layout/not-found/index.lazy'
+
+const router = createRouter({ routeTree, defaultNotFoundComponent: NotFoundPage })
 
 declare module '@tanstack/react-router' {
   interface Register {

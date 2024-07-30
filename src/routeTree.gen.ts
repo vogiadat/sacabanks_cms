@@ -35,6 +35,9 @@ const masterLayoutProductIndexLazyImport = createFileRoute(
 const masterLayoutOrderIndexLazyImport = createFileRoute(
   '/(master)/_layout/order/',
 )()
+const masterLayoutNotFoundIndexLazyImport = createFileRoute(
+  '/(master)/_layout/not-found/',
+)()
 const masterLayoutCategoryIndexLazyImport = createFileRoute(
   '/(master)/_layout/category/',
 )()
@@ -109,6 +112,17 @@ const masterLayoutOrderIndexLazyRoute = masterLayoutOrderIndexLazyImport
   } as any)
   .lazy(() =>
     import('./routes/(master)/_layout/order/index.lazy').then((d) => d.Route),
+  )
+
+const masterLayoutNotFoundIndexLazyRoute = masterLayoutNotFoundIndexLazyImport
+  .update({
+    path: '/not-found/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/not-found/index.lazy').then(
+      (d) => d.Route,
+    ),
   )
 
 const masterLayoutCategoryIndexLazyRoute = masterLayoutCategoryIndexLazyImport
@@ -220,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof masterLayoutCategoryIndexLazyImport
       parentRoute: typeof masterLayoutImport
     }
+    '/(master)/_layout/not-found/': {
+      id: '/_layout/not-found/'
+      path: '/not-found'
+      fullPath: '/not-found'
+      preLoaderRoute: typeof masterLayoutNotFoundIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
     '/(master)/_layout/order/': {
       id: '/_layout/order/'
       path: '/order'
@@ -275,6 +296,7 @@ export const routeTree = rootRoute.addChildren({
       masterLayoutActiveUserIndexLazyRoute,
       masterLayoutBannerIndexLazyRoute,
       masterLayoutCategoryIndexLazyRoute,
+      masterLayoutNotFoundIndexLazyRoute,
       masterLayoutOrderIndexLazyRoute,
       masterLayoutProductIndexLazyRoute,
       masterLayoutSupplierIndexLazyRoute,
@@ -313,6 +335,7 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/active-user/",
         "/_layout/banner/",
         "/_layout/category/",
+        "/_layout/not-found/",
         "/_layout/order/",
         "/_layout/product/",
         "/_layout/supplier/",
@@ -342,6 +365,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/category/": {
       "filePath": "(master)/_layout/category/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/not-found/": {
+      "filePath": "(master)/_layout/not-found/index.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/order/": {
