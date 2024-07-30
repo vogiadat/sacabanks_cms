@@ -91,7 +91,7 @@ const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', categor
       id={id}
     >
       <FomFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
-      <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={defaultValues.previewImage} />
+      <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={'previewImage'} />
       {/* // ? Modal */}
       <ModalConfirmDelete
         name={category?.name}

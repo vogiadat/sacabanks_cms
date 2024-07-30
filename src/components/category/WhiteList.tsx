@@ -16,7 +16,6 @@ import ModalClose from '@mui/joy/ModalClose'
 import Sheet from '@mui/joy/Sheet'
 import Stack from '@mui/joy/Stack'
 import Typography from '@mui/joy/Typography'
-import * as React from 'react'
 
 type Props = {
   open: boolean

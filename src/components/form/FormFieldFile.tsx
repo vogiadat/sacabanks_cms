@@ -1,6 +1,6 @@
 import { AddAPhotoRounded } from '@mui/icons-material'
 import { Box, FormControl, FormLabel, Typography } from '@mui/joy'
-import { ChangeEventHandler, useEffect, useState } from 'react'
+import { ChangeEventHandler } from 'react'
 import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form'
 import VisuallyHiddenInput from '../input/VisuallyHiddenInput'
 
@@ -8,14 +8,11 @@ type Props<T extends FieldValues> = {
   label?: string
   form: UseFormReturn<T, unknown, undefined>
   name: Path<T>
-  defaultPreviewImage?: string
+  defaultPreviewImage?: Path<T>
 }
 
 const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPreviewImage }: Props<T>) => {
   const { control } = form
-  const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null | undefined>(defaultPreviewImage)
-
-  console.log('defaultPreviewImage ::: ', defaultPreviewImage)
 
   return (
     <Controller
@@ -23,18 +20,21 @@ const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPrevi
       name={name}
       render={({ field: { ref }, fieldState }) => {
         const error = fieldState.error?.message
+        const previewFile = form.watch(defaultPreviewImage as Path<T>)
 
         const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
           const selectedFile = event.target?.files?.[0]
 
           if (selectedFile && selectedFile.type.startsWith('image/')) {
             const reader = new FileReader()
-            reader.onload = (e) => setPreviewFile(e.target?.result || null)
+            reader.onload = (e) => {
+              if (defaultPreviewImage && e.target?.result) {
+                form.setValue(defaultPreviewImage, e.target.result as PathValue<T, Path<T>>)
+              }
+            }
             reader.readAsDataURL(selectedFile)
             return form.setValue(name, selectedFile as PathValue<T, Path<T>>)
           }
-
-          setPreviewFile(null)
         }
 
         return (

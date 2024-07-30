@@ -26,7 +26,7 @@ const FormBanner = ({ defaultValues, open, setOpen, onSubmit }: Props) => {
   return (
     <FormDrawer open={open} onSubmit={onSubmit} form={form} onClose={handleCloseModal}>
       <FomFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
-      <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={defaultValues.previewImage} />
+      <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={'previewImage'} />
     </FormDrawer>
   )
 }
