@@ -4,12 +4,10 @@ import CardContent from '@mui/joy/CardContent'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { productApi } from '@/apis'
-import FormProduct from '@/components/product/FormProduct'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import { APP_MESSAGE } from '@/constants'
 import { ProductForm } from '@/components/product'
-import { IProductItem } from '@/interfaces/product.interface'
+import FormProduct from '@/components/product/FormProduct'
+import { ShowToastError, showToastQuerySuccess } from '@/utils'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/(master)/_layout/product/update/$id')({
   component: () => <Page />
@@ -24,16 +22,8 @@ function Page() {
   })
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => productApi.patch(id, data),
-    onSuccess: (updatedProductResponse) => {
-      const updatedProduct = updatedProductResponse?.data?.data
-
-      if (updatedProduct) {
-        toast.success(APP_MESSAGE.FORM.UPDATE_SUCCESS)
-      }
-    },
-    onError: (e) => {
-      toast.error(APP_MESSAGE.FORM.UPDATE_FAILED)
-    }
+    onSuccess: showToastQuerySuccess('UPDATE_SUCCESS'),
+    onError: ShowToastError
   })
 
   const productData = data?.data?.data

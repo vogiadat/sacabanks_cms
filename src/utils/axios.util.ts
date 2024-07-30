@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
 import { APP_CONFIG, APP_MESSAGE } from '@/constants'
 import { getAuthStore } from '@/utils'
@@ -40,6 +40,21 @@ export function showAxiosError(error: any) {
   } else {
     toast.error(APP_MESSAGE.GENERAL.FAILED)
   }
+}
+
+export const showToastQuerySuccess =
+  (type: 'ADD_SUCCESS' | 'UPDATE_SUCCESS' | 'DELETE_SUCCESS') => () => (response: AxiosResponse) => {
+    const data = response?.data?.data
+    if (data) {
+      toast.success(APP_MESSAGE.FORM[type])
+    }
+  }
+
+export function ShowToastError(error: Error) {
+  if (error instanceof AxiosError && error?.response && error.response?.data) {
+    return toast.error(error.response.data?.message)
+  }
+  toast.error(APP_MESSAGE.GENERAL.FAILED)
 }
 
 export default axiosClient
