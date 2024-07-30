@@ -29,7 +29,7 @@ const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPrevi
             const reader = new FileReader()
             reader.onload = (e) => {
               if (defaultPreviewImage && e.target?.result) {
-                form.setValue(defaultPreviewImage, e.target.result as PathValue<T, Path<T>>)
+                form.setValue(defaultPreviewImage, e.target.result.toString() as PathValue<T, Path<T>>)
               }
             }
             reader.readAsDataURL(selectedFile)
