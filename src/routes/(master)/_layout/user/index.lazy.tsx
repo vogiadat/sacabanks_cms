@@ -4,22 +4,10 @@ import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { IUserItem } from '@/interfaces'
 import { Add } from '@mui/icons-material'
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Dropdown,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Sheet,
-  Typography
-} from '@mui/joy'
+import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded'
+import { RoleMap } from '@/types'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -77,6 +65,9 @@ function Page() {
             { value: 3, label: 'Nhà Cung Cấp' },
             { value: 4, label: 'Khách Hàng' }
           ]}
+          selectProps={{
+            placeholder: 'Lọc theo quyền'
+          }}
           onChange={console.log}
         />
 
@@ -87,7 +78,7 @@ function Page() {
             { value: 'DESC', label: 'Giá giảm dần' }
           ]}
           selectProps={{
-            placeholder: 'sắp xếp theo'
+            placeholder: 'Sắp xếp theo'
           }}
           onChange={console.log}
         />
@@ -142,28 +133,18 @@ const columnDef: ColumDef<UserForm>[] = [
   {
     associate: 'role',
     label: 'Quyền Hạn',
-    render: (row) => row.role.name
+    render: (row) =>
+      Object.keys(RoleMap).map((key) => {
+        if (key === row.role.name) return RoleMap[key as keyof typeof RoleMap]
+      })
   },
   {
     associate: 'actions',
     label: '',
-    render: RowMenu
+    render: () => (
+      <Button color='primary' size='sm'>
+        Chỉnh Sửa
+      </Button>
+    )
   }
 ]
-
-function RowMenu() {
-  return (
-    <Dropdown>
-      <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}>
-        <MoreHorizRoundedIcon />
-      </MenuButton>
-      <Menu size='sm' sx={{ minWidth: 140 }}>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Rename</MenuItem>
-        <MenuItem>Move</MenuItem>
-        <Divider />
-        <MenuItem color='danger'>Delete</MenuItem>
-      </Menu>
-    </Dropdown>
-  )
-}

@@ -12,8 +12,8 @@ type Props = {
 const Search = ({ label, inputProps }: Props) => {
   return (
     <FormControl sx={{ flex: 1 }} size='sm'>
-      <FormLabel>{label || 'Search'}</FormLabel>
-      <Input size='sm' placeholder='Search' startDecorator={<SearchIcon />} {...inputProps} />
+      <FormLabel>{label || 'Tìm kiếm'}</FormLabel>
+      <Input size='sm' placeholder='Tìm kiếm' startDecorator={<SearchIcon />} {...inputProps} />
     </FormControl>
   )
 }

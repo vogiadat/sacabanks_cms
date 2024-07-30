@@ -122,12 +122,12 @@ interface IProductTable {
 const columnDef: ColumDef<IProductTable>[] = [
   {
     associate: 'mainPhoto',
-    label: 'Image',
+    label: 'Ảnh Sản Phẩm',
     render: (row) => <img src={row.mainPhoto} width={100} />
   },
   {
     associate: 'title',
-    label: 'Tiêu Đề'
+    label: 'Sản Phẩm'
   },
   {
     associate: 'tags',
@@ -135,11 +135,11 @@ const columnDef: ColumDef<IProductTable>[] = [
   },
   {
     associate: 'companyName',
-    label: 'Tên công ti'
+    label: 'Doanh Nghiệp'
   },
   {
     associate: 'numberProductService',
-    label: 'Số lượng dịch vụ'
+    label: 'Số Lượng'
   },
   {
     associate: 'price',
