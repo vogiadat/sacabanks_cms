@@ -12,8 +12,8 @@ const CreateUser = () => {
   const [open, setOpen] = React.useState(false)
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: UserForm) => userApi.create(data),
-    onSuccess: showToastQuerySuccess('UPDATE_SUCCESS'),
+    mutationFn: (data: any) => userApi.create(data),
+    onSuccess: showToastQuerySuccess('ADD_SUCCESS'),
     onError: ShowToastError
   })
 
