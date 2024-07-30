@@ -60,6 +60,7 @@ export default function Sidebar() {
     removeAuthStore()
     navigate({ to: '/login' })
   }
+
   return (
     <Sheet
       className='Sidebar'

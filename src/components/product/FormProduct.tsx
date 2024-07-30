@@ -28,7 +28,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
               <FomFieldInput
                 name='title'
                 form={form}
-                label='Tiêu Đề'
+                label='Tên Sản Phẩm'
                 inputProps={{ placeholder: 'Nhập tên sản phẩm ' }}
               />
             </Grid>
@@ -37,7 +37,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
               <FomFieldInput
                 name='slug'
                 form={form}
-                label='Link sản phẩm (Slug)'
+                label='Đường Dẫn Sản Phẩm'
                 inputProps={{ placeholder: '/example' }}
               />
             </Grid>
@@ -69,7 +69,12 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput name='finishing' form={form} label='Finishing' inputProps={{ placeholder: 'finishing' }} />
+              <FomFieldInput
+                name='finishing'
+                form={form}
+                label='Độ Hoàn Thiện'
+                inputProps={{ placeholder: 'finishing' }}
+              />
             </Grid>
 
             <Grid xs={12}>
