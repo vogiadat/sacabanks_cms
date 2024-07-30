@@ -1,4 +1,3 @@
-import { image_default } from '@/constants/image.constant'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid, Typography } from '@mui/joy'
 import { useForm } from 'react-hook-form'
@@ -86,11 +85,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
               Hình ảnh
             </Typography>
 
-            <FormFieldImage
-              name='mainPhotoFile'
-              form={form}
-              defaultPreviewImage={defaultValues.mainPhoto || image_default}
-            />
+            <FormFieldImage name='mainPhotoFile' form={form} defaultPreviewImage={'mainPhoto'} />
           </Grid>
 
           <Grid xs={6}>
