@@ -15,7 +15,7 @@ const Pagination = () => {
         [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
         display: {
           xs: 'none',
-          md: 'flex'
+          sm: 'flex'
         }
       }}
     >

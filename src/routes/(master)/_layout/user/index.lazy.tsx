@@ -7,7 +7,7 @@ import { IUserItem } from '@/interfaces'
 import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { FilterType, RoleMap } from '@/types'
+import { RoleMap } from '@/types'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -20,31 +20,6 @@ function Page() {
   })
 
   const userList = data?.data.data
-
-  const filterList: FilterType[] = [
-    {
-      name: 'Quyền Hạn',
-      items: [
-        { value: 1, label: 'Quản Trị Viên Cao Cấp' },
-        { value: 2, label: 'Quản Trị Viên' },
-        { value: 3, label: 'Nhà Cung Cấp' },
-        { value: 4, label: 'Khách Hàng' }
-      ],
-      selectProps: { placeholder: 'Lọc theo quyền' },
-      onChange: console.log
-    },
-    {
-      name: 'Sắp xếp',
-      items: [
-        { value: 'ASC', label: 'Giá tăng dần' },
-        { value: 'DESC', label: 'Giá giảm dần' }
-      ],
-      selectProps: {
-        placeholder: 'Sắp xếp theo'
-      },
-      onChange: console.log
-    }
-  ]
 
   return (
     <>
@@ -71,24 +46,51 @@ function Page() {
           py: 2,
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 1.5
+          gap: 1.5,
+          '& > *': {
+            minWidth: { xs: '120px', md: '160px' }
+          }
         }}
       >
         <Search label='Tìm kiếm người dùng' />
 
-        <Filter filterList={filterList} />
+        <Filter
+          name='Quyền Hạn'
+          items={[
+            { value: 1, label: 'Quản Trị Viên Cao Cấp' },
+            { value: 2, label: 'Quản Trị Viên' },
+            { value: 3, label: 'Nhà Cung Cấp' },
+            { value: 4, label: 'Khách Hàng' }
+          ]}
+          selectProps={{
+            placeholder: 'Lọc theo quyền'
+          }}
+          onChange={console.log}
+        />
+
+        <Filter
+          name='Sắp xếp'
+          items={[
+            { value: 'ASC', label: 'Giá tăng dần' },
+            { value: 'DESC', label: 'Giá giảm dần' }
+          ]}
+          selectProps={{
+            placeholder: 'Sắp xếp theo'
+          }}
+          onChange={console.log}
+        />
       </Box>
 
       <Sheet
         className='OrderTableContainer'
         variant='outlined'
         sx={{
-          display: { xs: 'none', sm: 'initial' },
+          display: 'initial',
           width: '100%',
           borderRadius: 'sm',
           flexShrink: 1,
-          overflow: 'auto',
-          minHeight: 0
+          minHeight: 0,
+          overflow: 'auto'
         }}
       >
         <Table<IUserItem> rows={userList ?? []} columns={columnDef} />

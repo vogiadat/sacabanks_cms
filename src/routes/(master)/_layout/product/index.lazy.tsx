@@ -4,7 +4,7 @@ import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { image_default } from '@/constants/image.constant'
 import { IProductItem } from '@/interfaces'
-import { FilterType } from '@/types'
+import { formatUnikey, generateSlug } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
@@ -23,27 +23,9 @@ function Page() {
 
   const productList = data?.data.data
 
-  const filterList: FilterType[] = [
-    {
-      name: 'Danh Mục',
-      items: [
-        { value: 1, label: 'Kệ sách' },
-        { value: 2, label: 'Tủ gì gì đó' }
-      ],
-      onChange: console.log
-    },
-    {
-      name: 'Sắp xếp',
-      items: [
-        { value: 'ASC', label: 'Giá tăng dần' },
-        { value: 'DESC', label: 'Giá giảm dần' }
-      ],
-      selectProps: {
-        placeholder: 'Sắp xếp theo'
-      },
-      onChange: console.log
-    }
-  ]
+  const value = 'Xin chào việt nam'
+
+  console.log(generateSlug(formatUnikey(value)))
 
   return (
     <>
@@ -72,19 +54,41 @@ function Page() {
           py: 2,
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 1.5
+          gap: 1.5,
+          '& > *': {
+            minWidth: { xs: '120px', md: '160px' }
+          }
         }}
       >
         <Search label='Tìm kiếm người dùng' />
 
-        <Filter filterList={filterList} />
+        <Filter
+          name='Danh Mục'
+          items={[
+            { value: 1, label: 'Kệ sách' },
+            { value: 2, label: 'Tủ gì gì đó' }
+          ]}
+          onChange={console.log}
+        />
+
+        <Filter
+          name='Sắp xếp'
+          items={[
+            { value: 'ASC', label: 'Giá tăng dần' },
+            { value: 'DESC', label: 'Giá giảm dần' }
+          ]}
+          selectProps={{
+            placeholder: 'sắp xếp theo'
+          }}
+          onChange={console.log}
+        />
       </Box>
 
       <Sheet
         className='OrderTableContainer'
         variant='outlined'
         sx={{
-          display: { xs: 'none', sm: 'initial' },
+          display: 'initial',
           width: '100%',
           borderRadius: 'sm',
           flexShrink: 1,
