@@ -3,13 +3,14 @@ import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { image_default } from '@/constants/image.constant'
+import { IProductItem } from '@/interfaces'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
-  component: () => <Page />
+  component: Page
 })
 
 function Page() {
@@ -19,17 +20,7 @@ function Page() {
     queryFn: () => productApi.getMyProduct()
   })
 
-  const rows = data?.data.data.map((item: IProductTable) => {
-    return {
-      id: item.id,
-      title: item.title,
-      tags: item.tags,
-      mainPhoto: item.mainPhoto || image_default,
-      price: item.price,
-      numberProductService: (item as any).user.numberProductService,
-      companyName: (item as any).user.shortNameCompany
-    }
-  })
+  const rows = data?.data.data
 
   return (
     <>
@@ -44,7 +35,7 @@ function Page() {
           justifyContent: 'space-between'
         }}
       >
-        <Typography level='h2' component='h1'>
+        <Typography level='h2' component='h1' textColor={'primary.500'}>
           Sản Phẩm
         </Typography>
         <Button onClick={() => navigate({ to: '/product/create' })} color='primary' startDecorator={<Add />} size='sm'>
@@ -101,7 +92,7 @@ function Page() {
           minHeight: 0
         }}
       >
-        {rows && rows.length > 0 && <Table<IProductTable> rows={rows} columns={columnDef} />}
+        {rows && rows.length > 0 && <Table<ProductForm> rows={rows} columns={columnDef} />}
       </Sheet>
 
       <Pagination />
@@ -109,21 +100,15 @@ function Page() {
   )
 }
 
-interface IProductTable {
-  id: number
-  mainPhoto: string
-  title: string
-  tags: string
-  companyName: string
-  numberProductService: number
-  price: number
+interface ProductForm extends IProductItem {
+  actions?: string
 }
 
-const columnDef: ColumDef<IProductTable>[] = [
+const columnDef: ColumDef<ProductForm>[] = [
   {
     associate: 'mainPhoto',
     label: 'Ảnh Sản Phẩm',
-    render: (row) => <img src={row.mainPhoto} width={100} />
+    render: (row) => <img src={row.mainPhoto ? row.mainPhoto : image_default} width={100} />
   },
   {
     associate: 'title',
@@ -134,15 +119,34 @@ const columnDef: ColumDef<IProductTable>[] = [
     label: 'Tags'
   },
   {
-    associate: 'companyName',
-    label: 'Doanh Nghiệp'
+    associate: 'user',
+    label: 'Doanh Nghiệp',
+    render: (row) => row.user.companyName
   },
   {
-    associate: 'numberProductService',
+    associate: 'quantity',
     label: 'Số Lượng'
   },
   {
     associate: 'price',
     label: 'Giá'
+  },
+  {
+    associate: 'actions',
+    label: '',
+    render: (row) => <ActionsTable rowId={row.id} />
   }
 ]
+
+const ActionsTable = ({ rowId }: { rowId: string }) => {
+  const { navigate } = useRouter()
+
+  const handleNavigate = () => {
+    navigate({ to: `update/${rowId}` })
+  }
+  return (
+    <Button color='primary' size='sm' onClick={handleNavigate}>
+      Chỉnh Sửa
+    </Button>
+  )
+}

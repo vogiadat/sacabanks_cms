@@ -1,7 +1,7 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import Link from '@mui/joy/Link'
 import TableJoy from '@mui/joy/Table'
-import { ReactNode, useRouter } from '@tanstack/react-router'
+import { ReactNode } from '@tanstack/react-router'
 
 export type ColumDef<T extends { id: string | number }> = {
   associate: keyof T
@@ -15,12 +15,6 @@ interface Props<T extends { id: string | number }> {
 }
 
 const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) => {
-  const { navigate } = useRouter()
-
-  const handleRowClick = (id: string | number) => {
-    navigate({ to: `update/${id}` })
-  }
-
   return (
     <TableJoy
       aria-labelledby='tableTitle'
@@ -68,7 +62,7 @@ const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) =
       <tbody>
         {rows.map((row) => {
           return (
-            <tr onClick={() => handleRowClick(row.id)} key={row.id}>
+            <tr key={row.id}>
               {columns.map(({ associate, render }) => (
                 <td key={associate.toString()}>{render ? render(row) : row[associate]}</td>
               ))}
