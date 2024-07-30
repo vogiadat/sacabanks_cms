@@ -6,8 +6,11 @@ import { RoleMap } from '@/types'
 import FomFieldInput from '@/components/form/FomFieldInput'
 import FormDrawer from '@/components/form/FormDrawer'
 import FormFieldSelect from '@/components/form/FormFieldSelect'
+import { Button } from '@mui/joy'
 import { useEffect } from 'react'
 import { formSchema, UserForm } from './FormSchema'
+import { Autorenew } from '@mui/icons-material'
+import { generatePassword } from '@/utils'
 
 interface Props {
   defaultValues: UserForm
@@ -25,35 +28,15 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
     label: value
   }))
 
+  const handleGeneratePassword = () => {
+    const generatedPassword = generatePassword()
+    form.setValue('password', generatedPassword)
+  }
+
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
     defaultValues
   })
-
-  // const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
-  //   mutationFn: (id: string) => categoryApi.delete(id),
-  //   onSuccess: () => {
-  //     queryClient.setQueryData(categoryApi.getKeyForList(), (oldData: any) => {
-  //       // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
-  //       return {
-  //         ...oldData,
-  //         data: {
-  //           ...oldData.data,
-  //           data: oldData.data.data.filter((item: ICategoryItem) => item.id !== id)
-  //         }
-  //       }
-  //     })
-
-  //     toast.success(APP_MESSAGE.FORM.DELETE_SUCCESS)
-  //     // ? Reset data
-  //     setDeleteModalOpen(false)
-  //     handleCloseModal()
-  //   }
-  // })
-
-  // const handleDelete = async () => {
-  //   mutateDelete(id)
-  // }
 
   const handleCloseModal = () => {
     form.reset()
@@ -91,6 +74,16 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
         form={form}
         name='password'
       />
+      <Button
+        sx={{
+          width: 'fit-content'
+        }}
+        onClick={() => handleGeneratePassword()}
+        color='neutral'
+        startDecorator={<Autorenew />}
+      >
+        Tự Động Tạo Mật Khẩu
+      </Button>
       <FormFieldSelect
         label='Quyền hạn'
         form={form}

@@ -1,6 +1,6 @@
 import { Add } from '@mui/icons-material'
 import { Button } from '@mui/joy'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { userApi } from '@/apis/user.api'
 import { getUsernameFromEmail, ShowToastError, showToastQuerySuccess } from '@/utils'
@@ -11,9 +11,9 @@ import FormUser from './FormUser'
 const CreateUser = () => {
   const [open, setOpen] = React.useState(false)
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: UserForm) => userApi.create(data),
-    onSuccess: showToastQuerySuccess('UPDATE_SUCCESS'),
+  const { mutate, isPending, isSuccess } = useMutation({
+    mutationFn: (data: any) => userApi.create(data),
+    onSuccess: showToastQuerySuccess('ADD_SUCCESS'),
     onError: ShowToastError
   })
 
@@ -29,6 +29,12 @@ const CreateUser = () => {
     // console.log('🚀 ~ handleSubmit ~ dataSubmit:', dataSubmit)
     mutate(dataSubmit)
   }
+
+  useEffect(() => {
+    if (isSuccess && open) {
+      setOpen(false)
+    }
+  }, [isSuccess])
 
   return (
     <>
