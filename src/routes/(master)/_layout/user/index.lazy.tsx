@@ -2,12 +2,12 @@ import { userApi } from '@/apis/user.api'
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
+import CreateUser from '@/components/user/create'
 import { IUserItem } from '@/interfaces'
-import { Add } from '@mui/icons-material'
+import { RoleMap } from '@/types'
 import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { RoleMap } from '@/types'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -37,9 +37,7 @@ function Page() {
         <Typography level='h2' component='h1' textColor={'primary.500'}>
           Người Dùng
         </Typography>
-        <Button color='primary' startDecorator={<Add />} size='sm'>
-          Tạo mới
-        </Button>
+        <CreateUser />
       </Box>
 
       <Box
