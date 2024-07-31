@@ -1,15 +1,15 @@
 import { InfoOutlined } from '@mui/icons-material'
-import { FormControl, FormHelperText, FormLabel, Textarea, TextareaTypeMap } from '@mui/joy'
+import { FormControl, FormHelperText, FormLabel, Input, InputTypeMap } from '@mui/joy'
 import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 type Props<T extends FieldValues> = {
   label: string
-  textAreaProps?: TextareaTypeMap['props']
+  inputProps?: InputTypeMap['props']
   form: UseFormReturn<T, unknown, undefined>
   name: Path<T>
 }
 
-export const FormTextArea = <T extends FieldValues>({ textAreaProps, label, form, name }: Props<T>) => {
+export const FormFieldInputNumber = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
   const { control } = form
 
   return (
@@ -22,16 +22,16 @@ export const FormTextArea = <T extends FieldValues>({ textAreaProps, label, form
         return (
           <FormControl error={!!error}>
             <FormLabel>{label}</FormLabel>
-            <Textarea
-              {...textAreaProps}
+            <Input
               ref={ref}
-              value={value}
               onBlur={onBlur}
+              value={value}
               onChange={(e) => {
-                onChange(e.target.value)
+                onChange(Number(e.target.value))
               }}
+              {...inputProps}
+              type='number'
             />
-
             {error && (
               <FormHelperText>
                 <InfoOutlined />

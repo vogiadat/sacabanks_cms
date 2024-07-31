@@ -1,8 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import FomFieldInput from '../form/FomFieldInput'
-import FormDrawer from '../form/FormDrawer'
-import FormFieldImage from '../form/FormFieldFile'
+import { FormFieldInput, FormDrawer, FormFieldImage } from '@/components/form'
 import { BannerForm, formSchema } from './FormSchema'
 
 interface Props {
@@ -25,7 +23,7 @@ const FormBanner = ({ defaultValues, open, setOpen, onSubmit }: Props) => {
 
   return (
     <FormDrawer open={open} onSubmit={onSubmit} form={form} onClose={handleCloseModal}>
-      <FomFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
+      <FormFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
       <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={'previewImage'} />
     </FormDrawer>
   )

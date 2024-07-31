@@ -36,20 +36,30 @@ function Page() {
 
       <WhiteList open={openWhiteList} setOpen={setOpenWhiteList} />
 
-      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        {[...Array(8).keys()].map((_, index) => (
-          <Grid xs={12} md={6} lg={4} key={index}>
-            <CardBanner
-              onAddToCategoryHome={() => setOpenWhiteList(true)}
-              category={{
-                name: 'Yosemite National Park',
-                image: getRandomImageUrl(),
-                rank: 1
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      <Box
+        component='div'
+        sx={{
+          height: '100%',
+          overflow: 'scroll',
+          overflowX: 'hidden'
+        }}
+        className='custom-scrollbar'
+      >
+        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          {[...Array(8).keys()].map((_, index) => (
+            <Grid xs={12} md={6} lg={4} key={index}>
+              <CardBanner
+                onAddToCategoryHome={() => setOpenWhiteList(true)}
+                category={{
+                  name: 'Yosemite National Park',
+                  image: getRandomImageUrl(),
+                  rank: 1
+                }}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </>
   )
 }

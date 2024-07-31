@@ -1,11 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid } from '@mui/joy'
 import { useForm } from 'react-hook-form'
-import FomFieldInput from '../form/FomFieldInput'
-import FormTextArea from '../form/FormTextArea'
+import { FormFieldInput, FormTextArea, FormFieldInputPassword } from '@/components/form'
 import { formSchema, ActiveUserFormSchema } from './FormSchema'
-import { Autorenew } from '@mui/icons-material'
-import { generatePassword } from '@/utils'
 
 interface Props {
   defaultValues: ActiveUserFormSchema
@@ -16,39 +13,21 @@ interface Props {
 const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
   const form = useForm<ActiveUserFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: { ...defaultValues, phoneNumber: defaultValues.phone }
+    defaultValues
   })
-
-  const handleGeneratePassword = () => {
-    const generatedPassword = generatePassword()
-    form.setValue('password', generatedPassword)
-  }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit, console.log)}>
       <Grid rowSpacing={2} columnSpacing={4} container>
         <Grid rowSpacing={2} columnSpacing={4} container columns={12}>
           <Grid xs={12} lg={6}>
-            <FomFieldInput name='email' form={form} label='Email' inputProps={{ placeholder: 'Nhập email' }} />
+            <FormFieldInput name='email' form={form} label='Email' inputProps={{ placeholder: 'Nhập email' }} />
           </Grid>
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInputPassword
               label='Mật khẩu'
               inputProps={{
-                placeholder: 'Nhập mật khẩu',
-                type: 'password',
-                endDecorator: (
-                  <Button
-                    sx={{
-                      width: 'fit-content'
-                    }}
-                    onClick={() => handleGeneratePassword()}
-                    color='neutral'
-                    startDecorator={<Autorenew />}
-                  >
-                    Tự Động Tạo Mật Khẩu
-                  </Button>
-                )
+                placeholder: 'Nhập mật khẩu'
               }}
               form={form}
               name='password'
@@ -56,7 +35,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInput
               name='fullNameOwnerCompany'
               form={form}
               label='Chủ Doanh Nghiệp'
@@ -65,7 +44,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInput
               name='phoneNumber'
               form={form}
               label='Số Điện Thoại'
@@ -74,7 +53,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInput
               name='companyName'
               form={form}
               label='Doanh Nghiệp'
@@ -83,7 +62,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInput
               name='shortNameCompany'
               form={form}
               label='Tên Viết Tắt'
@@ -92,7 +71,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12}>
-            <FomFieldInput
+            <FormFieldInput
               name='linkWebsite'
               form={form}
               label='Website'
@@ -101,7 +80,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInput
               name='implementerName'
               form={form}
               label='Người Triển Khai'
@@ -110,7 +89,7 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FomFieldInput
+            <FormFieldInput
               name='implementerPhone'
               form={form}
               label='Số Điện Thoại Người Triển Khai'

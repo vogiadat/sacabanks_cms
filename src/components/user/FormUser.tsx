@@ -3,15 +3,8 @@ import { useForm } from 'react-hook-form'
 
 import { RoleMap } from '@/types'
 
-import FomFieldInput from '@/components/form/FomFieldInput'
-import FormDrawer from '@/components/form/FormDrawer'
-import FormFieldSelect from '@/components/form/FormFieldSelect'
-import { APP_MESSAGE } from '@/constants'
-import { generatePassword } from '@/utils'
-import { Autorenew } from '@mui/icons-material'
-import { Button } from '@mui/joy'
+import { FormDrawer, FormFieldSelect, FormFieldInput, FormFieldInputPassword } from '@/components/form'
 import { useEffect } from 'react'
-import { toast } from 'sonner'
 import { formSchema, UserFormSchema } from './FormSchema'
 
 interface Props {
@@ -29,13 +22,6 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
     value: key,
     label: value
   }))
-
-  const handleGeneratePassword = async () => {
-    const generatedPassword = generatePassword()
-    form.setValue('password', generatedPassword)
-    await navigator.clipboard.writeText(generatedPassword)
-    toast.success(APP_MESSAGE.OTHER.COPY_SUCCESS)
-  }
 
   const form = useForm<UserFormSchema>({
     resolver: zodResolver(formSchema),
@@ -64,39 +50,29 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
       isEdit={isEdit}
       id={id}
     >
-      <FomFieldInput
+      <FormFieldInput
         label='Email'
         inputProps={{ placeholder: 'Nhập email', disabled: isEdit }}
         form={form}
         name='email'
       />
-      <FomFieldInput
+      <FormFieldInput
         label='Số điện thoại'
         inputProps={{ placeholder: 'Nhập số điện thoại' }}
         form={form}
         name='phoneNumber'
       />
-      <FomFieldInput label='Địa chỉ' inputProps={{ placeholder: 'Nhập địa chỉ' }} form={form} name='address' />
+      <FormFieldInput label='Địa chỉ' inputProps={{ placeholder: 'Nhập địa chỉ' }} form={form} name='address' />
       {isEdit ? (
         <></>
       ) : (
         <>
-          <FomFieldInput
+          <FormFieldInputPassword
             label='Mật khẩu'
             inputProps={{ placeholder: 'Nhập mật khẩu', type: 'password' }}
             form={form}
             name='password'
           />
-          <Button
-            sx={{
-              width: 'fit-content'
-            }}
-            onClick={() => handleGeneratePassword()}
-            color='neutral'
-            startDecorator={<Autorenew />}
-          >
-            Tự Động Tạo Mật Khẩu
-          </Button>
         </>
       )}
       <FormFieldSelect

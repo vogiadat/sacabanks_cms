@@ -15,6 +15,7 @@ import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
+import { getImageById } from '@/utils'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: Page
@@ -28,7 +29,9 @@ function Page() {
     queryFn: () => productApi.getPublic({ page: pagination.currentPage })
   })
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data.data.count ?? 1)
+  const totalPages = data?.data.data.count
+
+  useSetTotalPages(isSuccess, pagination, setPagination, totalPages ?? 1)
 
   const productList = data?.data.data.list
 
@@ -45,7 +48,7 @@ function Page() {
           justifyContent: 'space-between'
         }}
       >
-        <Typography level='h2' component='h1' textColor={'primary.500'}>
+        <Typography level='h2' component='h1'>
           Sản Phẩm
         </Typography>
         <Button onClick={() => navigate({ to: '/product/create' })} color='primary' startDecorator={<Add />} size='sm'>
@@ -134,7 +137,7 @@ const columnDef: ColumDef<ProductForm>[] = [
   {
     associate: 'mainPhoto',
     label: 'Ảnh Sản Phẩm',
-    render: (row) => <img src={row.mainPhoto ? row.mainPhoto : image_default} width={100} />
+    render: (row) => <img src={row.mainPhoto ? getImageById(row.mainPhoto) : image_default} width={100} />
   },
   {
     associate: 'title',

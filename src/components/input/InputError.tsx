@@ -4,4 +4,11 @@ interface Props {
   message: string | undefined
 }
 
-export const InputError = ({ message }: Props) => (message ? <Typography fontSize={14} marginTop={0.5} textColor='red'>{message}</Typography> : <></>)
+export const InputError = ({ message }: Props) =>
+  message ? (
+    <Typography fontSize={14} marginTop={0.5} textColor='red'>
+      {message}
+    </Typography>
+  ) : (
+    <></>
+  )

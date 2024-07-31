@@ -1,7 +1,10 @@
-import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
+import { APP_MESSAGE } from '@/constants'
+import { generatePassword } from '@/utils'
+import { Autorenew, InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
 import { Button, FormControl, FormHelperText, FormLabel, Input, InputTypeMap } from '@mui/joy'
 import { useState } from 'react'
-import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form'
+import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type Props<T extends FieldValues> = {
   label: string
@@ -10,16 +13,23 @@ type Props<T extends FieldValues> = {
   name: Path<T>
 }
 
-const FomFieldInput = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
-  const { control } = form
+export const FormFieldInputPassword = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
+  const { control, setValue } = form
   const [showPassword, setShowPassword] = useState(false)
+
+  const handleGeneratePassword = async () => {
+    const generatedPassword = generatePassword()
+    setValue(name, generatedPassword as PathValue<T, Path<T>>)
+    await navigator.clipboard.writeText(generatedPassword)
+
+    toast.success(APP_MESSAGE.OTHER.COPY_SUCCESS)
+  }
 
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onBlur, ref, onChange, value }, fieldState }) => {
-        const isPasswordField = inputProps?.type === 'password'
         const error = fieldState.error?.message
 
         return (
@@ -30,16 +40,25 @@ const FomFieldInput = <T extends FieldValues>({ inputProps, label, form, name }:
               ref={ref}
               onBlur={onBlur}
               value={value}
-              type={isPasswordField && !showPassword ? 'password' : 'text'}
+              type={!showPassword ? 'password' : 'text'}
               onChange={(e) => {
                 onChange(e.target.value)
               }}
               endDecorator={
-                isPasswordField && (
+                <>
                   <Button variant='plain' onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </Button>
-                )
+                  <Button
+                    sx={{
+                      width: 'fit-content'
+                    }}
+                    onClick={() => handleGeneratePassword()}
+                    color='neutral'
+                  >
+                    <Autorenew />
+                  </Button>
+                </>
               }
             />
             {error && (
@@ -54,5 +73,3 @@ const FomFieldInput = <T extends FieldValues>({ inputProps, label, form, name }:
     />
   )
 }
-
-export default FomFieldInput

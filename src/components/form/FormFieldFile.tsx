@@ -11,7 +11,7 @@ type Props<T extends FieldValues> = {
   defaultPreviewImage?: Path<T>
 }
 
-const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPreviewImage }: Props<T>) => {
+export const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPreviewImage }: Props<T>) => {
   const { control } = form
 
   return (
@@ -94,5 +94,3 @@ const FormFieldImage = <T extends FieldValues>({ label, form, name, defaultPrevi
     />
   )
 }
-
-export default FormFieldImage

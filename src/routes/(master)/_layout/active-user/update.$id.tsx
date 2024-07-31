@@ -28,11 +28,17 @@ function Page() {
     onError: ShowToastError
   })
 
-  const activeUserData = data?.data.data
+  const resData = data?.data.data
+
+  const activeUserData: ActiveUserFormSchema = {
+    ...resData,
+    username: getUsernameFromEmail(resData.email),
+    phoneNumber: resData.phone
+  }
   // console.log('🚀 ~ Page ~ activeUserData:', activeUserData)
 
   const handleSubmit = (_value: ActiveUserFormSchema) => {
-    const dataSubmit: ActiveUserFormSchema = { ..._value, username: getUsernameFromEmail(_value.email), isActive: true }
+    const dataSubmit: ActiveUserFormSchema = { ..._value, isActive: true }
     // mutate(dataSubmit)
     console.log(dataSubmit)
   }
@@ -51,7 +57,7 @@ function Page() {
         }}
       >
         <Typography level='h2' component='h1'>
-          Sản Phẩm
+          Đơn Tham Gia
         </Typography>
       </Box>
 

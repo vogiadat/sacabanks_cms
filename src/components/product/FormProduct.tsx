@@ -1,10 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid, Typography } from '@mui/joy'
 import { useForm } from 'react-hook-form'
-import FomFieldInput from '../form/FomFieldInput'
-import FomFieldInputNumber from '../form/FomFieldInputNumber'
-import FormFieldImage from '../form/FormFieldFile'
-import FormTextArea from '../form/FormTextArea'
+import { FormFieldInput, FormFieldInputNumber, FormFieldImage, FormTextArea } from '@/components/form'
 import { formSchema, ProductForm } from './FormSchema'
 
 interface Props {
@@ -25,7 +22,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
         <Grid xs={12} lg={8}>
           <Grid rowSpacing={2} columnSpacing={4} container columns={12}>
             <Grid xs={12}>
-              <FomFieldInput
+              <FormFieldInput
                 name='title'
                 form={form}
                 label='Tên Sản Phẩm'
@@ -34,7 +31,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput
+              <FormFieldInput
                 name='slug'
                 form={form}
                 label='Đường Dẫn Sản Phẩm'
@@ -43,7 +40,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput
+              <FormFieldInput
                 name='material'
                 form={form}
                 label='Chất liệu'
@@ -52,15 +49,15 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput name='price' form={form} label='Giá' inputProps={{ type: 'number' }} />
+              <FormFieldInput name='price' form={form} label='Giá' inputProps={{ type: 'number' }} />
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput name='quantity' form={form} label='Số lượng' inputProps={{ type: 'number' }} />
+              <FormFieldInput name='quantity' form={form} label='Số lượng' inputProps={{ type: 'number' }} />
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput
+              <FormFieldInput
                 name='itemNumber'
                 form={form}
                 label='Item Number'
@@ -69,7 +66,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FomFieldInput
+              <FormFieldInput
                 name='finishing'
                 form={form}
                 label='Độ Hoàn Thiện'
@@ -78,7 +75,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12}>
-              <FomFieldInput name='tags' form={form} label='Tags' inputProps={{ placeholder: 'tag1, tag2, ...' }} />
+              <FormFieldInput name='tags' form={form} label='Tags' inputProps={{ placeholder: 'tag1, tag2, ...' }} />
             </Grid>
           </Grid>
         </Grid>
@@ -94,19 +91,19 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={6}>
-            <FomFieldInputNumber name='dimensionL' form={form} label='DimensionL' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber name='dimensionL' form={form} label='DimensionL' inputProps={{ placeholder: '10' }} />
           </Grid>
 
           <Grid xs={6}>
-            <FomFieldInputNumber name='dimensionW' form={form} label='DimensionW' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber name='dimensionW' form={form} label='DimensionW' inputProps={{ placeholder: '10' }} />
           </Grid>
 
           <Grid xs={6}>
-            <FomFieldInputNumber name='dimensionH' form={form} label='DimensionH' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber name='dimensionH' form={form} label='DimensionH' inputProps={{ placeholder: '10' }} />
           </Grid>
 
           <Grid xs={6}>
-            <FomFieldInputNumber name='netWeight' form={form} label='NetWeight' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber name='netWeight' form={form} label='NetWeight' inputProps={{ placeholder: '10' }} />
           </Grid>
         </Grid>
       </Grid>

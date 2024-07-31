@@ -1,4 +1,3 @@
-import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
@@ -117,9 +116,7 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant='soft' color='primary' size='sm'>
-          <BrightnessAutoRoundedIcon />
-        </IconButton>
+        <Avatar src='/icons/icon.png' sx={{ objectFit: 'cover', bgcolor: 'transparent' }} />
         <Typography level='title-lg'>Sacabanks</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
@@ -151,7 +148,7 @@ export default function Sidebar() {
             if (item.items) {
               if (isAllowRole) {
                 return (
-                  <ListItem nested key={index}>
+                  <ListItem nested key={`parent-${index}`}>
                     <Toggler
                       renderToggle={({ open, setOpen }) => (
                         <ListItemButton onClick={() => setOpen(!open)}>
@@ -165,7 +162,7 @@ export default function Sidebar() {
                     >
                       <List sx={{ gap: 0.5 }}>
                         {item.items.map((child, index) => (
-                          <ListItem sx={{ mt: index === 0 ? 0.5 : undefined }} key={index}>
+                          <ListItem sx={{ mt: index === 0 ? 0.5 : undefined }} key={`child-${index}`}>
                             <ListItemButton role='menuitem' component={Link} to={child.href}>
                               {child.title}
                             </ListItemButton>
@@ -176,14 +173,14 @@ export default function Sidebar() {
                   </ListItem>
                 )
               }
-              return <></>
+              return
             }
 
             if (isAllowRole) {
-              return <SidebarItem {...item} key={index} />
+              return <SidebarItem {...item} key={`item-${index}`} />
             }
 
-            return <></>
+            return
           })}
         </List>
 

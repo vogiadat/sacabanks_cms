@@ -10,9 +10,7 @@ import { APP_MESSAGE } from '@/constants'
 import { ICategoryItem } from '@/interfaces'
 import { CategoryType } from '@/types'
 
-import FomFieldInput from '@/components/form/FomFieldInput'
-import FormDrawer from '@/components/form/FormDrawer'
-import FormFieldImage from '@/components/form/FormFieldFile'
+import { FormDrawer, FormFieldImage, FormFieldInput } from '@/components/form'
 import { ModalConfirmDelete } from '@/components/modal'
 import { CategoryForm, formSchema } from './FormSchema'
 
@@ -85,7 +83,7 @@ const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', categor
       isEdit={isEdit}
       id={id}
     >
-      <FomFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
+      <FormFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
       <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={'previewImage'} />
       {/* // ? Modal */}
       <ModalConfirmDelete

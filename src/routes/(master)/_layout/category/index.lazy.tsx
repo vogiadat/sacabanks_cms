@@ -60,6 +60,7 @@ function Page() {
           overflow: 'scroll',
           overflowX: 'hidden'
         }}
+        className='custom-scrollbar'
       >
         <Grid container spacing={2} sx={{ flexGrow: 1 }}>
           {isLoading ? (

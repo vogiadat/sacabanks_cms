@@ -22,7 +22,7 @@ type Props<T extends FieldValues> = {
   id?: string
 }
 
-const FormDrawer = <T extends FieldValues>({
+export const FormDrawer = <T extends FieldValues>({
   open,
   onClose,
   onOpenModalConfirmDelete,
@@ -87,5 +87,3 @@ const FormDrawer = <T extends FieldValues>({
     </Drawer>
   )
 }
-
-export default FormDrawer

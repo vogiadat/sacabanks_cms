@@ -9,7 +9,7 @@ type Props<T extends FieldValues> = {
   name: Path<T>
 }
 
-const FomFieldInputNumber = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
+export const FormFieldInput = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
   const { control } = form
 
   return (
@@ -23,14 +23,14 @@ const FomFieldInputNumber = <T extends FieldValues>({ inputProps, label, form, n
           <FormControl error={!!error}>
             <FormLabel>{label}</FormLabel>
             <Input
+              {...inputProps}
               ref={ref}
               onBlur={onBlur}
               value={value}
+              type={'text'}
               onChange={(e) => {
-                onChange(Number(e.target.value))
+                onChange(e.target.value)
               }}
-              {...inputProps}
-              type='number'
             />
             {error && (
               <FormHelperText>
@@ -44,5 +44,3 @@ const FomFieldInputNumber = <T extends FieldValues>({ inputProps, label, form, n
     />
   )
 }
-
-export default FomFieldInputNumber

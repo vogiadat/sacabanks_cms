@@ -32,7 +32,7 @@ function Page() {
           justifyContent: 'space-between'
         }}
       >
-        <Typography level='h2' component='h1' textColor={'primary.500'}>
+        <Typography level='h2' component='h1'>
           Đơn Tham Gia
         </Typography>
         {/* <CreateUser /> */}

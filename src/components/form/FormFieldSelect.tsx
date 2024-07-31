@@ -13,7 +13,7 @@ type Props<T extends FieldValues> = {
   name: Path<T>
 }
 
-const FormFieldSelect = <T extends FieldValues>({ label, items, selectProps, form, name }: Props<T>) => {
+export const FormFieldSelect = <T extends FieldValues>({ label, items, selectProps, form, name }: Props<T>) => {
   const { control } = form
 
   return (
@@ -56,5 +56,3 @@ const FormFieldSelect = <T extends FieldValues>({ label, items, selectProps, for
     />
   )
 }
-
-export default FormFieldSelect
