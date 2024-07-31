@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ParamsType } from '@/types'
 import { HeaderType } from '@/types/api.type'
 import { axiosClient, getHeaderRequest } from '@/utils'
 import { AxiosResponse } from 'axios'
@@ -8,7 +9,7 @@ import { AxiosResponse } from 'axios'
 //   key: string45
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category' | 'upload' | 'user' | 'product'
+type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor'
 
 export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   protected endpoint: string
@@ -19,12 +20,12 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     this.key = endpoint
   }
 
-  getKeyForList() {
-    return [this.key, 'getList']
+  getKeyForList(params?: ParamsType) {
+    return [this.key, 'getList', params]
   }
 
-  getList(): Promise<AxiosResponse<any>> {
-    return axiosClient.get(`${this.endpoint}`)
+  getList(params?: ParamsType): Promise<AxiosResponse<any>> {
+    return axiosClient.get(`${this.endpoint}`, { params })
   }
 
   getKeyForFindById(id: string) {
