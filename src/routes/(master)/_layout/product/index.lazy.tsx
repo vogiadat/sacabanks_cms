@@ -1,15 +1,20 @@
+import { useQuery } from '@tanstack/react-query'
+import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
+
 import { productApi } from '@/apis'
+import { APP_RULE } from '@/constants'
+import { image_default } from '@/constants/image.constant'
+import { usePagination, useSetTotalPages } from '@/hooks'
+import { IProductItem } from '@/interfaces'
+// import { formatUnikey, generateSlug } from '@/utils'
+
+import { Add } from '@mui/icons-material'
+import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
+import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
-import { image_default } from '@/constants/image.constant'
-import { IProductItem } from '@/interfaces'
-// import { formatUnikey, generateSlug } from '@/utils'
-import { Add } from '@mui/icons-material'
-import { Box, Button, Sheet, Typography } from '@mui/joy'
-import { useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: Page
@@ -17,13 +22,15 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/')({
 
 function Page() {
   const { navigate } = useRouter()
-  const { data, isFetching } = useQuery({
-    queryKey: productApi.getKeyForMyProduct(),
-    queryFn: () => productApi.getMyProduct()
+  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const { data, isFetching, isSuccess } = useQuery({
+    queryKey: productApi.getKeyForPublic(pagination.currentPage),
+    queryFn: () => productApi.getPublic(pagination.currentPage)
   })
 
-  const productList = data?.data.data
-  console.log("🚀 ~ Page ~ data:", data)
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data.data.count ?? 1)
+
+  const productList = data?.data.data.list
 
   return (
     <>
@@ -86,22 +93,33 @@ function Page() {
         <LoadingFullPage />
       ) : (
         <>
-          <Sheet
-            className='OrderTableContainer no-scrollbar'
-            variant='outlined'
-            sx={{
-              display: 'initial',
-              width: '100%',
-              borderRadius: 'sm',
-              flexShrink: 1,
-              overflow: 'auto',
-              minHeight: 0
-            }}
-          >
-            {productList && productList.length > 0 && <Table<ProductForm> rows={productList} columns={columnDef} />}
-          </Sheet>
+          {productList && productList.length > 0 ? (
+            <Sheet
+              className='OrderTableContainer custom-scrollbar'
+              variant='outlined'
+              sx={{
+                display: 'initial',
+                width: '100%',
+                borderRadius: 'sm',
+                flexShrink: 1,
+                overflow: 'auto',
+                minHeight: 0
+              }}
+            >
+              <Table<ProductForm> rows={productList} columns={columnDef} />
+            </Sheet>
+          ) : (
+            <EmptyItem />
+          )}
 
-          <Pagination />
+          <Pagination
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            handleChangePage={handleChangePage}
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            lambda={APP_RULE.PAGINATION.LAMBDA}
+          />
         </>
       )}
     </>

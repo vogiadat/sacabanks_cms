@@ -86,7 +86,7 @@ function Page() {
       </Box>
 
       <Sheet
-        className='OrderTableContainer no-scrollbar'
+        className='OrderTableContainer custom-scrollbar'
         variant='outlined'
         sx={{
           display: 'initial',

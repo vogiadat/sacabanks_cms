@@ -13,6 +13,15 @@ class ProductApi extends BaseApi<IProductItem> {
   getKeyForMyProduct() {
     return [this.key, 'getList', 'my_product']
   }
+
+  async getPublic(page: number = 1) {
+    return await axiosClient.get(`${this.endpoint}/public`, {
+      params: { page }
+    })
+  }
+  getKeyForPublic(page: number = 1) {
+    return [this.key, 'getList', 'public', `page_${page}`]
+  }
 }
 
 export const productApi = new ProductApi()

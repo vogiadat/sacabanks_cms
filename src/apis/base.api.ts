@@ -1,10 +1,6 @@
 import { HeaderType } from '@/types/api.type'
 import { axiosClient, getHeaderRequest } from '@/utils'
 
-// interface BaseApiConfig<T> {
-//   endpoint: string
-//   key: string45
-// }
 // ! Add api type here before call super('')
 type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor'
 
@@ -42,7 +38,7 @@ export class BaseApi<T> {
     })
   }
 
-  async patch(id: string, data: T, headerType?: HeaderType) {
+  async patch(id: string, data: any, headerType?: HeaderType) {
     const headers = getHeaderRequest(headerType)
 
     return await axiosClient.patch(`${this.endpoint}/${id}`, data, {
