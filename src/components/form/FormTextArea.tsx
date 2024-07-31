@@ -25,7 +25,7 @@ export const FormTextArea = <T extends FieldValues>({ textAreaProps, label, form
             <Textarea
               {...textAreaProps}
               ref={ref}
-              value={value}
+              value={value || undefined}
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e.target.value)

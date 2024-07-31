@@ -11,7 +11,7 @@ import { RoleMap } from '@/types'
 import FormUser from '@/components/user/FormUser'
 import { useState } from 'react'
 import { UserFormSchema } from '@/components/user/FormSchema'
-import { ShowToastError, showToastQuerySuccess } from '@/utils'
+import { showToastError, showToastQuerySuccess } from '@/utils'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -155,7 +155,7 @@ const ActionsHandle = ({ user }: { user: UserForm }) => {
       showToastQuerySuccess('UPDATE_SUCCESS')
       setOpen(false)
     },
-    onError: ShowToastError
+    onError: showToastError
   })
 
   const handleSubmit = async (_value: UserFormSchema) => {

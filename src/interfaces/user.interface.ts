@@ -1,4 +1,5 @@
 import { IBaseItem } from '@/interfaces'
+import { ResponseApi, ResponsePagination } from '@/utils'
 
 export interface IRoleItem extends IBaseItem {
   name: string
@@ -30,3 +31,6 @@ export interface IUserItem extends IBaseItem {
   collab: string
   profits: string
 }
+
+export type UserResponseItem = ResponseApi<IUserItem>
+export type UserResponsePagination = ResponsePagination<IUserItem>

@@ -23,14 +23,14 @@ export const FormFieldInput = <T extends FieldValues>({ inputProps, label, form,
           <FormControl error={!!error}>
             <FormLabel>{label}</FormLabel>
             <Input
-              {...inputProps}
               ref={ref}
               onBlur={onBlur}
-              value={value}
+              value={value || undefined}
               type={'text'}
               onChange={(e) => {
                 onChange(e.target.value)
               }}
+              {...inputProps}
             />
             {error && (
               <FormHelperText>

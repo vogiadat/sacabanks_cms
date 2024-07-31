@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { productApi } from '@/apis'
 import { ProductForm } from '@/components/product'
 import FormProduct from '@/components/product/FormProduct'
-import { ShowToastError, showToastQuerySuccess } from '@/utils'
+import { showToastError, showToastQuerySuccess } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/(master)/_layout/product/update/$id')({
@@ -21,9 +21,9 @@ function Page() {
     queryFn: () => productApi.findById(id)
   })
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: any) => productApi.patch(id, data),
+    mutationFn: (data) => productApi.patch(id, data),
     onSuccess: showToastQuerySuccess('UPDATE_SUCCESS'),
-    onError: ShowToastError
+    onError: showToastError
   })
 
   const productData = data?.data?.data

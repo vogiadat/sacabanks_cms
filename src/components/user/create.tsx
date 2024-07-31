@@ -3,7 +3,7 @@ import { Button } from '@mui/joy'
 import React, { useEffect } from 'react'
 
 import { userApi } from '@/apis/user.api'
-import { getUsernameFromEmail, ShowToastError, showToastQuerySuccess } from '@/utils'
+import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
 import { useMutation } from '@tanstack/react-query'
 import { UserFormSchema, defaultValues } from './FormSchema'
 import FormUser from './FormUser'
@@ -14,7 +14,7 @@ const CreateUser = () => {
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: any) => userApi.create(data),
     onSuccess: showToastQuerySuccess('ADD_SUCCESS'),
-    onError: ShowToastError
+    onError: showToastError
   })
 
   const handleSubmit = async (_value: UserFormSchema) => {

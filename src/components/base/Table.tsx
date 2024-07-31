@@ -4,7 +4,7 @@ import TableJoy from '@mui/joy/Table'
 import { ReactNode } from '@tanstack/react-router'
 
 export type ColumDef<T extends { id: string | number }> = {
-  associate: keyof T
+  associate: keyof T | 'action' | 'actions'
   render?: (value: T) => ReactNode
   label: string
 }
@@ -66,7 +66,7 @@ const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) =
           return (
             <tr key={row.id}>
               {columns.map(({ associate, render }) => (
-                <td key={associate.toString()}>{render ? render(row) : row[associate]}</td>
+                <td key={associate.toString()}>{render ? render(row) : row[associate as keyof T]}</td>
               ))}
             </tr>
           )

@@ -1,11 +1,16 @@
-import { ParamsType } from '@/types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HeaderType } from '@/types/api.type'
 import { axiosClient, getHeaderRequest } from '@/utils'
+import { AxiosResponse } from 'axios'
 
+// interface BaseApiConfig<T> {
+//   endpoint: string
+//   key: string45
+// }
 // ! Add api type here before call super('')
-type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor'
+type EndpointType = 'category' | 'upload' | 'user' | 'product'
 
-export class BaseApi<T> {
+export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   protected endpoint: string
   protected key: string
 
@@ -14,48 +19,39 @@ export class BaseApi<T> {
     this.key = endpoint
   }
 
-  getKeyForList(params?: ParamsType) {
-    return [this.key, 'getList', params]
+  getKeyForList() {
+    return [this.key, 'getList']
   }
-  async getList(params?: ParamsType) {
-    return await axiosClient.get(`${this.endpoint}`, {
-      params
-    })
+
+  getList(): Promise<AxiosResponse<any>> {
+    return axiosClient.get(`${this.endpoint}`)
   }
 
   getKeyForFindById(id: string) {
     return [this.key, 'findById', id]
   }
-  async findById(id: string) {
-    return await axiosClient.get(`${this.endpoint}/${id}`)
+
+  findById(id: string): Promise<AxiosResponse<TGet>> {
+    return axiosClient.get(`${this.endpoint}/${id}`)
   }
 
   // * Mutation
-  async create(data: any, headerType?: HeaderType) {
+  create(data: TBody, headerType?: HeaderType): Promise<AxiosResponse<TGet>> {
     const headers = getHeaderRequest(headerType)
-
-    return await axiosClient.post(this.endpoint, data, {
+    return axiosClient.post(this.endpoint, data, {
       headers
     })
   }
 
-  async oldCreate(data: T, headerType?: HeaderType) {
+  patch(id: string, data: TPatch, headerType?: HeaderType) {
     const headers = getHeaderRequest(headerType)
 
-    return await axiosClient.post(this.endpoint, data, {
+    return axiosClient.patch(`${this.endpoint}/${id}`, data, {
       headers
     })
   }
 
-  async patch(id: string, data: any, headerType?: HeaderType) {
-    const headers = getHeaderRequest(headerType)
-
-    return await axiosClient.patch(`${this.endpoint}/${id}`, data, {
-      headers
-    })
-  }
-
-  async delete(id: string) {
-    return await axiosClient.delete(`${this.endpoint}/${id}`)
+  delete(id: string): Promise<TDelete> {
+    return axiosClient.delete(`${this.endpoint}/${id}`)
   }
 }

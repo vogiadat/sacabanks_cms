@@ -25,7 +25,7 @@ export const registerSchema = schema
     password: true,
     confirmPassword: true
   })
-  .refine((data: any) => data.confirmPassword === data.password, {
+  .refine((data) => data.confirmPassword === data.password, {
     message: APP_MESSAGE.FORM.CONFIRM_PASSWORD_NOT_MATCH,
     path: ['confirmPassword']
   })

@@ -1,7 +1,7 @@
 import { BaseApi } from '@/apis'
-import { ICategoryItem } from '@/interfaces'
+import { ResponseApi } from '@/utils'
 
-class UploadApi extends BaseApi<ICategoryItem> {
+class UploadApi extends BaseApi<ResponseApi<string>, { file: File }> {
   constructor() {
     super('upload')
   }

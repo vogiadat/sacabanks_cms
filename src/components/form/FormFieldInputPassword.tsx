@@ -21,7 +21,6 @@ export const FormFieldInputPassword = <T extends FieldValues>({ inputProps, labe
     const generatedPassword = generatePassword()
     setValue(name, generatedPassword as PathValue<T, Path<T>>)
     await navigator.clipboard.writeText(generatedPassword)
-
     toast.success(APP_MESSAGE.OTHER.COPY_SUCCESS)
   }
 

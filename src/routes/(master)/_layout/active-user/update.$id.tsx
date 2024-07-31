@@ -4,7 +4,7 @@ import CardContent from '@mui/joy/CardContent'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { activeUserApi } from '@/apis'
-import { getUsernameFromEmail, ShowToastError, showToastQuerySuccess } from '@/utils'
+import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { ActiveUserFormSchema } from '@/components/active-user'
 import FormActiveUser from '@/components/active-user/FormActiveUser'
@@ -25,7 +25,7 @@ function Page() {
   const { isPending } = useMutation({
     mutationFn: (data: any) => userApi.create(data),
     onSuccess: showToastQuerySuccess('ADD_SUCCESS'),
-    onError: ShowToastError
+    onError: showToastError
   })
 
   const resData = data?.data.data

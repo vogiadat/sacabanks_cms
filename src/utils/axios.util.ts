@@ -26,6 +26,22 @@ axiosClient.interceptors.request.use(
   }
 )
 
+export type ResponseApi<T> = {
+  status: boolean
+  data: T
+  message: string
+}
+
+export type ResponsePagination<T> = {
+  status: boolean
+  data: {
+    list: T[]
+    count: number
+    totalPage: number
+  }
+  message: string
+}
+
 axiosClient.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -33,14 +49,6 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-export function showAxiosError(error: any) {
-  if (error?.response && error.response?.data) {
-    toast.error(error.response.data?.message)
-  } else {
-    toast.error(APP_MESSAGE.GENERAL.FAILED)
-  }
-}
 
 export const showToastQuerySuccess =
   (type: 'ADD_SUCCESS' | 'UPDATE_SUCCESS' | 'DELETE_SUCCESS') => (response: AxiosResponse) => {
@@ -50,7 +58,7 @@ export const showToastQuerySuccess =
     }
   }
 
-export function ShowToastError(error: Error) {
+export const showToastError = (error: Error) => {
   if (error instanceof AxiosError && error?.response && error.response?.data) {
     return toast.error(error.response.data?.message)
   }
