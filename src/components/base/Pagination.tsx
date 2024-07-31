@@ -23,6 +23,7 @@ const Pagination = ({ handlePrevPage, handleNextPage, handleChangePage, currentP
 
   const isMobile = useCheckBreakpointScreen()
 
+  // ? onClick '...'
   const handleEllipsisClick = (type: 'prev' | 'next') => {
     if (type === 'prev' && handlePrevPage) {
       handlePrevPage(lambda)
@@ -125,7 +126,7 @@ const generatePageItems = (currentPage: number, totalPages: number) => {
 
     if (currentPage > 2) {
       pageItems.push(1)
-      if (currentPage > 3) pageItems.push('...')
+      if (currentPage > visiblePages) pageItems.push('...')
     }
 
     for (let i = startPage; i <= endPage; i++) {

@@ -14,17 +14,10 @@ export class BaseApi<T> {
     this.key = endpoint
   }
 
-  getKeyForList() {
-    return [this.key, 'getList']
+  getKeyForList(params?: ParamsType) {
+    return [this.key, 'getList', params]
   }
-  async getList() {
-    return await axiosClient.get(`${this.endpoint}`)
-  }
-
-  getKeyForListPagination(params: ParamsType) {
-    return [this.key, 'getListPagination', params]
-  }
-  async getListWithPagination(params: ParamsType) {
+  async getList(params?: ParamsType) {
     return await axiosClient.get(`${this.endpoint}`, {
       params
     })

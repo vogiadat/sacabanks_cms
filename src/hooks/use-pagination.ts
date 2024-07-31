@@ -2,7 +2,6 @@ import { Dispatch, useEffect, useState } from 'react'
 
 import { PaginationType } from '@/types'
 
-// ? Using this when call this hook
 export const initPagination = {
   currentPage: 1,
   totalPages: -1,
