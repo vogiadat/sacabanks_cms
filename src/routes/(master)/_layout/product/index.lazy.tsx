@@ -24,8 +24,8 @@ function Page() {
   const { navigate } = useRouter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
   const { data, isFetching, isSuccess } = useQuery({
-    queryKey: productApi.getKeyForPublic(pagination.currentPage),
-    queryFn: () => productApi.getPublic(pagination.currentPage)
+    queryKey: productApi.getKeyForPublic({ page: pagination.currentPage }),
+    queryFn: () => productApi.getPublic({ page: pagination.currentPage })
   })
 
   useSetTotalPages(isSuccess, pagination, setPagination, data?.data.data.count ?? 1)

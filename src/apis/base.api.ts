@@ -1,3 +1,4 @@
+import { ParamsType } from '@/types'
 import { HeaderType } from '@/types/api.type'
 import { axiosClient, getHeaderRequest } from '@/utils'
 
@@ -20,13 +21,12 @@ export class BaseApi<T> {
     return await axiosClient.get(`${this.endpoint}`)
   }
 
-  getKeyForListPagination() {
-    return [this.key, 'getListPagination']
+  getKeyForListPagination(params: ParamsType) {
+    return [this.key, 'getListPagination', params]
   }
-  // ! Truyền thêm nếu muốn search, filter ở đây ....
-  async getListWithPagination(page: number = 1) {
+  async getListWithPagination(params: ParamsType) {
     return await axiosClient.get(`${this.endpoint}`, {
-      params: { page }
+      params
     })
   }
 
@@ -39,6 +39,14 @@ export class BaseApi<T> {
 
   // * Mutation
   async create(data: any, headerType?: HeaderType) {
+    const headers = getHeaderRequest(headerType)
+
+    return await axiosClient.post(this.endpoint, data, {
+      headers
+    })
+  }
+
+  async oldCreate(data: T, headerType?: HeaderType) {
     const headers = getHeaderRequest(headerType)
 
     return await axiosClient.post(this.endpoint, data, {

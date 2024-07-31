@@ -1,5 +1,6 @@
 import { BaseApi } from '@/apis'
 import { IProductItem } from '@/interfaces/product.interface'
+import { ParamsType } from '@/types'
 import { axiosClient } from '@/utils'
 
 class ProductApi extends BaseApi<IProductItem> {
@@ -14,13 +15,13 @@ class ProductApi extends BaseApi<IProductItem> {
     return [this.key, 'getList', 'my_product']
   }
 
-  async getPublic(page: number = 1) {
+  async getPublic(params: ParamsType) {
     return await axiosClient.get(`${this.endpoint}/public`, {
-      params: { page }
+      params
     })
   }
-  getKeyForPublic(page: number = 1) {
-    return [this.key, 'getList', 'public', `page_${page}`]
+  getKeyForPublic(params: ParamsType) {
+    return [this.key, 'getList', 'public', params]
   }
 }
 

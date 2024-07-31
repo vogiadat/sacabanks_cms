@@ -1,5 +1,5 @@
 import { userApi } from '@/apis/user.api'
-import { Pagination, Search, Table } from '@/components/base'
+import { Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import CreateUser from '@/components/user/create'
@@ -100,7 +100,7 @@ function Page() {
         <Table<IUserItem> rows={userList ?? []} columns={columnDef} />
       </Sheet>
 
-      <Pagination />
+      {/* <Pagination /> */}
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { activeUserApi } from '@/apis'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
-import { Pagination, Search, Table } from '@/components/base'
+import { Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { IActiveUserItem } from '@/interfaces'
@@ -94,7 +94,7 @@ function Page() {
         <Table<IActiveUserItem> rows={activeList ?? []} columns={columnDef} />
       </Sheet>
 
-      <Pagination />
+      {/* <Pagination /> */}
     </>
   )
 }
