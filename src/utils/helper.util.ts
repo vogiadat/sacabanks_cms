@@ -45,11 +45,11 @@ export const sliceText = (text: string = '', maxLength: number = 30, replaceText
 }
 
 export function generateSlug(input: string): string {
-  return input
+  return formatUnikey(input)
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
+    .replace(/[\s\W_]+/g, '-')
+    .concat('-' + generateShortUUID())
 }
 
 export const generatePassword = () => {

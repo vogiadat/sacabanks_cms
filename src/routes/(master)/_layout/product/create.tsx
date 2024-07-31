@@ -51,11 +51,10 @@ function Page() {
           m: -1,
           overflowX: 'hidden'
         }}
+        className='custom-scrollbar'
       >
         <Card>
-          <div>
-            <Typography level='title-lg'>Thông tin cơ bản</Typography>
-          </div>
+          <Typography level='title-lg'>Thông tin cơ bản</Typography>
           <CardContent>
             <FormProduct defaultValues={initProduct} onSubmit={handleSubmit} />
           </CardContent>
