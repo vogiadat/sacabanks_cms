@@ -1,14 +1,13 @@
-'use client'
-import { useState } from 'react'
+import { Dispatch, useEffect, useState } from 'react'
 
 import { PaginationType } from '@/types'
 
 // ? Using this when call this hook
 export const initPagination = {
   currentPage: 1,
-  totalPages: 1,
-  totalItems: 0,
-  totalLoadItems: 0
+  totalPages: -1,
+  totalItems: -1,
+  totalLoadItems: -1
 }
 
 export const usePagination = () => {
@@ -77,4 +76,20 @@ export const usePagination = () => {
     handlePrevPage,
     handleChangePage
   }
+}
+
+export const useSetTotalPages = (
+  isSuccess: boolean,
+  pagination: PaginationType,
+  setPagination: Dispatch<React.SetStateAction<PaginationType>>,
+  totalPages: number
+) => {
+  useEffect(() => {
+    if (isSuccess && pagination.totalPages === -1) {
+      setPagination({
+        ...pagination,
+        totalPages
+      })
+    }
+  }, [isSuccess])
 }

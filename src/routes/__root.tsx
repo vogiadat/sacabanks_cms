@@ -38,8 +38,12 @@ export const Route = createRootRoute({
           </CssVarsProvider>
           {/* expand={false} */}
           <Toaster richColors position='top-center' duration={3000} />
-          {!IS_PRODUCTION && <TanStackRouterDevtools />}
-          <ReactQueryDevtools initialIsOpen={false} />
+          {!IS_PRODUCTION && (
+            <>
+              <TanStackRouterDevtools />
+              <ReactQueryDevtools initialIsOpen={false} />
+            </>
+          )}
         </QueryClientProvider>
       </>
     )

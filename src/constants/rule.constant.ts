@@ -1,6 +1,7 @@
 export const APP_RULE = {
   PAGINATION: {
-    LIMIT_PAGINATION: 8
+    LIMIT_PAGINATION: 8,
+    LAMBDA: 20
   },
 
   TEXT: {
