@@ -1,21 +1,16 @@
 import { BaseApi } from '@/apis'
 import { UserForm } from '@/components/supplier/FormSchema'
-import { IUserItem, UserResponseItem, UserResponsePagination } from '@/interfaces'
+import { IUserItem } from '@/interfaces'
 import { RoleEnum } from '@/types'
-import { AxiosResponse } from 'axios'
 
-class SupplierApi extends BaseApi<UserResponseItem, UserForm, UserForm, IUserItem> {
+class SupplierApi extends BaseApi<IUserItem, UserForm, UserForm, IUserItem> {
   constructor() {
     super('user')
   }
 
-  createDefaultRole(data: UserForm): Promise<AxiosResponse<UserResponseItem>> {
+  createDefaultRole(data: UserForm) {
     data.role = RoleEnum.VENDOR
     return super.create(data)
-  }
-
-  getList(): Promise<AxiosResponse<UserResponsePagination>> {
-    return super.getList()
   }
 }
 

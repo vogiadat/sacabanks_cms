@@ -4,11 +4,11 @@ import CardContent from '@mui/joy/CardContent'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { activeUserApi } from '@/apis'
-import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { userApi } from '@/apis/user.api'
 import { ActiveUserFormSchema } from '@/components/active-user'
 import FormActiveUser from '@/components/active-user/FormActiveUser'
-import { userApi } from '@/apis/user.api'
+import { showToastError, showToastQuerySuccess } from '@/utils'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/(master)/_layout/active-user/update/$id')({
   component: () => <Page />
@@ -30,11 +30,6 @@ function Page() {
 
   const resData = data?.data.data
 
-  const activeUserData: ActiveUserFormSchema = {
-    ...resData,
-    username: getUsernameFromEmail(resData.email),
-    phoneNumber: resData.phone
-  }
   // console.log('🚀 ~ Page ~ activeUserData:', activeUserData)
 
   const handleSubmit = (_value: ActiveUserFormSchema) => {
@@ -73,8 +68,17 @@ function Page() {
             <Typography level='title-lg'>Thông tin cơ bản</Typography>
           </div>
           <CardContent>
-            {activeUserData && (
-              <FormActiveUser defaultValues={activeUserData} onSubmit={handleSubmit} isLoading={isPending} />
+            {resData && (
+              <FormActiveUser
+                defaultValues={{
+                  ...resData,
+                  username: '',
+                  phoneNumber: resData.phone,
+                  password: null
+                }}
+                onSubmit={handleSubmit}
+                isLoading={isPending}
+              />
             )}
           </CardContent>
         </Card>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ParamsType } from '@/types'
 import { HeaderType } from '@/types/api.type'
-import { axiosClient, getHeaderRequest } from '@/utils'
+import { axiosClient, AxiosResponseApi, getHeaderRequest, ResponseApi, ResponsePagination } from '@/utils'
 import { AxiosResponse } from 'axios'
 
 // interface BaseApiConfig<T> {
@@ -24,7 +24,11 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     return [this.key, 'getList', params]
   }
 
-  getList(params?: ParamsType): Promise<AxiosResponse<any>> {
+  getListPagination(params?: ParamsType): Promise<AxiosResponse<ResponsePagination<TGet>>> {
+    return axiosClient.get(`${this.endpoint}`, { params })
+  }
+
+  getList(params?: ParamsType): Promise<AxiosResponse<ResponseApi<TGet[]>>> {
     return axiosClient.get(`${this.endpoint}`, { params })
   }
 
@@ -32,12 +36,12 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     return [this.key, 'findById', id]
   }
 
-  findById(id: string): Promise<AxiosResponse<TGet>> {
+  findById(id: string): Promise<AxiosResponseApi<TGet>> {
     return axiosClient.get(`${this.endpoint}/${id}`)
   }
 
   // * Mutation
-  create(data: TBody, headerType?: HeaderType): Promise<AxiosResponse<TGet>> {
+  create(data: TBody, headerType?: HeaderType): Promise<AxiosResponseApi<TGet>> {
     const headers = getHeaderRequest(headerType)
     return axiosClient.post(this.endpoint, data, {
       headers

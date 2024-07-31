@@ -3,7 +3,10 @@ import { z } from 'zod'
 
 export const formSchema = z.object({
   username: z.string(),
-  password: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(3, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  password: z
+    .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
+    .min(3, { message: APP_MESSAGE.FORM.FIELD_REQUIRED })
+    .nullable(),
   companyName: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   address: z.string().optional(),
   email: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }),

@@ -20,10 +20,10 @@ export const Route = createLazyFileRoute('/(master)/_layout/user/')({
 function Page() {
   const { data } = useQuery({
     queryKey: userApi.getKeyForList(),
-    queryFn: () => userApi.getList()
+    queryFn: () => userApi.getListPagination()
   })
 
-  const userList = data?.data.data
+  const userList = data?.data.data.list
 
   return (
     <>

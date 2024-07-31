@@ -24,7 +24,7 @@ function Page() {
 
   const { data, isFetching, isLoading } = useQuery({
     queryKey: supplierApi.getKeyForList(),
-    queryFn: () => supplierApi.getList()
+    queryFn: () => supplierApi.getListPagination()
   })
 
   const suppliers = data?.data.data.list || []

@@ -21,7 +21,7 @@ function Page() {
     queryFn: () => productApi.findById(id)
   })
   const { mutate, isPending } = useMutation({
-    mutationFn: (data) => productApi.patch(id, data),
+    mutationFn: (data: ProductForm) => productApi.patch(id, data),
     onSuccess: showToastQuerySuccess('UPDATE_SUCCESS'),
     onError: showToastError
   })
@@ -63,7 +63,17 @@ function Page() {
             <Typography level='title-lg'>Thông tin cơ bản</Typography>
           </div>
           <CardContent>
-            {productData && <FormProduct defaultValues={productData} onSubmit={handleSubmit} isLoading={isPending} />}
+            {productData && (
+              <FormProduct
+                defaultValues={{
+                  ...productData,
+                  price: productData.price || 0,
+                  quantity: productData.quantity || 0
+                }}
+                onSubmit={handleSubmit}
+                isLoading={isPending}
+              />
+            )}
           </CardContent>
         </Card>
       </Box>

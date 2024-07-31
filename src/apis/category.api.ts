@@ -1,8 +1,7 @@
 import { BaseApi } from '@/apis'
 import { ICategoryItem } from '@/interfaces'
-import { ResponseApi } from '@/utils'
 
-class CategoryApi extends BaseApi<ResponseApi<ICategoryItem[]>> {
+class CategoryApi extends BaseApi<ICategoryItem> {
   constructor() {
     super('category')
   }

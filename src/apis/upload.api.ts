@@ -1,7 +1,6 @@
 import { BaseApi } from '@/apis'
-import { ResponseApi } from '@/utils'
 
-class UploadApi extends BaseApi<ResponseApi<string>, { file: File }> {
+class UploadApi extends BaseApi<string, { file: File }> {
   constructor() {
     super('upload')
   }

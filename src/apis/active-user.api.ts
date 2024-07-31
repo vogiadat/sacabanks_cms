@@ -1,7 +1,7 @@
 import { BaseApi } from '@/apis'
-import { IUserItem } from '@/interfaces'
+import { IActiveUserItem } from '@/interfaces'
 
-class ActiveUserApi extends BaseApi<IUserItem> {
+class ActiveUserApi extends BaseApi<IActiveUserItem> {
   constructor() {
     super('register_vendor')
   }

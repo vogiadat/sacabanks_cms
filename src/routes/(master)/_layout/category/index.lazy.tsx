@@ -4,7 +4,6 @@ import Create from '@/components/category/create'
 import WhiteList from '@/components/category/WhiteList'
 import { LoadingFullPage } from '@/components/loading'
 import { image_default } from '@/constants/image.constant'
-import { ICategoryItem } from '@/interfaces'
 import { getImageById } from '@/utils'
 import { HeartBroken } from '@mui/icons-material'
 import { Box, Button, Grid, Stack, Typography } from '@mui/joy'
@@ -24,7 +23,7 @@ function Page() {
     queryFn: () => categoryApi.getList()
   })
 
-  const categoryList = data?.data.data as ICategoryItem[]
+  const categoryList = data?.data.data
 
   return (
     <>

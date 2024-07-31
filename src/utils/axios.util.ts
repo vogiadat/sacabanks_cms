@@ -32,6 +32,8 @@ export type ResponseApi<T> = {
   message: string
 }
 
+export type AxiosResponseApi<T> = AxiosResponse<ResponseApi<T>>
+
 export type ResponsePagination<T> = {
   status: boolean
   data: {

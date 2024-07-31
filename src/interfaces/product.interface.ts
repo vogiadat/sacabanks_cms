@@ -10,13 +10,13 @@ export interface IProductItem extends IBaseItem {
   dimensionW: number
   dimensionH: number
   netWeight: number
-  price: null
-  quantity: null
+  price: number | null
+  quantity: number | null
   mainPhoto: string
-  tags: string
-  desc: null
+  tags: string | null
+  desc: string | null
   user: IUserItem
   category: ICategoryItem
   listPhoto: IListPhotoItem[]
-  // listDetails: any[]
+  listDetails: any[] // xem thử cái này là cc j v
 }

@@ -1,9 +1,8 @@
+import { FormFieldImage, FormFieldInput, FormFieldInputNumber, FormTextArea } from '@/components/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid, Typography } from '@mui/joy'
 import { useForm } from 'react-hook-form'
-import { FormFieldInput, FormFieldInputNumber, FormFieldImage, FormTextArea } from '@/components/form'
 import { formSchema, ProductForm } from './FormSchema'
-import { generateSlug } from '@/utils'
 
 interface Props {
   defaultValues: ProductForm
