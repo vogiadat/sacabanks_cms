@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ParamsType } from '@/types'
 import { HeaderType } from '@/types/api.type'
-import { axiosClient, AxiosResponseApi, getHeaderRequest, ResponseApi, ResponsePagination } from '@/utils'
+import { axiosClient, AxiosResponseApi, AxiosResponsePagination, getHeaderRequest, ResponseApi } from '@/utils'
 import { AxiosResponse } from 'axios'
 
 // interface BaseApiConfig<T> {
@@ -24,7 +24,7 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     return [this.key, 'getList', params]
   }
 
-  getListPagination(params?: ParamsType): Promise<AxiosResponse<ResponsePagination<TGet>>> {
+  getListPagination(params?: ParamsType): Promise<AxiosResponsePagination<TGet>> {
     return axiosClient.get(`${this.endpoint}`, { params })
   }
 

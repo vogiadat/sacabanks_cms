@@ -44,6 +44,8 @@ export type ResponsePagination<T> = {
   message: string
 }
 
+export type AxiosResponsePagination<T> = AxiosResponse<ResponsePagination<T>>
+
 axiosClient.interceptors.response.use(
   (res) => res,
   async (error) => {
