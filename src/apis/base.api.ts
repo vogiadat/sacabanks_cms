@@ -48,7 +48,7 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     })
   }
 
-  patch(id: string, data: TPatch, headerType?: HeaderType) {
+  patch(id: string, data: TPatch, headerType?: HeaderType): Promise<AxiosResponseApi<TGet>> {
     const headers = getHeaderRequest(headerType)
 
     return axiosClient.patch(`${this.endpoint}/${id}`, data, {
@@ -56,7 +56,7 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     })
   }
 
-  delete(id: string): Promise<TDelete> {
+  delete(id: string): Promise<AxiosResponseApi<TDelete>> {
     return axiosClient.delete(`${this.endpoint}/${id}`)
   }
 }
