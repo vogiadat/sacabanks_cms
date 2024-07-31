@@ -6,11 +6,13 @@ import { RoleMap } from '@/types'
 import FomFieldInput from '@/components/form/FomFieldInput'
 import FormDrawer from '@/components/form/FormDrawer'
 import FormFieldSelect from '@/components/form/FormFieldSelect'
+import { APP_MESSAGE } from '@/constants'
+import { generatePassword } from '@/utils'
+import { Autorenew } from '@mui/icons-material'
 import { Button } from '@mui/joy'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 import { formSchema, UserFormSchema } from './FormSchema'
-import { Autorenew } from '@mui/icons-material'
-import { generatePassword } from '@/utils'
 
 interface Props {
   defaultValues: UserFormSchema
@@ -28,9 +30,11 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
     label: value
   }))
 
-  const handleGeneratePassword = () => {
+  const handleGeneratePassword = async () => {
     const generatedPassword = generatePassword()
     form.setValue('password', generatedPassword)
+    await navigator.clipboard.writeText(generatedPassword)
+    toast.success(APP_MESSAGE.OTHER.COPY_SUCCESS)
   }
 
   const form = useForm<UserFormSchema>({
