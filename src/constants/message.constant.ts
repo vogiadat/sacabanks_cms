@@ -25,6 +25,7 @@ export const APP_MESSAGE = {
 
     FIELD_INVALID: 'Kiểu dữ liệu không hợp lệ',
     EMAIL_INVALID: 'Email sai định dạng "email@example.com"',
+    PHONE_INVALID: 'Số điện thoại không hợp lệ.',
     CONFIRM_PASSWORD_NOT_MATCH: 'Confirm password do not match',
 
     ADD_SUCCESS: 'Thêm thành công !',
@@ -91,7 +92,7 @@ export const APP_MESSAGE = {
   },
 
   OTHER: {
-    COPY_SUCCESS: 'Copied Success !',
+    COPY_SUCCESS: 'Copy thành công vào bộ nhớ tạm!',
     COPY_FAILED: 'Failed to copy to clipboard'
   }
 }

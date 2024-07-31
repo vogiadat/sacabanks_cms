@@ -1,5 +1,6 @@
-import { InfoOutlined } from '@mui/icons-material'
-import { FormControl, FormHelperText, FormLabel, Input, InputTypeMap } from '@mui/joy'
+import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Button, FormControl, FormHelperText, FormLabel, Input, InputTypeMap } from '@mui/joy'
+import { useState } from 'react'
 import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 type Props<T extends FieldValues> = {
@@ -11,13 +12,14 @@ type Props<T extends FieldValues> = {
 
 const FomFieldInput = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
   const { control } = form
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onBlur, ref, onChange, value }, fieldState }) => {
-        // console.log('🚀 ~ FomFieldInput ~ value:', name, typeof value)
+        const isPasswordField = inputProps?.type === 'password'
         const error = fieldState.error?.message
 
         return (
@@ -28,9 +30,17 @@ const FomFieldInput = <T extends FieldValues>({ inputProps, label, form, name }:
               ref={ref}
               onBlur={onBlur}
               value={value}
+              type={isPasswordField && !showPassword ? 'password' : 'text'}
               onChange={(e) => {
                 onChange(e.target.value)
               }}
+              endDecorator={
+                isPasswordField && (
+                  <Button variant='plain' onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </Button>
+                )
+              }
             />
             {error && (
               <FormHelperText>

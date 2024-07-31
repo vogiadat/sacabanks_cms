@@ -10,8 +10,7 @@ export const formSchema = z.object({
   password: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(3, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   phoneNumber: z
     .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
-    .min(8, { message: APP_MESSAGE.FORM.FIELD_REQUIRED })
-    .max(10, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+    .regex(/^(\s?\d{3}\s?\d{4})|(\s?\d{1,4}\s?\d{1,4}\s?\d{1,4})$/, { message: APP_MESSAGE.FORM.PHONE_INVALID }),
   address: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).optional(),
   role: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED })
 })
