@@ -2,6 +2,7 @@ import { productApi } from '@/apis'
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
+import { LoadingFullPage } from '@/components/loading'
 import { image_default } from '@/constants/image.constant'
 import { IProductItem } from '@/interfaces'
 // import { formatUnikey, generateSlug } from '@/utils'
@@ -16,12 +17,13 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/')({
 
 function Page() {
   const { navigate } = useRouter()
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: productApi.getKeyForMyProduct(),
     queryFn: () => productApi.getMyProduct()
   })
 
   const productList = data?.data.data
+  console.log("🚀 ~ Page ~ data:", data)
 
   return (
     <>
@@ -80,22 +82,28 @@ function Page() {
         />
       </Box>
 
-      <Sheet
-        className='OrderTableContainer no-scrollbar'
-        variant='outlined'
-        sx={{
-          display: 'initial',
-          width: '100%',
-          borderRadius: 'sm',
-          flexShrink: 1,
-          overflow: 'auto',
-          minHeight: 0
-        }}
-      >
-        {productList && productList.length > 0 && <Table<ProductForm> rows={productList} columns={columnDef} />}
-      </Sheet>
+      {isFetching ? (
+        <LoadingFullPage />
+      ) : (
+        <>
+          <Sheet
+            className='OrderTableContainer no-scrollbar'
+            variant='outlined'
+            sx={{
+              display: 'initial',
+              width: '100%',
+              borderRadius: 'sm',
+              flexShrink: 1,
+              overflow: 'auto',
+              minHeight: 0
+            }}
+          >
+            {productList && productList.length > 0 && <Table<ProductForm> rows={productList} columns={columnDef} />}
+          </Sheet>
 
-      <Pagination />
+          <Pagination />
+        </>
+      )}
     </>
   )
 }
