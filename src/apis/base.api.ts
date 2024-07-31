@@ -16,15 +16,23 @@ export class BaseApi<T> {
   getKeyForList() {
     return [this.key, 'getList']
   }
-
   async getList() {
     return await axiosClient.get(`${this.endpoint}`)
+  }
+
+  getKeyForListPagination() {
+    return [this.key, 'getListPagination']
+  }
+  // ! Truyền thêm nếu muốn search, filter ở đây ....
+  async getListWithPagination(page: number = 1) {
+    return await axiosClient.get(`${this.endpoint}`, {
+      params: { page }
+    })
   }
 
   getKeyForFindById(id: string) {
     return [this.key, 'findById', id]
   }
-
   async findById(id: string) {
     return await axiosClient.get(`${this.endpoint}/${id}`)
   }
