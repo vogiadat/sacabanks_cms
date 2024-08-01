@@ -1,5 +1,5 @@
 import { BaseApi } from '@/apis'
-import { IProductItem } from '@/interfaces/product.interface'
+import { IProductItem } from '@/interfaces'
 import { ParamsType } from '@/types'
 import { axiosClient } from '@/utils'
 
