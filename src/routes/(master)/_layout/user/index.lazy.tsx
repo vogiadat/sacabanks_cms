@@ -177,8 +177,8 @@ const ActionsHandle = ({ user }: { user: UserForm }) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: UserFormSchema) => userApi.patch(user.id, data),
-    onSuccess: () => {
-      showToastQuerySuccess('UPDATE_SUCCESS')
+    onSuccess: (data) => {
+      showToastQuerySuccess('UPDATE_SUCCESS')(data)
       setOpen(false)
     },
     onError: showToastError
