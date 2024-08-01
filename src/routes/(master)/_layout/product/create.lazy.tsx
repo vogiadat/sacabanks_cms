@@ -1,25 +1,25 @@
 import { Box, Typography } from '@mui/joy'
-import { createFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { productApi } from '@/apis'
 import FormProduct from '@/components/product/FormProduct'
 import { initProduct, ProductForm } from '@/components/product/FormSchema'
-import { APP_MESSAGE } from '@/constants'
+import { showToastQuerySuccess } from '@/utils'
 import Card from '@mui/joy/Card'
 import CardContent from '@mui/joy/CardContent'
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
-export const Route = createFileRoute('/(master)/_layout/product/create')({
+export const Route = createLazyFileRoute('/(master)/_layout/product/create')({
   component: () => <Page />
 })
 
 function Page() {
+  const navigate = useNavigate()
   const { mutate } = useMutation({
     mutationFn: (data: any) => productApi.create(data),
     onSuccess: (newProduct) => {
-      console.log('🚀 ~ Page ~ newProduct:', newProduct)
-      toast.success(APP_MESSAGE.FORM.ADD_SUCCESS)
+      showToastQuerySuccess('ADD_SUCCESS')(newProduct)
+      navigate({ to: '/product' })
     }
   })
 

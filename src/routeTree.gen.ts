@@ -14,7 +14,6 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as masterLayoutImport } from './routes/(master)/_layout'
-import { Route as masterLayoutProductCreateImport } from './routes/(master)/_layout/product/create'
 import { Route as masterLayoutSupplierUpdateIdImport } from './routes/(master)/_layout/supplier/update.$id'
 import { Route as masterLayoutProductUpdateIdImport } from './routes/(master)/_layout/product/update.$id'
 import { Route as masterLayoutProductDetailIdImport } from './routes/(master)/_layout/product/detail.$id'
@@ -51,6 +50,9 @@ const masterLayoutActiveUserIndexLazyImport = createFileRoute(
 )()
 const masterLayoutSupplierCreateLazyImport = createFileRoute(
   '/(master)/_layout/supplier/create',
+)()
+const masterLayoutProductCreateLazyImport = createFileRoute(
+  '/(master)/_layout/product/create',
 )()
 
 // Create/Update Routes
@@ -173,10 +175,16 @@ const masterLayoutSupplierCreateLazyRoute = masterLayoutSupplierCreateLazyImport
     ),
   )
 
-const masterLayoutProductCreateRoute = masterLayoutProductCreateImport.update({
-  path: '/product/create',
-  getParentRoute: () => masterLayoutRoute,
-} as any)
+const masterLayoutProductCreateLazyRoute = masterLayoutProductCreateLazyImport
+  .update({
+    path: '/product/create',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/product/create.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const masterLayoutSupplierUpdateIdRoute =
   masterLayoutSupplierUpdateIdImport.update({
@@ -238,7 +246,7 @@ declare module '@tanstack/react-router' {
       id: '/_layout/product/create'
       path: '/product/create'
       fullPath: '/product/create'
-      preLoaderRoute: typeof masterLayoutProductCreateImport
+      preLoaderRoute: typeof masterLayoutProductCreateLazyImport
       parentRoute: typeof masterLayoutImport
     }
     '/(master)/_layout/supplier/create': {
@@ -341,7 +349,7 @@ export const routeTree = rootRoute.addChildren({
   masterRoute: masterRoute.addChildren({
     masterLayoutRoute: masterLayoutRoute.addChildren({
       masterLayoutIndexLazyRoute,
-      masterLayoutProductCreateRoute,
+      masterLayoutProductCreateLazyRoute,
       masterLayoutSupplierCreateLazyRoute,
       masterLayoutActiveUserIndexLazyRoute,
       masterLayoutBannerIndexLazyRoute,
@@ -407,7 +415,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_layout"
     },
     "/_layout/product/create": {
-      "filePath": "(master)/_layout/product/create.tsx",
+      "filePath": "(master)/_layout/product/create.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/supplier/create": {

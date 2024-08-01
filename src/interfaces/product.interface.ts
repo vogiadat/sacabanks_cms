@@ -18,5 +18,10 @@ export interface IProductItem extends IBaseItem {
   user: IUserItem
   category: ICategoryItem
   listPhoto: IListPhotoItem[]
-  listDetails: any[] // xem thử cái này là cc j v
+  listDetails: IListDetailItem[]
+}
+
+interface IListDetailItem {
+  name: string
+  desc: string
 }
