@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { productApi } from '@/apis'
 import { ProductForm } from '@/components/product'
 import FormProduct from '@/components/product/FormProduct'
-import { showToastError, showToastQuerySuccess } from '@/utils'
+import { getImageById, showToastError, showToastQuerySuccess } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/(master)/_layout/product/update/$id')({
@@ -68,7 +68,8 @@ function Page() {
                 defaultValues={{
                   ...productData,
                   price: productData.price || 0,
-                  quantity: productData.quantity || 0
+                  quantity: productData.quantity || 0,
+                  mainPhoto: getImageById(productData.mainPhoto)
                 }}
                 onSubmit={handleSubmit}
                 isLoading={isPending}
