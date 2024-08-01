@@ -68,7 +68,7 @@ function Page() {
           }
         }}
       >
-        <Search label='Tìm kiếm người dùng' />
+        <Search label='Tìm kiếm sản phẩm' />
 
         <Filter
           name='Danh Mục'

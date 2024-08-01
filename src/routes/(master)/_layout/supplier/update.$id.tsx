@@ -13,7 +13,6 @@ export const Route = createFileRoute('/(master)/_layout/supplier/update/$id')({
 
 function Page() {
   const { id } = Route.useParams()
-  console.log(id)
   const { navigate } = useRouter()
 
   const { isPending: loadingFile, mutateAsync: upload } = useMutation({
@@ -24,10 +23,11 @@ function Page() {
     mutationFn: (data: { id: string } & UserForm) => supplierApi.patch(id, data)
   })
 
-  const { data } = useQuery({
-    queryKey: supplierApi.getKeyForList(),
+  const { data, isFetching: isLoadingData } = useQuery({
+    queryKey: supplierApi.getKeyForFindById(id),
     queryFn: () => supplierApi.findById(id)
   })
+  // console.log({ id, isLoadingData })
 
   const supplier = data?.data.data
 
@@ -69,11 +69,12 @@ function Page() {
         }}
       >
         <Typography level='h2' component='h1'>
-          Thêm Nhà Cung Cấp
+          Chi Tiết Nhà Cung Cấp
         </Typography>
       </Box>
 
       <Box
+        className='custom-scrollbar'
         sx={{
           flexGrow: 1,
           m: -1,
@@ -95,7 +96,7 @@ function Page() {
                   banner: getImageById(supplier.banner)
                 }}
                 onSubmit={handleSubmit}
-                isLoading={isPending || loadingFile}
+                isLoading={isLoadingData || isPending || loadingFile}
               />
             )}
           </CardContent>

@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid, Typography } from '@mui/joy'
 import { useForm } from 'react-hook-form'
 import { formSchema, ProductForm } from './FormSchema'
+import { generateSlug } from '@/utils'
+// import { RoleMap } from '@/types'
 
 interface Props {
   defaultValues: ProductForm
@@ -16,6 +18,11 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
     defaultValues
   })
 
+  // const userRoleSelect = Object.entries(RoleMap).map(([key, value]) => ({
+  //   value: key,
+  //   label: value
+  // }))
+
   return (
     <form onSubmit={form.handleSubmit(onSubmit, console.log)}>
       <Grid rowSpacing={2} columnSpacing={4} container>
@@ -27,7 +34,12 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
                 form={form}
                 label='Tên Sản Phẩm'
                 inputProps={{
-                  placeholder: 'Nhập tên sản phẩm '
+                  placeholder: 'Nhập tên sản phẩm ',
+                  onChange: (e) => {
+                    const value = e.target.value
+                    form.setValue('title', value)
+                    form.setValue('slug', generateSlug(value))
+                  }
                 }}
               />
             </Grid>
@@ -46,9 +58,21 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
                 name='slug'
                 form={form}
                 label='Đường Dẫn Sản Phẩm'
-                inputProps={{ placeholder: '/example', disabled: true }}
+                inputProps={{ placeholder: 'Đường dẫn sản phẩm', disabled: true }}
               />
             </Grid>
+            {/* 
+            <Grid xs={12} lg={6}>
+              <FormFieldSelect
+                label='Danh Mục'
+                form={form}
+                name='categoryId'
+                items={userRoleSelect}
+                selectProps={{
+                  placeholder: 'Chọn danh mục'
+                }}
+              />
+            </Grid> */}
 
             <Grid xs={12} lg={6}>
               <FormFieldInputNumber name='price' form={form} label='Giá' />

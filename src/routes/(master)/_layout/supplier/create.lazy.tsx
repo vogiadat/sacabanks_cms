@@ -55,11 +55,12 @@ function Page() {
         }}
       >
         <Typography level='h2' component='h1'>
-          Thêm Nhà CC
+          Thêm Nhà Cung Cấp
         </Typography>
       </Box>
 
       <Box
+        className='custom-scrollbar'
         sx={{
           flexGrow: 1,
           m: -1,

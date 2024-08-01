@@ -1,12 +1,6 @@
 import { ReactNode } from '@tanstack/react-router'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
-import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded'
-import ColorLensIcon from '@mui/icons-material/ColorLens'
-import LocalOfferIcon from '@mui/icons-material/LocalOffer'
-import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency'
-import FaxIcon from '@mui/icons-material/Fax'
-import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import { ADMIN_SUPER_ADMIN_ROLE, ALL_ROLE, RoleEnum } from '@/types'
+import { TextSnippet, HomeRounded, ColorLens, LocalOffer, ContactEmergency, Fax, GroupAdd } from '@mui/icons-material'
 
 type SidebarType = {
   title: string
@@ -21,12 +15,12 @@ export const sidebarList: SidebarType[] = [
     title: 'Home',
     href: '/',
     allowRole: ALL_ROLE,
-    icon: <HomeRoundedIcon />
+    icon: <HomeRounded />
   },
   {
     title: 'Website UI',
     href: 'Website UI',
-    icon: <ColorLensIcon />,
+    icon: <ColorLens />,
     allowRole: ADMIN_SUPER_ADMIN_ROLE,
     items: [
       { title: 'Ảnh Bìa', href: '/banner' },
@@ -37,30 +31,30 @@ export const sidebarList: SidebarType[] = [
     title: 'Sản Phẩm',
     href: '/product',
     allowRole: ALL_ROLE,
-    icon: <LocalOfferIcon />
+    icon: <LocalOffer />
   },
   {
     title: 'Người Dùng',
     href: '/user',
     allowRole: ADMIN_SUPER_ADMIN_ROLE,
-    icon: <ContactEmergencyIcon />
+    icon: <ContactEmergency />
   },
   {
     title: 'Nhà Cung Cấp',
     href: '/supplier',
     allowRole: ADMIN_SUPER_ADMIN_ROLE,
-    icon: <FaxIcon />
+    icon: <Fax />
   },
   {
     title: 'Hoá Đơn',
     href: '/order',
     allowRole: ALL_ROLE,
-    icon: <ShoppingCartRoundedIcon />
+    icon: <TextSnippet />
   },
   {
     title: 'Đơn Duyệt',
     href: '/active-user',
     allowRole: ADMIN_SUPER_ADMIN_ROLE,
-    icon: <GroupAddIcon />
+    icon: <GroupAdd />
   }
 ]

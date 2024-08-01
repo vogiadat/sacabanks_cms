@@ -1,5 +1,5 @@
 import { userApi } from '@/apis/user.api'
-import { Search, Table } from '@/components/base'
+import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import CreateUser from '@/components/user/create'
@@ -12,18 +12,27 @@ import FormUser from '@/components/user/FormUser'
 import { useState } from 'react'
 import { UserFormSchema } from '@/components/user/FormSchema'
 import { showToastError, showToastQuerySuccess } from '@/utils'
+import { APP_RULE } from '@/constants'
+import { usePagination, useSetTotalPages } from '@/hooks'
+import { EmptyItem } from '@/components/common'
+import { LoadingFullPage } from '@/components/loading'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
 })
 
 function Page() {
-  const { data } = useQuery({
-    queryKey: userApi.getKeyForList(),
-    queryFn: () => userApi.getListPagination()
+  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const { data, isSuccess, isFetching, isLoading } = useQuery({
+    queryKey: userApi.getKeyForList({ page: pagination.currentPage }),
+    queryFn: () => userApi.getListPagination({ page: pagination.currentPage })
   })
 
-  const userList = data?.data.data.list
+  const totalPages = data?.data.data.totalPage ?? 1
+
+  useSetTotalPages(isSuccess, pagination, setPagination, totalPages)
+
+  const userList = data?.data.data.list || []
 
   return (
     <>
@@ -85,22 +94,39 @@ function Page() {
         />
       </Box>
 
-      <Sheet
-        className='OrderTableContainer custom-scrollbar'
-        variant='outlined'
-        sx={{
-          display: 'initial',
-          width: '100%',
-          borderRadius: 'sm',
-          flexShrink: 1,
-          minHeight: 0,
-          overflow: 'auto'
-        }}
-      >
-        <Table<IUserItem> rows={userList ?? []} columns={columnDef} />
-      </Sheet>
+      {isFetching || isLoading ? (
+        <LoadingFullPage />
+      ) : (
+        <>
+          {userList && userList.length > 0 ? (
+            <Sheet
+              className='OrderTableContainer custom-scrollbar'
+              variant='outlined'
+              sx={{
+                display: 'initial',
+                width: '100%',
+                borderRadius: 'sm',
+                flexShrink: 1,
+                minHeight: 0,
+                overflow: 'auto'
+              }}
+            >
+              <Table<IUserItem> rows={userList} columns={columnDef} />
+            </Sheet>
+          ) : (
+            <EmptyItem />
+          )}
 
-      {/* <Pagination /> */}
+          <Pagination
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            handleChangePage={handleChangePage}
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages || 0}
+            lambda={APP_RULE.PAGINATION.LAMBDA}
+          />
+        </>
+      )}
     </>
   )
 }
@@ -150,7 +176,7 @@ const ActionsHandle = ({ user }: { user: UserForm }) => {
   const [open, setOpen] = useState(false)
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: any) => userApi.patch(user.id, data),
+    mutationFn: (data: UserFormSchema) => userApi.patch(user.id, data),
     onSuccess: () => {
       showToastQuerySuccess('UPDATE_SUCCESS')
       setOpen(false)

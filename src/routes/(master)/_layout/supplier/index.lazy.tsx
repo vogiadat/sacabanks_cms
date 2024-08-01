@@ -6,7 +6,7 @@ import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
 import { APP_RULE } from '@/constants'
 import { image_default } from '@/constants/image.constant'
-import { usePagination } from '@/hooks'
+import { usePagination, useSetTotalPages } from '@/hooks'
 import { IUserItem } from '@/interfaces'
 import { getImageById } from '@/utils'
 import { Add } from '@mui/icons-material'
@@ -20,12 +20,16 @@ export const Route = createLazyFileRoute('/(master)/_layout/supplier/')({
 
 function Page() {
   const { navigate } = useRouter()
-  const { pagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
 
-  const { data, isFetching, isLoading } = useQuery({
-    queryKey: supplierApi.getKeyForList(),
-    queryFn: () => supplierApi.getListPagination()
+  const { data, isFetching, isLoading, isSuccess } = useQuery({
+    queryKey: supplierApi.getKeyForList({ page: pagination.currentPage }),
+    queryFn: () => supplierApi.getListPagination({ page: pagination.currentPage })
   })
+
+  const totalPages = data?.data.data.totalPage ?? 1
+
+  useSetTotalPages(isSuccess, pagination, setPagination, totalPages)
 
   const suppliers = data?.data.data.list || []
 
@@ -62,7 +66,7 @@ function Page() {
           }
         }}
       >
-        <Search label='Tìm kiếm người dùng' />
+        <Search label='Tìm kiếm nhà cung cấp' />
 
         <Filter
           name='Quyền Hạn'
@@ -119,7 +123,7 @@ function Page() {
             handlePrevPage={handlePrevPage}
             handleChangePage={handleChangePage}
             currentPage={pagination.currentPage}
-            totalPages={data?.data.data.totalPage || 0}
+            totalPages={pagination.totalPages || 0}
             lambda={APP_RULE.PAGINATION.LAMBDA}
           />
         </>
