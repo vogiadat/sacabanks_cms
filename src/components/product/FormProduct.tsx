@@ -51,11 +51,11 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FormFieldInput name='price' form={form} label='Giá' inputProps={{ type: 'number' }} />
+              <FormFieldInputNumber name='price' form={form} label='Giá' />
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FormFieldInput name='quantity' form={form} label='Số lượng' inputProps={{ type: 'number' }} />
+              <FormFieldInputNumber name='quantity' form={form} label='Số lượng' />
             </Grid>
 
             <Grid xs={12} lg={6}>
