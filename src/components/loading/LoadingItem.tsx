@@ -1,3 +1,5 @@
-import { Button } from '@mui/joy'
+import { Button, ButtonTypeMap } from '@mui/joy'
 
-export const LoadingItem = () => <Button loading variant='plain' size='lg' />
+type Props = ButtonTypeMap['props']
+
+export const LoadingItem = (props: Props) => <Button loading variant='plain' size='lg' {...props} />

@@ -53,94 +53,107 @@ const Pagination = ({
   }
 
   return (
-    <Box
-      className='Pagination-laptopUp'
-      sx={{
-        pt: 2,
-        gap: !isMobile ? 1 : 0.5,
-        [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
-        display: 'flex',
-        justifyContent: 'end',
-        marginTop: 'auto'
-      }}
-    >
-      {isPrev && (
-        <Button
-          onClick={() => handlePrevPage()}
-          size='sm'
-          variant='outlined'
-          color='neutral'
-          sx={{ paddingX: !isMobile ? '12px' : '6px' }}
-        >
-          <KeyboardArrowLeftIcon
-            sx={{
-              marginRight: !isMobile ? '6px' : '0'
-            }}
-          />
-          {!isMobile ? 'Trước' : ''}
-        </Button>
-      )}
-
-      <Box />
-      {pageItems.map((page, index) => (
-        <Fragment key={index}>
-          {page === '...' ? (
-            <Box
-              onClick={() => {
-                if (index < pageItems.findIndex((p) => p === currentPage)) {
-                  handleEllipsisClick('prev')
-                } else {
-                  handleEllipsisClick('next')
-                }
-              }}
-              sx={{ px: 1, cursor: 'pointer' }}
-            >
-              ...
-            </Box>
-          ) : (
-            <IconButton
-              onClick={() => handleChangePage(page as number)}
-              size='sm'
-              variant={currentPage === page ? 'soft' : 'plain'}
-              color='neutral'
-            >
-              {page}
-            </IconButton>
-          )}
-        </Fragment>
-      ))}
-      <Box />
-
-      {isNext && (
-        <Button
-          onClick={() => handleNextPage()}
-          size='sm'
-          variant='outlined'
-          color='neutral'
+    <>
+      <Box
+        className='Pagination-laptopUp'
+        sx={{
+          pt: 2,
+          gap: !isMobile ? 1 : 0.5,
+          [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: 'auto'
+        }}
+      >
+        <Box
           sx={{
-            paddingX: !isMobile ? '12px' : '6px'
+            textAlign: 'right'
           }}
         >
-          {!isMobile ? 'Sau' : ''}{' '}
-          <KeyboardArrowRightIcon
-            sx={{
-              marginLeft: !isMobile ? '6px' : '0'
-            }}
-          />
-        </Button>
-      )}
+          <Dropdown>
+            <MenuButton endDecorator={<ArrowDropDown />}>{limit} / Trang</MenuButton>
+            <Menu sx={{ minWidth: 160, '--ListItemDecorator-size': '24px' }}>
+              {APP_RULE.PAGINATION.LIMIT_RANGE.map((limit) => (
+                <MenuItem key={limit} onClick={() => pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)}>
+                  {limit} / Trang
+                </MenuItem>
+              ))}
+            </Menu>
+          </Dropdown>
+        </Box>
+        <Box
+          sx={{
+            gap: !isMobile ? 1 : 0.5,
+            [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
+            display: 'flex'
+          }}
+        >
+          <Button
+            onClick={() => handlePrevPage()}
+            size='sm'
+            variant='outlined'
+            color='neutral'
+            sx={{ paddingX: !isMobile ? '12px' : '6px' }}
+            disabled={!isPrev}
+          >
+            <KeyboardArrowLeftIcon
+              sx={{
+                marginRight: !isMobile ? '6px' : '0'
+              }}
+            />
+            {!isMobile ? 'Trước' : ''}
+          </Button>
 
-      <Dropdown>
-        <MenuButton endDecorator={<ArrowDropDown />}>{limit}/Page</MenuButton>
-        <Menu sx={{ minWidth: 160, '--ListItemDecorator-size': '24px' }}>
-          {APP_RULE.PAGINATION.LIMIT_RANGE.map((limit) => (
-            <MenuItem key={limit} onClick={() => pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)}>
-              {limit}
-            </MenuItem>
+          <Box sx={{ flex: 1 }} />
+          {pageItems.map((page, index) => (
+            <Fragment key={index}>
+              {page === '...' ? (
+                <Box
+                  onClick={() => {
+                    if (index < pageItems.findIndex((p) => p === currentPage)) {
+                      handleEllipsisClick('prev')
+                    } else {
+                      handleEllipsisClick('next')
+                    }
+                  }}
+                  sx={{ px: 1, cursor: 'pointer' }}
+                >
+                  ...
+                </Box>
+              ) : (
+                <IconButton
+                  onClick={() => handleChangePage(page as number)}
+                  size='sm'
+                  variant={currentPage === page ? 'soft' : 'plain'}
+                  color='neutral'
+                >
+                  {page}
+                </IconButton>
+              )}
+            </Fragment>
           ))}
-        </Menu>
-      </Dropdown>
-    </Box>
+          <Box sx={{ flex: 1 }} />
+
+          <Button
+            onClick={() => handleNextPage()}
+            size='sm'
+            variant='outlined'
+            color='neutral'
+            sx={{
+              paddingX: !isMobile ? '12px' : '6px'
+            }}
+            disabled={!isNext}
+          >
+            {!isMobile ? 'Sau' : ''}{' '}
+            <KeyboardArrowRightIcon
+              sx={{
+                marginLeft: !isMobile ? '6px' : '0'
+              }}
+            />
+          </Button>
+        </Box>
+      </Box>
+    </>
   )
 }
 

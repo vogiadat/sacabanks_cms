@@ -6,7 +6,7 @@ import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 import { productApi } from '@/apis'
 import { APP_RULE } from '@/constants'
 import { image_default } from '@/constants/image.constant'
-import { usePagination, useSetTotalPages } from '@/hooks'
+import { useDebounceValue, usePagination, useSetTotalPages } from '@/hooks'
 import { IProductItem } from '@/interfaces'
 import { getImageById } from '@/utils'
 
@@ -24,11 +24,25 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/')({
 
 function Page() {
   const { navigate } = useRouter()
-  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
   const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
+  const [search, setSearch] = useState('')
+  // const { debounceValue: searchDebounce, isLoading: isLoadingSearchDebounce } = useDebounceValue(search)
+
+  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
   const { data, isFetching, isSuccess } = useQuery({
-    queryKey: productApi.getKeyForPublic({ page: pagination.currentPage }),
-    queryFn: () => productApi.getPublic({ page: pagination.currentPage })
+    queryKey: productApi.getKeyForPublic({
+      page: pagination.currentPage,
+      limit: limitPagination,
+      // search: searchDebounce
+      search
+    }),
+    queryFn: () =>
+      productApi.getPublic({
+        page: pagination.currentPage,
+        limit: limitPagination,
+        search
+        //  search: searchDebounce
+      })
   })
   console.log('🚀 ~ Page ~ productPublicData:', data)
 
@@ -69,7 +83,10 @@ function Page() {
           }
         }}
       >
-        <Search label='Tìm kiếm sản phẩm' />
+        <Search
+          label='Tìm kiếm sản phẩm'
+          onDebounceChange={setSearch}
+        />
 
         <Filter
           name='Danh Mục'
@@ -115,17 +132,20 @@ function Page() {
           ) : (
             <EmptyItem />
           )}
-
-          <Pagination
-            handleNextPage={handleNextPage}
-            handlePrevPage={handlePrevPage}
-            handleChangePage={handleChangePage}
-            currentPage={pagination.currentPage}
-            totalPages={pagination.totalPages}
-            lambda={APP_RULE.PAGINATION.LAMBDA}
-          />
         </>
       )}
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevPage={handlePrevPage}
+        handleChangePage={handleChangePage}
+        currentPage={pagination.currentPage}
+        totalPages={pagination.totalPages}
+        lambda={APP_RULE.PAGINATION.LAMBDA}
+        pageOptions={{
+          limit: limitPagination,
+          onLimitChange: setLimitPagination
+        }}
+      />
     </>
   )
 }
