@@ -46,7 +46,8 @@ export const APP_MESSAGE = {
     UPLOAD_FAILED: 'Oops! Upload file failed!',
     UPLOAD_TOO_LARGE: 'Oops! The file is too large!',
 
-    INVALID_FILE_TYPE: 'Only accept image with .png, .jpg, .jpeg'
+    UPLOAD_LESS_THAN: 'File size should be less than ',
+    INVALID_FILE_TYPE: 'Only .jpg, .jpeg, .png and .webp formats are supported.'
   },
 
   AUTH: {
