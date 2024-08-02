@@ -3,8 +3,12 @@ import { useForm } from 'react-hook-form'
 
 import { RoleMap } from '@/types'
 
-import { FormDrawer, FormFieldSelect, FormFieldInput, FormFieldInputPassword } from '@/components/form'
-import { useEffect } from 'react'
+import { userApi } from '@/apis/user.api'
+import { FormDrawer, FormFieldInput, FormFieldInputPassword, FormFieldSelect } from '@/components/form'
+import { showToastError, showToastQuerySuccess } from '@/utils'
+import { useMutation } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { ModalConfirmDelete } from '../modal'
 import { formSchema, UserFormSchema } from './FormSchema'
 
 interface Props {
@@ -14,10 +18,12 @@ interface Props {
   onSubmit: (_value: UserFormSchema) => void
   id?: string
   isLoading?: boolean
+  userName: string
 }
 
-const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading = false }: Props) => {
+const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, isLoading = false }: Props) => {
   const isEdit = id ? true : false
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
   const userRoleSelect = Object.entries(RoleMap).map(([key, value]) => ({
     value: key,
     label: value
@@ -27,6 +33,20 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
     resolver: zodResolver(formSchema),
     defaultValues
   })
+
+  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
+    mutationFn: (id: string) => userApi.delete(id),
+    onSuccess: (data) => {
+      showToastQuerySuccess('DELETE_SUCCESS')(data)
+      setDeleteModalOpen(false)
+      handleCloseModal()
+    },
+    onError: showToastError
+  })
+
+  const handleDelete = async () => {
+    mutateDelete(id)
+  }
 
   const handleCloseModal = () => {
     form.reset()
@@ -44,6 +64,7 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
     <FormDrawer
       open={open}
       onSubmit={onSubmit}
+      onOpenModalConfirmDelete={() => setDeleteModalOpen(true)}
       form={form}
       onClose={handleCloseModal}
       isLoading={isLoading}
@@ -83,6 +104,13 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', isLoading =
         selectProps={{
           placeholder: 'Chọn nhóm quyền'
         }}
+      />
+      <ModalConfirmDelete
+        name={userName}
+        isOpen={isDeleteModalOpen}
+        isLoading={isLoading || isPendingDelete}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDelete}
       />
     </FormDrawer>
   )
