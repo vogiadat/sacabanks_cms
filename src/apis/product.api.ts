@@ -1,26 +1,25 @@
 import { BaseApi } from '@/apis'
 import { IProductItem } from '@/interfaces'
 import { ParamsType } from '@/types'
-import { axiosClient } from '@/utils'
 
 class ProductApi extends BaseApi<IProductItem> {
   constructor() {
     super('product')
   }
 
-  async getMyProduct() {
-    return await axiosClient.get(`${this.endpoint}/my_product`)
+  getMyProduct(params?: ParamsType) {
+    this.endpoint = `${this.endpoint}/my_product`
+    return super.getList(params)
   }
   getKeyForMyProduct() {
     return [this.key, 'getList', 'my_product']
   }
 
-  async getPublic(params: ParamsType) {
-    return await axiosClient.get(`${this.endpoint}/public`, {
-      params
-    })
+  getPublic(params?: ParamsType) {
+    this.endpoint = `${this.endpoint}/public`
+    return super.getList(params)
   }
-  getKeyForPublic(params: ParamsType) {
+  getKeyForPublic(params?: ParamsType) {
     return [this.key, 'getList', 'public', params]
   }
 }
