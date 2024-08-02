@@ -20,12 +20,16 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     this.key = endpoint
   }
 
-  getKeyForList(params?: ParamsType) {
-    return [this.key, 'getList', params]
+  getKeyForListPagination(params?: ParamsType) {
+    return [this.key, 'getListPagination', params]
   }
 
   getListPagination(params?: ParamsType): Promise<AxiosResponsePagination<TGet>> {
     return axiosClient.get(`${this.endpoint}`, { params })
+  }
+  
+  getKeyForList(params?: ParamsType) {
+    return [this.key, 'getList', params]
   }
 
   getList(params?: ParamsType): Promise<AxiosResponse<ResponseApi<TGet[]>>> {

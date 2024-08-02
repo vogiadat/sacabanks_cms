@@ -1,4 +1,4 @@
-import { APP_CONFIG } from '@/constants'
+import { APP_CONFIG, APP_RULE } from '@/constants'
 
 export function openSidebar() {
   if (typeof window !== 'undefined') {
@@ -95,4 +95,8 @@ export const formatUnikey = (str: string) => {
     }
   }
   return output
+}
+
+export const getTotalPages = (count: number) => {
+  return Math.ceil(count / APP_RULE.PAGINATION.LIMIT_PAGINATION)
 }

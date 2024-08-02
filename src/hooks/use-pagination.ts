@@ -1,6 +1,7 @@
 import { Dispatch, useEffect, useState } from 'react'
 
 import { PaginationType } from '@/types'
+import { ResponsePagination, getTotalPages } from '@/utils'
 
 export const initPagination = {
   currentPage: 1,
@@ -77,14 +78,15 @@ export const usePagination = () => {
   }
 }
 
-export const useSetTotalPages = (
+export const useSetTotalPages = <T>(
   isSuccess: boolean,
   pagination: PaginationType,
   setPagination: Dispatch<React.SetStateAction<PaginationType>>,
-  totalPages: number
+  data?: ResponsePagination<T>
 ) => {
   useEffect(() => {
     if (isSuccess && pagination.totalPages === -1) {
+      const totalPages = data?.data.totalPage ?? getTotalPages(data?.data.count ?? 1)
       setPagination({
         ...pagination,
         totalPages

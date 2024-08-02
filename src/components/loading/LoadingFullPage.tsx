@@ -3,9 +3,10 @@ import { LoadingItem } from '@/components/loading'
 
 interface Props {
   isChild?: boolean
+  backgroundColor?: string
 }
 
-export const LoadingFullPage = ({ isChild = false }: Props) => {
+export const LoadingFullPage = ({ isChild = false, backgroundColor = '#ddd' }: Props) => {
   return (
     <Box
       component={'div'}
@@ -15,7 +16,7 @@ export const LoadingFullPage = ({ isChild = false }: Props) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ddd',
+        backgroundColor,
         borderRadius: isChild ? '8px' : '0'
       }}
     >

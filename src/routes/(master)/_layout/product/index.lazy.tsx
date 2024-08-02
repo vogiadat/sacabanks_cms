@@ -15,7 +15,7 @@ import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
-import { getImageById } from '@/utils'
+import { getImageById, getTotalPages } from '@/utils'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: Page
@@ -28,10 +28,9 @@ function Page() {
     queryKey: productApi.getKeyForPublic({ page: pagination.currentPage }),
     queryFn: () => productApi.getPublic({ page: pagination.currentPage })
   })
+  console.log('🚀 ~ Page ~ productPublicData:', data)
 
-  const totalPages = data?.data.data.count
-
-  useSetTotalPages(isSuccess, pagination, setPagination, totalPages ?? 1)
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data)
 
   const productList = data?.data.data.list
 
@@ -93,7 +92,7 @@ function Page() {
       </Box>
 
       {isFetching ? (
-        <LoadingFullPage />
+        <LoadingFullPage backgroundColor='#fff' />
       ) : (
         <>
           {productList && productList.length > 0 ? (

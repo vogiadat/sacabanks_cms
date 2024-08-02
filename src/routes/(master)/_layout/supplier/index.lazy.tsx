@@ -27,9 +27,7 @@ function Page() {
     queryFn: () => supplierApi.getListPagination({ page: pagination.currentPage })
   })
 
-  const totalPages = data?.data.data.totalPage ?? 1
-
-  useSetTotalPages(isSuccess, pagination, setPagination, totalPages)
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data)
 
   const suppliers = data?.data.data.list || []
 

@@ -8,19 +8,19 @@ class ProductApi extends BaseApi<IProductItem> {
   }
 
   getMyProduct(params?: ParamsType) {
-    this.endpoint = `${this.endpoint}/my_product`
-    return super.getList(params)
+    this.endpoint = `/${this.key}/my_product`
+    return super.getListPagination(params)
   }
-  getKeyForMyProduct() {
-    return [this.key, 'getList', 'my_product']
+  getKeyForMyProduct(params?: ParamsType) {
+    return [this.key, 'getListPagination', 'my_product', params]
   }
 
   getPublic(params?: ParamsType) {
-    this.endpoint = `${this.endpoint}/public`
-    return super.getList(params)
+    this.endpoint = `/${this.key}/public`
+    return super.getListPagination(params)
   }
   getKeyForPublic(params?: ParamsType) {
-    return [this.key, 'getList', 'public', params]
+    return [this.key, 'getListPagination', 'public', params]
   }
 }
 
