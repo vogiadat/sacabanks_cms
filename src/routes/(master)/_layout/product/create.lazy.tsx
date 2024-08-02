@@ -1,13 +1,13 @@
 import { Box, Typography } from '@mui/joy'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { productApi } from '@/apis'
+import { categoryApi, productApi, uploadApi } from '@/apis'
 import FormProduct from '@/components/product/FormProduct'
 import { initProduct, ProductForm } from '@/components/product/FormSchema'
-import { showToastQuerySuccess } from '@/utils'
+import { showToastError, showToastQuerySuccess } from '@/utils'
 import Card from '@mui/joy/Card'
 import CardContent from '@mui/joy/CardContent'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/create')({
   component: () => <Page />
@@ -15,7 +15,8 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/create')({
 
 function Page() {
   const navigate = useNavigate()
-  const { mutate } = useMutation({
+
+  const { mutate, isPending: isPendingMutation } = useMutation({
     mutationFn: (data: any) => productApi.create(data),
     onSuccess: (newProduct) => {
       showToastQuerySuccess('ADD_SUCCESS')(newProduct)
@@ -23,7 +24,17 @@ function Page() {
     }
   })
 
-  const handleSubmit = (_value: ProductForm) => {
+  const { isPending: isPendingUpload, mutateAsync: upload } = useMutation({
+    mutationFn: (data: { file: File }) => uploadApi.create(data, 'multipart/form-data')
+  })
+
+  const handleSubmit = async (_value: ProductForm) => {
+    if (_value.mainPhotoFile) {
+      await upload({ file: _value.mainPhotoFile })
+        .then((res) => (_value.mainPhoto = res.data.data))
+        .catch(showToastError)
+    }
+
     mutate(_value)
   }
 
@@ -56,7 +67,11 @@ function Page() {
         <Card>
           <Typography level='title-lg'>Thông tin cơ bản</Typography>
           <CardContent>
-            <FormProduct defaultValues={initProduct} onSubmit={handleSubmit} />
+            <FormProduct
+              defaultValues={initProduct}
+              onSubmit={handleSubmit}
+              isLoading={isPendingUpload || isPendingUpload}
+            />
           </CardContent>
         </Card>
       </Box>

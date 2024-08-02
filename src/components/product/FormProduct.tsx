@@ -1,12 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Button, Grid, Typography } from '@mui/joy'
+import { Box, Button, Checkbox, Chip, Divider, Grid, Typography } from '@mui/joy'
 import { useForm } from 'react-hook-form'
 
-import { generateSlug } from '@/utils'
+import { checkSomeBoolean, generateSlug } from '@/utils'
 
-import { FormFieldImage, FormFieldInput, FormFieldInputNumber, FormFieldSelect, FormTextArea } from '@/components/form'
+import {
+  FormFieldImage,
+  FormFieldInput,
+  FormFieldInputNumber,
+  FormFieldMultipleImages,
+  FormFieldSelect,
+  FormTextArea
+} from '@/components/form'
 import { formSchema, ProductForm } from './FormSchema'
 import { RoleMap } from '@/types'
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { categoryApi } from '@/apis'
 
 interface Props {
   defaultValues: ProductForm
@@ -15,15 +25,47 @@ interface Props {
 }
 
 const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
+  const { data: categoryData } = useQuery({
+    queryKey: categoryApi.getKeyForList(),
+    queryFn: () => categoryApi.getList()
+  })
+  
+  const categoryList = categoryData?.data.data ?? []
+
+  const [showOptions, setShowOptions] = useState<boolean>(
+    checkSomeBoolean([
+      defaultValues.price,
+      defaultValues.quantity,
+      defaultValues.dimensionL,
+      defaultValues.dimensionW,
+      defaultValues.dimensionH,
+      defaultValues.netWeight
+    ])
+  )
+
   const form = useForm<ProductForm>({
     resolver: zodResolver(formSchema),
     defaultValues
   })
 
-  const userRoleSelect = Object.entries(RoleMap).map(([key, value]) => ({
-    value: key,
-    label: value
+  const userRoleSelect = categoryList.map((item, index) => ({
+    value: item.id,
+    label: item.name
   }))
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked
+    setShowOptions(checked)
+
+    if (!checked) {
+      form.setValue('price', defaultValues.price)
+      form.setValue('quantity', defaultValues.quantity)
+      form.setValue('dimensionL', defaultValues.dimensionL)
+      form.setValue('dimensionW', defaultValues.dimensionW)
+      form.setValue('dimensionH', defaultValues.dimensionH)
+      form.setValue('netWeight', defaultValues.netWeight)
+    }
+  }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit, console.log)}>
@@ -111,8 +153,17 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
               Hình ảnh
             </Typography>
 
-            <FormFieldImage name='mainPhotoFile' form={form} defaultPreviewImage={'mainPhoto'} />
+            <FormFieldImage label='Ảnh chính' name='mainPhotoFile' form={form} defaultPreviewImage={'mainPhoto'} />
           </Grid>
+
+          {/* <Grid xs={12}>
+            <FormFieldMultipleImages
+              label='Ảnh phụ (chọn nhiều)'
+              form={form}
+              name='subPhotoFiles'
+              defaultPreviewImages='subPhotos' // or the field where you store the image previews
+            />
+          </Grid> */}
         </Grid>
       </Grid>
 
@@ -125,36 +176,44 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
         />
       </Box>
 
-      <Grid rowSpacing={2} columnSpacing={4} container columns={12}>
-        <Grid xs={12}>
-          <Typography level='h4' component='h3'>
-            Tùy Chọn
-          </Typography>
-        </Grid>
-        <Grid xs={12} lg={6}>
-          <FormFieldInputNumber name='price' form={form} label='Giá' />
-        </Grid>
+      <Box>
+        <Checkbox label='Thêm tùy chọn' onChange={handleCheckboxChange} checked={showOptions} />
+      </Box>
 
-        <Grid xs={12} lg={6}>
-          <FormFieldInputNumber name='quantity' form={form} label='Số lượng' />
-        </Grid>
+      {showOptions && (
+        <Grid rowSpacing={2} columnSpacing={4} container columns={12}>
+          <Grid xs={12}>
+            <Divider>
+              <Chip variant='soft' color='neutral' size='sm'>
+                Tùy chọn
+              </Chip>
+            </Divider>
+          </Grid>
+          <Grid xs={12} lg={6}>
+            <FormFieldInputNumber name='price' form={form} label='Giá' />
+          </Grid>
 
-        <Grid xs={12} lg={6}>
-          <FormFieldInputNumber name='dimensionL' form={form} label='Chiều Dài' inputProps={{ placeholder: '10' }} />
-        </Grid>
+          <Grid xs={12} lg={6}>
+            <FormFieldInputNumber name='quantity' form={form} label='Số lượng' />
+          </Grid>
 
-        <Grid xs={12} lg={6}>
-          <FormFieldInputNumber name='dimensionW' form={form} label='Chiều Rộng' inputProps={{ placeholder: '10' }} />
-        </Grid>
+          <Grid xs={12} lg={6}>
+            <FormFieldInputNumber name='dimensionL' form={form} label='Chiều Dài' inputProps={{ placeholder: '10' }} />
+          </Grid>
 
-        <Grid xs={12} lg={6}>
-          <FormFieldInputNumber name='dimensionH' form={form} label='Chiều Cao' inputProps={{ placeholder: '10' }} />
-        </Grid>
+          <Grid xs={12} lg={6}>
+            <FormFieldInputNumber name='dimensionW' form={form} label='Chiều Rộng' inputProps={{ placeholder: '10' }} />
+          </Grid>
 
-        <Grid xs={12} lg={6}>
-          <FormFieldInputNumber name='netWeight' form={form} label='Khối Lượng' inputProps={{ placeholder: '10' }} />
+          <Grid xs={12} lg={6}>
+            <FormFieldInputNumber name='dimensionH' form={form} label='Chiều Cao' inputProps={{ placeholder: '10' }} />
+          </Grid>
+
+          <Grid xs={12} lg={6}>
+            <FormFieldInputNumber name='netWeight' form={form} label='Khối Lượng' inputProps={{ placeholder: '10' }} />
+          </Grid>
         </Grid>
-      </Grid>
+      )}
 
       <Box mt={4}>
         <Button loading={isLoading} sx={{ width: '100%' }} type='submit'>

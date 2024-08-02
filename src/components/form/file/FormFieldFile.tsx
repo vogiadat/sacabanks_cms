@@ -2,7 +2,7 @@ import { AddAPhotoRounded } from '@mui/icons-material'
 import { Box, FormControl, FormLabel, Typography } from '@mui/joy'
 import { ChangeEventHandler } from 'react'
 import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form'
-import VisuallyHiddenInput from '../input/VisuallyHiddenInput'
+import VisuallyHiddenInput from '../../input/VisuallyHiddenInput'
 
 type Props<T extends FieldValues> = {
   label?: string
@@ -24,15 +24,20 @@ export const FormFieldImage = <T extends FieldValues>({ label, form, name, defau
 
         const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
           const selectedFile = event.target?.files?.[0]
+          console.log("🚀 ~ FormFieldImage ~ selectedFile:", selectedFile)
 
           if (selectedFile && selectedFile.type.startsWith('image/')) {
             const reader = new FileReader()
             reader.onload = (e) => {
               if (defaultPreviewImage && e.target?.result) {
                 form.setValue(defaultPreviewImage, e.target.result.toString() as PathValue<T, Path<T>>)
+                form.clearErrors(name)
               }
             }
             reader.readAsDataURL(selectedFile)
+
+            event.target.value = ''
+            
             return form.setValue(name, selectedFile as PathValue<T, Path<T>>)
           }
         }
@@ -51,7 +56,8 @@ export const FormFieldImage = <T extends FieldValues>({ label, form, name, defau
               borderRadius={'10px'}
               sx={{
                 borderColor: 'primary.300',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                padding: '12px'
               }}
             >
               {previewFile ? (

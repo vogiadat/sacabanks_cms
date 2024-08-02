@@ -9,7 +9,7 @@ import { AxiosResponse } from 'axios'
 //   key: string45
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor'
+type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor' | 'list_photo'
 
 export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   protected endpoint: string
@@ -27,7 +27,7 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   getListPagination(params?: ParamsType): Promise<AxiosResponsePagination<TGet>> {
     return axiosClient.get(`${this.endpoint}`, { params })
   }
-  
+
   getKeyForList(params?: ParamsType) {
     return [this.key, 'getList', params]
   }

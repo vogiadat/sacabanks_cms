@@ -100,3 +100,15 @@ export const formatUnikey = (str: string) => {
 export const getTotalPages = (count: number) => {
   return Math.ceil(count / APP_RULE.PAGINATION.LIMIT_PAGINATION)
 }
+
+export const checkSomeBoolean = <T = number | string>(params: T[]): boolean => {
+  return params.some((item) => {
+    if (typeof item === 'number') {
+      return item > 0
+    } else if (typeof item === 'string') {
+      const parsedNumber = parseFloat(item)
+      return !isNaN(parsedNumber) && parsedNumber > 0
+    }
+    return false
+  })
+}

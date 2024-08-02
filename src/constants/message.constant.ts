@@ -31,6 +31,9 @@ export const APP_MESSAGE = {
     ADD_SUCCESS: 'Thêm thành công !',
     ADD_FAILED: 'Lỗi! Thêm mới thất bại !',
 
+    UPLOAD_SUCCESS: 'Upload thành công',
+    UPLOAD_FAILED: 'Lỗi! Upload thất bại',
+
     UPDATE_STATUS_SUCCESS: 'Cập nhật thành công!', // Using only change status
     UPDATE_SUCCESS: 'Cập nhật thành công !',
     UPDATE_FAILED: 'Lỗi! Cập nhật thất bại !',
@@ -40,13 +43,11 @@ export const APP_MESSAGE = {
   },
 
   FILE: {
-    UPLOAD_REQUIRED: 'This field requires uploading a file',
+    UPLOAD_REQUIRED: 'Vui lòng chọn ảnh',
 
-    UPLOAD_SUCCESS: 'Upload file success!',
-    UPLOAD_FAILED: 'Oops! Upload file failed!',
     UPLOAD_TOO_LARGE: 'Oops! The file is too large!',
-
     UPLOAD_LESS_THAN: 'File size should be less than ',
+
     INVALID_FILE_TYPE: 'Only .jpg, .jpeg, .png and .webp formats are supported.'
   },
 

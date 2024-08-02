@@ -92,7 +92,7 @@ function Page() {
       </Box>
 
       {isFetching ? (
-        <LoadingFullPage backgroundColor='#fff' />
+        <LoadingFullPage />
       ) : (
         <>
           {productList && productList.length > 0 ? (
