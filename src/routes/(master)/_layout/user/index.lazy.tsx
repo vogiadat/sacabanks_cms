@@ -203,6 +203,7 @@ const ActionsHandle = ({ user }: { user: UserForm }) => {
           address: user.address || '',
           password: user.username
         }}
+        userName={user.username}
         onSubmit={handleSubmit}
         id={user.id}
         isLoading={isPending}
