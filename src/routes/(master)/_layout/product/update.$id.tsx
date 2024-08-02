@@ -57,6 +57,7 @@ function Page() {
           m: -1,
           overflowX: 'hidden'
         }}
+        className='custom-scrollbar'
       >
         <Card>
           <div>

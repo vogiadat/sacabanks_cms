@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form'
 
 import { generateSlug } from '@/utils'
 
-import { FormFieldImage, FormFieldInput, FormFieldInputNumber, FormTextArea } from '@/components/form'
+import { FormFieldImage, FormFieldInput, FormFieldInputNumber, FormFieldSelect, FormTextArea } from '@/components/form'
 import { formSchema, ProductForm } from './FormSchema'
+import { RoleMap } from '@/types'
 
 interface Props {
   defaultValues: ProductForm
@@ -18,6 +19,11 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
     resolver: zodResolver(formSchema),
     defaultValues
   })
+
+  const userRoleSelect = Object.entries(RoleMap).map(([key, value]) => ({
+    value: key,
+    label: value
+  }))
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit, console.log)}>
@@ -49,7 +55,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
               />
             </Grid>
 
-            <Grid xs={12}>
+            <Grid xs={12} lg={6}>
               <FormFieldInput
                 name='slug'
                 form={form}
@@ -59,11 +65,15 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
             </Grid>
 
             <Grid xs={12} lg={6}>
-              <FormFieldInputNumber name='price' form={form} label='Giá' />
-            </Grid>
-
-            <Grid xs={12} lg={6}>
-              <FormFieldInputNumber name='quantity' form={form} label='Số lượng' />
+              <FormFieldSelect
+                label='Danh Mục'
+                form={form}
+                name='categoryId'
+                items={userRoleSelect}
+                selectProps={{
+                  placeholder: 'Chọn danh mục'
+                }}
+              />
             </Grid>
 
             <Grid xs={12} lg={6}>
@@ -103,26 +113,10 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
 
             <FormFieldImage name='mainPhotoFile' form={form} defaultPreviewImage={'mainPhoto'} />
           </Grid>
-
-          <Grid xs={6}>
-            <FormFieldInputNumber name='dimensionL' form={form} label='Chiều Dài' inputProps={{ placeholder: '10' }} />
-          </Grid>
-
-          <Grid xs={6}>
-            <FormFieldInputNumber name='dimensionW' form={form} label='Chiều Rộng' inputProps={{ placeholder: '10' }} />
-          </Grid>
-
-          <Grid xs={6}>
-            <FormFieldInputNumber name='dimensionH' form={form} label='Chiều Cao' inputProps={{ placeholder: '10' }} />
-          </Grid>
-
-          <Grid xs={6}>
-            <FormFieldInputNumber name='netWeight' form={form} label='Khối Lượng' inputProps={{ placeholder: '10' }} />
-          </Grid>
         </Grid>
       </Grid>
 
-      <Box mt={2}>
+      <Box my={2}>
         <FormTextArea
           name='desc'
           form={form}
@@ -130,6 +124,37 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
           textAreaProps={{ placeholder: 'Thêm mô tả cho sản phẩm của bạn', minRows: 5 }}
         />
       </Box>
+
+      <Grid rowSpacing={2} columnSpacing={4} container columns={12}>
+        <Grid xs={12}>
+          <Typography level='h4' component='h3'>
+            Tùy Chọn
+          </Typography>
+        </Grid>
+        <Grid xs={12} lg={6}>
+          <FormFieldInputNumber name='price' form={form} label='Giá' />
+        </Grid>
+
+        <Grid xs={12} lg={6}>
+          <FormFieldInputNumber name='quantity' form={form} label='Số lượng' />
+        </Grid>
+
+        <Grid xs={12} lg={6}>
+          <FormFieldInputNumber name='dimensionL' form={form} label='Chiều Dài' inputProps={{ placeholder: '10' }} />
+        </Grid>
+
+        <Grid xs={12} lg={6}>
+          <FormFieldInputNumber name='dimensionW' form={form} label='Chiều Rộng' inputProps={{ placeholder: '10' }} />
+        </Grid>
+
+        <Grid xs={12} lg={6}>
+          <FormFieldInputNumber name='dimensionH' form={form} label='Chiều Cao' inputProps={{ placeholder: '10' }} />
+        </Grid>
+
+        <Grid xs={12} lg={6}>
+          <FormFieldInputNumber name='netWeight' form={form} label='Khối Lượng' inputProps={{ placeholder: '10' }} />
+        </Grid>
+      </Grid>
 
       <Box mt={4}>
         <Button loading={isLoading} sx={{ width: '100%' }} type='submit'>
