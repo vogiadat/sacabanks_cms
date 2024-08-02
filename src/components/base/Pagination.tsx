@@ -2,10 +2,17 @@ import Box from '@mui/joy/Box'
 import Button from '@mui/joy/Button'
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton'
 
+import { useCheckBreakpointScreen } from '@/hooks'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Fragment } from 'react/jsx-runtime'
-import { useCheckBreakpointScreen } from '@/hooks'
+
+import { APP_RULE } from '@/constants'
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown'
+import Dropdown from '@mui/joy/Dropdown'
+import Menu from '@mui/joy/Menu'
+import MenuButton from '@mui/joy/MenuButton'
+import MenuItem from '@mui/joy/MenuItem'
 
 interface Props {
   handlePrevPage?: any
@@ -14,12 +21,25 @@ interface Props {
   currentPage: number
   totalPages: number
   lambda?: number
+  pageOptions?: {
+    limit?: number
+    onLimitChange?: (limit: number) => void
+  }
 }
 
-const Pagination = ({ handlePrevPage, handleNextPage, handleChangePage, currentPage, totalPages, lambda }: Props) => {
+const Pagination = ({
+  handlePrevPage,
+  handleNextPage,
+  handleChangePage,
+  currentPage,
+  totalPages,
+  lambda,
+  pageOptions
+}: Props) => {
   const pageItems = generatePageItems(currentPage, totalPages)
   const isPrev = currentPage > 1
   const isNext = currentPage < totalPages
+  const limit = pageOptions?.limit || APP_RULE.PAGINATION.LIMIT_PAGINATION
 
   const isMobile = useCheckBreakpointScreen()
 
@@ -40,6 +60,7 @@ const Pagination = ({ handlePrevPage, handleNextPage, handleChangePage, currentP
         gap: !isMobile ? 1 : 0.5,
         [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
         display: 'flex',
+        justifyContent: 'end',
         marginTop: 'auto'
       }}
     >
@@ -60,7 +81,7 @@ const Pagination = ({ handlePrevPage, handleNextPage, handleChangePage, currentP
         </Button>
       )}
 
-      <Box sx={{ flex: 1 }} />
+      <Box />
       {pageItems.map((page, index) => (
         <Fragment key={index}>
           {page === '...' ? (
@@ -88,7 +109,7 @@ const Pagination = ({ handlePrevPage, handleNextPage, handleChangePage, currentP
           )}
         </Fragment>
       ))}
-      <Box sx={{ flex: 1 }} />
+      <Box />
 
       {isNext && (
         <Button
@@ -108,6 +129,17 @@ const Pagination = ({ handlePrevPage, handleNextPage, handleChangePage, currentP
           />
         </Button>
       )}
+
+      <Dropdown>
+        <MenuButton endDecorator={<ArrowDropDown />}>{limit}/Page</MenuButton>
+        <Menu sx={{ minWidth: 160, '--ListItemDecorator-size': '24px' }}>
+          {APP_RULE.PAGINATION.LIMIT_RANGE.map((limit) => (
+            <MenuItem key={limit} onClick={() => pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)}>
+              {limit}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Dropdown>
     </Box>
   )
 }

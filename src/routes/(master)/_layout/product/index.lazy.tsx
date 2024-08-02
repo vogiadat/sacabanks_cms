@@ -8,14 +8,14 @@ import { usePagination, useSetTotalPages } from '@/hooks'
 import { IProductItem } from '@/interfaces'
 // import { formatUnikey, generateSlug } from '@/utils'
 
-import { Add } from '@mui/icons-material'
-import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
-import { getImageById, getTotalPages } from '@/utils'
+import { getImageById } from '@/utils'
+import { Add } from '@mui/icons-material'
+import { Box, Button, Sheet, Typography } from '@mui/joy'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: Page
