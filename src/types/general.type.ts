@@ -9,6 +9,7 @@ export type PaginationType = {
 
 export type ParamsType = {
   page?: number
+  limit?: number
   search?: string
   [key: string]: any | undefined
 }

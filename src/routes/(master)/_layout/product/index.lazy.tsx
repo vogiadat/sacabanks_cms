@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
@@ -6,14 +8,13 @@ import { APP_RULE } from '@/constants'
 import { image_default } from '@/constants/image.constant'
 import { usePagination, useSetTotalPages } from '@/hooks'
 import { IProductItem } from '@/interfaces'
-// import { formatUnikey, generateSlug } from '@/utils'
+import { getImageById } from '@/utils'
 
 import { Pagination, Search, Table } from '@/components/base'
 import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
-import { getImageById } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
 
@@ -24,6 +25,7 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/')({
 function Page() {
   const { navigate } = useRouter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
   const { data, isFetching, isSuccess } = useQuery({
     queryKey: productApi.getKeyForPublic({ page: pagination.currentPage }),
     queryFn: () => productApi.getPublic({ page: pagination.currentPage })
