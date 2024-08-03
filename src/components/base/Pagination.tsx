@@ -74,6 +74,7 @@ const Pagination = ({
             display: 'flex'
           }}
         >
+          {!isMobile && <LimitPagination pageOptions={pageOptions} />}
           <Button
             onClick={() => handlePrevPage()}
             size='sm'
@@ -136,7 +137,6 @@ const Pagination = ({
               }}
             />
           </Button>
-          {!isMobile && <LimitPagination pageOptions={pageOptions} />}
         </Box>
       </Box>
     </>
