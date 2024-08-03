@@ -4,7 +4,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { userApi } from '@/apis/user.api'
-import { APP_RULE } from '@/constants'
+import { APP_RULE, SELECT_DEFAULT_ALL } from '@/constants'
 import { usePagination, useSearchFilter, useSetTotalPages } from '@/hooks'
 import { IUserItem } from '@/interfaces'
 import { RoleEnum, RoleMap } from '@/types'
@@ -24,18 +24,38 @@ export const Route = createLazyFileRoute('/(master)/_layout/user/')({
 })
 
 function Page() {
-  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const {
+    pagination,
+    setPagination,
+    handleNextPage,
+    handlePrevPage,
+    handleChangePage
+  } = usePagination()
   const { search, setSearch, filter, setFilter } = useSearchFilter()
-  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
+  const [limitPagination, setLimitPagination] = useState(
+    APP_RULE.PAGINATION.LIMIT_PAGINATION
+  )
 
-  const params = { page: pagination.currentPage, limit: limitPagination, search, ...filter }
+  const params = {
+    page: pagination.currentPage,
+    limit: limitPagination,
+    search,
+    ...filter
+  }
 
   const { data, isSuccess, isFetching, isLoading } = useQuery({
     queryKey: userApi.getKey('getListPagination', { params }),
     queryFn: () => userApi.getListPagination(params)
   })
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
+  useSetTotalPages(
+    isSuccess,
+    pagination,
+    setPagination,
+    data?.data,
+    search,
+    limitPagination
+  )
 
   const userList = data?.data.data.list || []
 
@@ -75,6 +95,7 @@ function Page() {
         <Filter
           name='Quyền Hạn'
           items={[
+            SELECT_DEFAULT_ALL,
             { value: RoleEnum.SUPPER_ADMIN, label: 'Quản Trị Viên Cao Cấp' },
             { value: RoleEnum.ADMIN, label: 'Quản Trị Viên' },
             { value: RoleEnum.VENDOR, label: 'Nhà Cung Cấp' },
@@ -195,7 +216,12 @@ const ActionsHandle = ({ user }: { user: UserForm }) => {
 
   return (
     <>
-      <Button variant='plain' color='primary' size='sm' onClick={() => setOpen(true)}>
+      <Button
+        variant='plain'
+        color='primary'
+        size='sm'
+        onClick={() => setOpen(true)}
+      >
         Chi Tiết
       </Button>
       <FormUser

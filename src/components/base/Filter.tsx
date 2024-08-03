@@ -11,7 +11,9 @@ const Filter = ({ name, items, selectProps, onChange }: FilterType) => {
         slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
         {...selectProps}
         onChange={(_, value) => {
-          value && onChange(value)
+          if (value !== null && value !== undefined) {
+            onChange(value)
+          }
         }}
         sx={{
           width: '150px'

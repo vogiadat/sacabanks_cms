@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SORT_SELECT } from '@/constants'
 import { SortType } from '@/types'
 import { useState } from 'react'

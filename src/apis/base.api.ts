@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ParamsType } from '@/types'
 import { HeaderType } from '@/types/api.type'
-import { axiosClient, AxiosResponseApi, AxiosResponsePagination, ResponseApi } from '@/utils'
+import {
+  axiosClient,
+  AxiosResponseApi,
+  AxiosResponsePagination,
+  ResponseApi
+} from '@/utils'
 import { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 
 // interface BaseApiConfig<T> {
@@ -9,7 +14,14 @@ import { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 //   key: string45
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor' | 'list_photo' | 'report'
+type EndpointType =
+  | 'category'
+  | 'upload'
+  | 'user'
+  | 'product'
+  | 'register_vendor'
+  | 'list_photo'
+  | 'report'
 
 type KeyType = 'getList' | 'getListPagination' | 'other' | 'findById'
 type GeneralKeyDataType = {
@@ -35,23 +47,40 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
     this.subKey = subKey
   }
 
-  getKey(type: KeyType = 'getList', keyData?: GeneralKeyDataType, subKey?: string) {
+  getKey(
+    type: KeyType = 'getList',
+    keyData?: GeneralKeyDataType,
+    subKey?: string
+  ) {
     let keyArrays: Array<KeyType | ParamsType | string | undefined> = []
 
     if (subKey) this.setSubKey(subKey)
 
     switch (type) {
       case 'getList':
-        keyArrays = [this.key, type, ...this.convertParamsToArray(keyData?.params)]
+        keyArrays = [
+          this.key,
+          type,
+          ...this.convertParamsToArray(keyData?.params)
+        ]
         break
       case 'getListPagination':
-        keyArrays = [this.key, type, ...this.convertParamsToArray(keyData?.params)]
+        keyArrays = [
+          this.key,
+          type,
+          ...this.convertParamsToArray(keyData?.params)
+        ]
         break
       case 'findById':
         keyArrays = [this.key, type, keyData?.id]
         break
       case 'other':
-        keyArrays = [this.key, type, this.subKey, ...this.convertParamsToArray(keyData?.params)]
+        keyArrays = [
+          this.key,
+          type,
+          this.subKey,
+          ...this.convertParamsToArray(keyData?.params)
+        ]
         break
       default:
         break
@@ -62,7 +91,9 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   // * END Getter & Setter
 
   // * Main API Function
-  getListPagination(params?: ParamsType): Promise<AxiosResponsePagination<TGet>> {
+  getListPagination(
+    params?: ParamsType
+  ): Promise<AxiosResponsePagination<TGet>> {
     return this.axiosClient.get(`${this.endpoint}`, { params })
   }
 
@@ -75,14 +106,21 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   }
 
   // * Mutation
-  create(data: TBody, headerType?: HeaderType): Promise<AxiosResponseApi<TGet>> {
+  create(
+    data: TBody,
+    headerType?: HeaderType
+  ): Promise<AxiosResponseApi<TGet>> {
     const headers = this.getHeaderRequest(headerType)
     return this.axiosClient.post(this.endpoint, data, {
       headers
     })
   }
 
-  patch(id: string, data: TPatch, headerType?: HeaderType): Promise<AxiosResponseApi<TGet>> {
+  patch(
+    id: string,
+    data: TPatch,
+    headerType?: HeaderType
+  ): Promise<AxiosResponseApi<TGet>> {
     const headers = this.getHeaderRequest(headerType)
 
     return this.axiosClient.patch(`${this.endpoint}/${id}`, data, {
@@ -97,7 +135,9 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
 
   // * General helper function
   protected convertParamsToArray(params?: ParamsType) {
-    return params ? Object.entries(params).map(([key, value]) => `${key}_${value}`) : []
+    return params
+      ? Object.entries(params).map(([key, value]) => `${key}_${value}`)
+      : []
   }
 
   protected getHeaderRequest(headerType?: HeaderType): RawAxiosRequestHeaders {

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
 import { categoryApi, productApi } from '@/apis'
-import { APP_RULE, SORT_SELECT } from '@/constants'
+import { APP_RULE, SELECT_DEFAULT_ALL, SORT_SELECT } from '@/constants'
 import { image_default } from '@/constants/image.constant'
 import { usePagination, useSetTotalPages } from '@/hooks'
 import { IProductItem } from '@/interfaces'
@@ -27,11 +27,22 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/')({
 
 function Page() {
   const { navigate } = useRouter()
-  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
-  const { search, setSearch, filter, setFilter, sort, setSort } = useSearchFilter()
-  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const [limitPagination, setLimitPagination] = useState(
+    APP_RULE.PAGINATION.LIMIT_PAGINATION
+  )
+  const { search, setSearch, filter, setFilter, sort, setSort } =
+    useSearchFilter()
+  const {
+    pagination,
+    setPagination,
+    handleNextPage,
+    handlePrevPage,
+    handleChangePage
+  } = usePagination()
   const { userProfile } = useUserStore()
-  const isAdmin = ADMIN_SUPER_ADMIN_ROLE.includes(userProfile?.role.name as RoleEnum)
+  const isAdmin = ADMIN_SUPER_ADMIN_ROLE.includes(
+    userProfile?.role.name as RoleEnum
+  )
 
   const params = {
     page: pagination.currentPage,
@@ -47,23 +58,29 @@ function Page() {
       },
       isAdmin ? 'public' : 'my_product'
     ),
-    queryFn: () => (isAdmin ? productApi.getPublic(params) : productApi.getMyProduct(params))
+    queryFn: () =>
+      isAdmin ? productApi.getPublic(params) : productApi.getMyProduct(params)
   })
   const { data: categoryData } = useQuery({
     queryKey: categoryApi.getKey(),
     queryFn: () => categoryApi.getList()
   })
 
-  const categoryList = categoryData?.data.data ?? []
+  const categoryList =
+    categoryData?.data.data.map((item) => ({
+      value: item.id,
+      label: item.name
+    })) || []
+  const categoryListSelect = [SELECT_DEFAULT_ALL, ...categoryList]
 
-  const categoryListSelect = categoryList.map((item) => ({
-    value: item.id,
-    label: item.name
-  }))
-
-  console.log('🚀 ~ Page ~ productPublicData:', data)
-
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
+  useSetTotalPages(
+    isSuccess,
+    pagination,
+    setPagination,
+    data?.data,
+    search,
+    limitPagination
+  )
 
   const productList = data?.data.data.list
 
@@ -98,7 +115,12 @@ function Page() {
         <Typography level='h2' component='h1'>
           Sản Phẩm
         </Typography>
-        <Button onClick={() => navigate({ to: '/product/create' })} color='primary' startDecorator={<Add />} size='sm'>
+        <Button
+          onClick={() => navigate({ to: '/product/create' })}
+          color='primary'
+          startDecorator={<Add />}
+          size='sm'
+        >
           Tạo mới
         </Button>
       </Box>
@@ -152,7 +174,10 @@ function Page() {
                 minHeight: 0
               }}
             >
-              <Table<ProductForm> rows={sortedProductList} columns={columnDef} />
+              <Table<ProductForm>
+                rows={sortedProductList}
+                columns={columnDef}
+              />
             </Sheet>
           ) : (
             <EmptyItem />
