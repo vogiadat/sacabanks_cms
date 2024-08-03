@@ -9,7 +9,7 @@ import { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 //   key: string45
 // }
 // ! Add api type here before call super('')
-type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor' | 'list_photo'
+type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor' | 'list_photo' | 'report'
 
 type KeyType = 'getList' | 'getListPagination' | 'other' | 'findById'
 type GeneralKeyDataType = {
@@ -22,6 +22,8 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   protected key: string
   // ? Using in children
   protected subKey: string = ''
+
+  protected axiosClient = axiosClient
 
   constructor(endpoint: EndpointType) {
     this.endpoint = `/${endpoint}`
@@ -61,21 +63,21 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
 
   // * Main API Function
   getListPagination(params?: ParamsType): Promise<AxiosResponsePagination<TGet>> {
-    return axiosClient.get(`${this.endpoint}`, { params })
+    return this.axiosClient.get(`${this.endpoint}`, { params })
   }
 
   getList(params?: ParamsType): Promise<AxiosResponse<ResponseApi<TGet[]>>> {
-    return axiosClient.get(`${this.endpoint}`, { params })
+    return this.axiosClient.get(`${this.endpoint}`, { params })
   }
 
   findById(id: string): Promise<AxiosResponseApi<TGet>> {
-    return axiosClient.get(`${this.endpoint}/${id}`)
+    return this.axiosClient.get(`${this.endpoint}/${id}`)
   }
 
   // * Mutation
   create(data: TBody, headerType?: HeaderType): Promise<AxiosResponseApi<TGet>> {
     const headers = this.getHeaderRequest(headerType)
-    return axiosClient.post(this.endpoint, data, {
+    return this.axiosClient.post(this.endpoint, data, {
       headers
     })
   }
@@ -83,13 +85,13 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   patch(id: string, data: TPatch, headerType?: HeaderType): Promise<AxiosResponseApi<TGet>> {
     const headers = this.getHeaderRequest(headerType)
 
-    return axiosClient.patch(`${this.endpoint}/${id}`, data, {
+    return this.axiosClient.patch(`${this.endpoint}/${id}`, data, {
       headers
     })
   }
 
   delete(id: string): Promise<AxiosResponseApi<TDelete>> {
-    return axiosClient.delete(`${this.endpoint}/${id}`)
+    return this.axiosClient.delete(`${this.endpoint}/${id}`)
   }
   // * END Main API Function
 
