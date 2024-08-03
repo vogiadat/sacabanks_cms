@@ -35,7 +35,7 @@ function Page() {
     queryFn: () => userApi.getListPagination(params)
   })
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data)
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
 
   const userList = data?.data.data.list || []
 
