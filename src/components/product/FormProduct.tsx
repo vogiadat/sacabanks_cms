@@ -40,7 +40,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
     defaultValues
   })
 
-  const userRoleSelect = categoryList.map((item) => ({
+  const categoryListSelect = categoryList.map((item) => ({
     value: item.id,
     label: item.name
   }))
@@ -103,7 +103,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
                 label='Danh Mục'
                 form={form}
                 name='categoryId'
-                items={userRoleSelect}
+                items={categoryListSelect}
                 selectProps={{
                   placeholder: 'Chọn danh mục'
                 }}

@@ -87,7 +87,7 @@ export const useSetTotalPages = <T>(
 ) => {
   useEffect(() => {
     const totalPages = data?.data.totalPage ?? getTotalPages(data?.data.count ?? 1)
-    if ((isSuccess && pagination.totalPages === -1) || pagination.totalPages !== totalPages) {
+    if (isSuccess && pagination.totalPages !== totalPages) {
       setPagination({
         ...pagination,
         totalPages

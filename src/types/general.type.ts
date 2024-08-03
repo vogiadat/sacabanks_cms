@@ -13,3 +13,9 @@ export type ParamsType = {
   search?: string
   [key: string]: any | undefined
 }
+
+export type SortType = 'ASC' | 'DESC'
+export type SortSelectType = {
+  value: SortType
+  label: string
+}

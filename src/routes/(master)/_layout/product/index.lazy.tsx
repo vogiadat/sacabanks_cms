@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 
-import { productApi } from '@/apis'
-import { APP_RULE } from '@/constants'
+import { categoryApi, productApi } from '@/apis'
+import { APP_RULE, SORT_SELECT } from '@/constants'
 import { image_default } from '@/constants/image.constant'
 import { usePagination, useSetTotalPages } from '@/hooks'
 import { IProductItem } from '@/interfaces'
@@ -17,6 +17,8 @@ import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
+import { useSearchFilter } from '@/hooks/use-search-filter'
+import { SortType } from '@/types'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: Page
@@ -25,8 +27,7 @@ export const Route = createLazyFileRoute('/(master)/_layout/product/')({
 function Page() {
   const { navigate } = useRouter()
   const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
-  const [search, setSearch] = useState('')
-  // const { debounceValue: searchDebounce, isLoading: isLoadingSearchDebounce } = useDebounceValue(search)
+  const { search, setSearch, filter, setFilter, sort, setSort } = useSearchFilter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
 
   const { data, isFetching, isSuccess } = useQuery({
@@ -36,7 +37,8 @@ function Page() {
         params: {
           page: pagination.currentPage,
           limit: limitPagination,
-          search
+          search,
+          ...filter
         }
       },
       'public'
@@ -45,14 +47,41 @@ function Page() {
       productApi.getPublic({
         page: pagination.currentPage,
         limit: limitPagination,
-        search
+        search,
+        ...filter
       })
   })
+  const { data: categoryData } = useQuery({
+    queryKey: categoryApi.getKey(),
+    queryFn: () => categoryApi.getList()
+  })
+
+  const categoryList = categoryData?.data.data ?? []
+
+  const categoryListSelect = categoryList.map((item) => ({
+    value: item.id,
+    label: item.name
+  }))
+
   console.log('🚀 ~ Page ~ productPublicData:', data)
 
   useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search)
 
   const productList = data?.data.data.list
+
+  const sortedProductList = useMemo(() => {
+    if (!productList) return []
+
+    // Handle ascending and descending sorting
+    return [...productList].sort((a, b) => {
+      if (sort === 'ASC') {
+        return a.price - b.price
+      } else if (sort === 'DESC') {
+        return b.price - a.price
+      }
+      return 0
+    })
+  }, [productList, sort])
 
   return (
     <>
@@ -81,33 +110,29 @@ function Page() {
           py: 2,
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 1.5,
-          '& > *': {
-            minWidth: { xs: '120px', md: '160px' }
-          }
+          gap: 1.5
         }}
       >
         <Search label='Tìm kiếm sản phẩm' onDebounceChange={setSearch} />
 
         <Filter
           name='Danh Mục'
-          items={[
-            { value: 1, label: 'Kệ sách' },
-            { value: 2, label: 'Tủ gì gì đó' }
-          ]}
-          onChange={console.log}
+          items={categoryListSelect}
+          onChange={(value) => {
+            setFilter({
+              ...filter,
+              category_id: value
+            })
+          }}
         />
 
         <Filter
           name='Sắp xếp'
-          items={[
-            { value: 'ASC', label: 'Giá tăng dần' },
-            { value: 'DESC', label: 'Giá giảm dần' }
-          ]}
+          items={SORT_SELECT}
           selectProps={{
             placeholder: 'sắp xếp theo'
           }}
-          onChange={console.log}
+          onChange={(value) => setSort(value as SortType)}
         />
       </Box>
 
@@ -128,7 +153,7 @@ function Page() {
                 minHeight: 0
               }}
             >
-              <Table<ProductForm> rows={productList} columns={columnDef} />
+              <Table<ProductForm> rows={sortedProductList} columns={columnDef} />
             </Sheet>
           ) : (
             <EmptyItem />
