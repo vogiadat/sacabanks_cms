@@ -1,21 +1,23 @@
-import { userApi } from '@/apis/user.api'
-import { Pagination, Search, Table } from '@/components/base'
-import Filter from '@/components/base/Filter'
-import { ColumDef } from '@/components/base/Table'
-import CreateUser from '@/components/user/create'
-import { IUserItem } from '@/interfaces'
 import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { RoleMap } from '@/types'
-import FormUser from '@/components/user/FormUser'
 import { useState } from 'react'
-import { UserFormSchema } from '@/components/user/FormSchema'
-import { showToastError, showToastQuerySuccess } from '@/utils'
+
+import { userApi } from '@/apis/user.api'
 import { APP_RULE } from '@/constants'
 import { usePagination, useSearchFilter, useSetTotalPages } from '@/hooks'
+import { IUserItem } from '@/interfaces'
+import { RoleEnum, RoleMap } from '@/types'
+import { showToastError, showToastQuerySuccess } from '@/utils'
+
+import { Pagination, Search, Table } from '@/components/base'
+import Filter from '@/components/base/Filter'
+import { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
+import CreateUser from '@/components/user/create'
+import { UserFormSchema } from '@/components/user/FormSchema'
+import FormUser from '@/components/user/FormUser'
 
 export const Route = createLazyFileRoute('/(master)/_layout/user/')({
   component: Page
@@ -23,10 +25,11 @@ export const Route = createLazyFileRoute('/(master)/_layout/user/')({
 
 function Page() {
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const { search, setSearch, filter, setFilter } = useSearchFilter()
+  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
 
-  const { search, setSearch, filter, setFilter, sort, setSort } = useSearchFilter()
+  const params = { page: pagination.currentPage, limit: limitPagination, search, ...filter }
 
-  const params = { page: pagination.currentPage, search, ...filter }
   const { data, isSuccess, isFetching, isLoading } = useQuery({
     queryKey: userApi.getKey('getListPagination', { params }),
     queryFn: () => userApi.getListPagination(params)
@@ -72,15 +75,20 @@ function Page() {
         <Filter
           name='Quyền Hạn'
           items={[
-            { value: 1, label: 'Quản Trị Viên Cao Cấp' },
-            { value: 2, label: 'Quản Trị Viên' },
-            { value: 3, label: 'Nhà Cung Cấp' },
-            { value: 4, label: 'Khách Hàng' }
+            { value: RoleEnum.SUPPER_ADMIN, label: 'Quản Trị Viên Cao Cấp' },
+            { value: RoleEnum.ADMIN, label: 'Quản Trị Viên' },
+            { value: RoleEnum.VENDOR, label: 'Nhà Cung Cấp' },
+            { value: RoleEnum.CLIENT, label: 'Khách Hàng' }
           ]}
           selectProps={{
             placeholder: 'Lọc theo quyền'
           }}
-          onChange={console.log}
+          onChange={(value) => {
+            setFilter({
+              ...filter,
+              role: value
+            })
+          }}
         />
       </Box>
 
@@ -114,6 +122,10 @@ function Page() {
             currentPage={pagination.currentPage}
             totalPages={pagination.totalPages || 0}
             lambda={APP_RULE.PAGINATION.LAMBDA}
+            pageOptions={{
+              limit: limitPagination,
+              onLimitChange: setLimitPagination
+            }}
           />
         </>
       )}
