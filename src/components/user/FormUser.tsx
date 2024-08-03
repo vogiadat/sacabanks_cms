@@ -77,6 +77,14 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, i
         form={form}
         name='email'
       />
+      {isEdit && (
+        <FormFieldInput
+          label='Username'
+          inputProps={{ placeholder: 'Nhập username', disabled: isEdit }}
+          form={form}
+          name='username'
+        />
+      )}
       <FormFieldInput
         label='Số điện thoại'
         inputProps={{ placeholder: 'Nhập số điện thoại' }}
