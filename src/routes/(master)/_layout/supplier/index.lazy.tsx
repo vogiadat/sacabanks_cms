@@ -24,22 +24,17 @@ function Page() {
   const { search, setSearch, filter } = useSearchFilter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
 
+  const params = {
+    page: pagination.currentPage,
+    limit: limitPagination,
+    search,
+    ...filter
+  }
   const { data, isFetching, isLoading, isSuccess } = useQuery({
     queryKey: supplierApi.getKey('getListPagination', {
-      params: {
-        page: pagination.currentPage,
-        limit: limitPagination,
-        search,
-        ...filter
-      }
+      params
     }),
-    queryFn: () =>
-      supplierApi.getListPagination({
-        page: pagination.currentPage,
-        limit: limitPagination,
-        search,
-        ...filter
-      })
+    queryFn: () => supplierApi.getListPagination(params)
   })
 
   useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
@@ -127,7 +122,17 @@ const columnDef: ColumDef<IUserItem>[] = [
   {
     associate: 'avatar',
     label: 'Ảnh',
-    render: (row) => <img src={row.avatar ? getImageById(row.avatar) : image_default} width={100} />
+    render: (row) => (
+      <img
+        src={row.avatar ? getImageById(row.avatar) : image_default}
+        width={100}
+        height={80}
+        style={{
+          objectFit: 'contain',
+          objectPosition: 'center'
+        }}
+      />
+    )
   },
   {
     associate: 'email',

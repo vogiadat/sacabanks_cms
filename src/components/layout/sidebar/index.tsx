@@ -15,13 +15,14 @@ import Sheet from '@mui/joy/Sheet'
 import Typography from '@mui/joy/Typography'
 import * as React from 'react'
 
-import { Link, useNavigate } from '@tanstack/react-router'
-import { closeSidebar, removeAuthStore } from '@/utils'
-import ColorSchemeToggle from '../ColorSchemeToggle'
-import { sidebarList } from './data'
-import SidebarItem from './SidebarItem'
+import { useAuthentication } from '@/hooks'
 import { useUserStore } from '@/stores'
 import { RoleEnum } from '@/types'
+import { closeSidebar } from '@/utils'
+import { Link } from '@tanstack/react-router'
+import ColorSchemeToggle from '../ColorSchemeToggle'
+import SidebarItem from './SidebarItem'
+import { sidebarList } from './data'
 
 function Toggler({
   defaultExpanded = false,
@@ -53,13 +54,8 @@ function Toggler({
 }
 
 export default function Sidebar() {
-  const navigate = useNavigate()
   const { userProfile } = useUserStore()
-
-  const handleLogout = () => {
-    removeAuthStore()
-    navigate({ to: '/login' })
-  }
+  const { handleLogout } = useAuthentication()
 
   return (
     <Sheet

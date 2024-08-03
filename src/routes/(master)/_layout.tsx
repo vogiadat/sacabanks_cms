@@ -33,8 +33,8 @@ function Page() {
   const pathname = location.pathname
   const navigate = useNavigate()
 
-  const { data, isSuccess, isLoading } = useQuery({
-    queryKey: userApi.getKeyForMe(),
+  const { data, isLoading } = useQuery({
+    queryKey: userApi.getKey('other', undefined, 'me'),
     queryFn: () => userApi.getMe()
   })
 
@@ -51,7 +51,7 @@ function Page() {
   const { userProfile, setUserProfile } = useUserStore()
 
   useEffect(() => {
-    if (!userProfile && isSuccess) {
+    if (!userProfile && data?.data.data) {
       const resUserProfile = data?.data.data as IUserItem
       setUserProfile(resUserProfile)
 
@@ -65,7 +65,7 @@ function Page() {
         navigate({ to: '/not-found' })
       }
     }
-  }, [isSuccess, userProfile, pathname])
+  }, [data?.data.data, userProfile, pathname])
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
@@ -98,13 +98,13 @@ function Page() {
             sx={{ pl: 0 }}
           >
             {getCurrentPath().map((item) =>
-              item.href === '/' ? (
-                <Link underline='none' color='neutral' href='/' aria-label='Home' key={item.title}>
+              item!.href === '/' ? (
+                <Link underline='none' color='neutral' href='/' aria-label='Home' key={item!.title}>
                   <HomeRoundedIcon />
                 </Link>
               ) : (
-                <Typography color='primary' fontWeight={500} fontSize={12} key={item.title}>
-                  {item.title}
+                <Typography color='primary' fontWeight={500} fontSize={12} key={item!.title}>
+                  {item!.title}
                 </Typography>
               )
             )}

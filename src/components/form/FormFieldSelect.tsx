@@ -24,7 +24,7 @@ export const FormFieldSelect = <T extends FieldValues>({ label, items, selectPro
         const error = fieldState.error?.message
 
         return (
-          <FormControl error={!!error} size='sm'>
+          <FormControl error={!!error}>
             <FormLabel>{label}</FormLabel>
             <Select
               size='sm'

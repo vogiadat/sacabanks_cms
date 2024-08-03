@@ -3,7 +3,7 @@ import { FormControl, FormLabel, Option, Select } from '@mui/joy'
 
 const Filter = ({ name, items, selectProps, onChange }: FilterType) => {
   return (
-    <FormControl size='sm'>
+    <FormControl>
       <FormLabel>{name}</FormLabel>
       <Select
         size='sm'

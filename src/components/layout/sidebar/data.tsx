@@ -23,7 +23,7 @@ export const sidebarList: SidebarType[] = [
     icon: <ColorLens />,
     allowRole: ADMIN_SUPER_ADMIN_ROLE,
     items: [
-      { title: 'Ảnh Bìa', href: '/banner' },
+      // { title: 'Ảnh Bìa', href: '/banner' },
       { title: 'Danh mục', href: '/category' }
     ]
   },

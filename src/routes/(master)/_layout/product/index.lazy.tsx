@@ -15,10 +15,11 @@ import Filter from '@/components/base/Filter'
 import { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
+import { useSearchFilter } from '@/hooks/use-search-filter'
+import { useUserStore } from '@/stores'
+import { ADMIN_SUPER_ADMIN_ROLE, RoleEnum, SortType } from '@/types'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
-import { useSearchFilter } from '@/hooks/use-search-filter'
-import { SortType } from '@/types'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/')({
   component: Page
@@ -29,27 +30,24 @@ function Page() {
   const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
   const { search, setSearch, filter, setFilter, sort, setSort } = useSearchFilter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const { userProfile } = useUserStore()
+  const isAdmin = ADMIN_SUPER_ADMIN_ROLE.includes(userProfile?.role.name as RoleEnum)
 
+  const params = {
+    page: pagination.currentPage,
+    limit: limitPagination,
+    search,
+    ...filter
+  }
   const { data, isFetching, isSuccess } = useQuery({
     queryKey: productApi.getKey(
       'other',
       {
-        params: {
-          page: pagination.currentPage,
-          limit: limitPagination,
-          search,
-          ...filter
-        }
+        params
       },
-      'public'
+      isAdmin ? 'public' : 'my_product'
     ),
-    queryFn: () =>
-      productApi.getPublic({
-        page: pagination.currentPage,
-        limit: limitPagination,
-        search,
-        ...filter
-      })
+    queryFn: () => (isAdmin ? productApi.getPublic(params) : productApi.getMyProduct(params))
   })
   const { data: categoryData } = useQuery({
     queryKey: categoryApi.getKey(),
@@ -69,15 +67,16 @@ function Page() {
 
   const productList = data?.data.data.list
 
+  // ? Sort Data before rendering
   const sortedProductList = useMemo(() => {
     if (!productList) return []
 
     // Handle ascending and descending sorting
     return [...productList].sort((a, b) => {
       if (sort === 'ASC') {
-        return a.price - b.price
+        return a.price! - b.price!
       } else if (sort === 'DESC') {
-        return b.price - a.price
+        return b.price! - a.price!
       }
       return 0
     })
@@ -184,7 +183,17 @@ const columnDef: ColumDef<ProductForm>[] = [
   {
     associate: 'mainPhoto',
     label: 'Ảnh Sản Phẩm',
-    render: (row) => <img src={row.mainPhoto ? getImageById(row.mainPhoto) : image_default} width={100} />
+    render: (row) => (
+      <img
+        src={row.mainPhoto ? getImageById(row.mainPhoto) : image_default}
+        width={100}
+        height={80}
+        style={{
+          objectFit: 'contain',
+          objectPosition: 'center'
+        }}
+      />
+    )
   },
   {
     associate: 'title',

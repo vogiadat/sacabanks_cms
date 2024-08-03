@@ -1,17 +1,14 @@
 import { BaseApi } from '@/apis'
 import { IUserItem } from '@/interfaces'
-import { axiosClient } from '@/utils'
+import { ResponseApi, axiosClient } from '@/utils'
+import { AxiosResponse } from 'axios'
 
 class UserApi extends BaseApi<IUserItem> {
   constructor() {
     super('user')
   }
 
-  getKeyForMe() {
-    return [this.key, 'getMe']
-  }
-
-  async getMe() {
+  async getMe(): Promise<AxiosResponse<ResponseApi<IUserItem>>> {
     return axiosClient.get(`${this.endpoint}/me`)
   }
 }
