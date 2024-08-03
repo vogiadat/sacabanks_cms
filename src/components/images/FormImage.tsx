@@ -24,7 +24,15 @@ interface Props {
   category?: CategoryType
 }
 
-export const FormImage = ({ defaultValues, open, setOpen, onSubmit, id = '', category, isLoading = false }: Props) => {
+export const FormImage = ({
+  defaultValues,
+  open,
+  setOpen,
+  onSubmit,
+  id = '',
+  category,
+  isLoading = false
+}: Props) => {
   const queryClient = useQueryClient()
 
   const isEdit = id ? true : false
@@ -38,16 +46,21 @@ export const FormImage = ({ defaultValues, open, setOpen, onSubmit, id = '', cat
   const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationFn: (id: string) => categoryApi.delete(id),
     onSuccess: () => {
-      queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
-        // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
-        return {
-          ...oldData,
-          data: {
-            ...oldData.data,
-            data: oldData.data.data.filter((item: ICategoryItem) => item.id !== id)
+      queryClient.setQueryData(
+        categoryApi.getKey('getList'),
+        (oldData: any) => {
+          // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              data: oldData.data.data.filter(
+                (item: ICategoryItem) => item.id !== id
+              )
+            }
           }
         }
-      })
+      )
 
       toast.success(APP_MESSAGE.FORM.DELETE_SUCCESS)
       // ? Reset data
@@ -83,7 +96,12 @@ export const FormImage = ({ defaultValues, open, setOpen, onSubmit, id = '', cat
       isEdit={isEdit}
       id={id}
     >
-      <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={'photoUrl'} />
+      <FormFieldImage
+        form={form}
+        name='image'
+        label='Ảnh hiển thị'
+        defaultPreviewImage={'photoUrl'}
+      />
       {/* // ? Modal */}
       <ModalConfirmDelete
         name={category?.name}

@@ -6,7 +6,10 @@ interface Props {
   backgroundColor?: string
 }
 
-export const LoadingFullPage = ({ isChild = false, backgroundColor = '#fff' }: Props) => {
+export const LoadingFullPage = ({
+  isChild = false,
+  backgroundColor = '#fff'
+}: Props) => {
   return (
     <Box
       component={'div'}

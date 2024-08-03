@@ -31,7 +31,10 @@ function Toggler({
 }: {
   defaultExpanded?: boolean
   children: React.ReactNode
-  renderToggle: (params: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>> }) => React.ReactNode
+  renderToggle: (params: {
+    open: boolean
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  }) => React.ReactNode
 }) {
   const [open, setOpen] = React.useState(defaultExpanded)
   return (
@@ -110,7 +113,10 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <Avatar src='/icons/icon.png' sx={{ objectFit: 'cover', bgcolor: 'transparent' }} />
+        <Avatar
+          src='/icons/icon.png'
+          sx={{ objectFit: 'cover', bgcolor: 'transparent' }}
+        />
         <Typography level='title-lg'>Sacabanks</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
@@ -137,7 +143,9 @@ export default function Sidebar() {
         >
           {sidebarList.map((item, index) => {
             // ! Authorization
-            const isAllowRole = userProfile && item.allowRole.includes(userProfile?.role.name as RoleEnum)
+            const isAllowRole =
+              userProfile &&
+              item.allowRole.includes(userProfile?.role.name as RoleEnum)
 
             if (item.items) {
               if (isAllowRole) {
@@ -148,16 +156,27 @@ export default function Sidebar() {
                         <ListItemButton onClick={() => setOpen(!open)}>
                           {item.icon}
                           <ListItemContent>
-                            <Typography level='title-sm'>{item.title}</Typography>
+                            <Typography level='title-sm'>
+                              {item.title}
+                            </Typography>
                           </ListItemContent>
-                          <KeyboardArrowDownIcon sx={{ transform: open ? 'rotate(180deg)' : 'none' }} />
+                          <KeyboardArrowDownIcon
+                            sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
+                          />
                         </ListItemButton>
                       )}
                     >
                       <List sx={{ gap: 0.5 }}>
                         {item.items.map((child, index) => (
-                          <ListItem sx={{ mt: index === 0 ? 0.5 : undefined }} key={`child-${index}`}>
-                            <ListItemButton role='menuitem' component={Link} to={child.href}>
+                          <ListItem
+                            sx={{ mt: index === 0 ? 0.5 : undefined }}
+                            key={`child-${index}`}
+                          >
+                            <ListItemButton
+                              role='menuitem'
+                              component={Link}
+                              to={child.href}
+                            >
                               {child.title}
                             </ListItemButton>
                           </ListItem>
@@ -207,7 +226,9 @@ export default function Sidebar() {
         {userProfile?.avatar ? (
           <Avatar variant='outlined' size='sm' src={userProfile.avatar} />
         ) : (
-          <Avatar size='sm'>{(userProfile?.email && userProfile.email.at(0)) ?? ''}</Avatar>
+          <Avatar size='sm'>
+            {(userProfile?.email && userProfile.email.at(0)) ?? ''}
+          </Avatar>
         )}
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level='title-sm' noWrap>
@@ -217,7 +238,12 @@ export default function Sidebar() {
             {userProfile?.email ?? 'email@example.com'}
           </Typography>
         </Box>
-        <IconButton size='sm' variant='plain' color='neutral' onClick={handleLogout}>
+        <IconButton
+          size='sm'
+          variant='plain'
+          color='neutral'
+          onClick={handleLogout}
+        >
           <LogoutRoundedIcon />
         </IconButton>
       </Box>

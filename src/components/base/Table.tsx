@@ -14,7 +14,10 @@ interface Props<T extends { id: string | number }> {
   columns: ColumDef<T>[]
 }
 
-const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) => {
+const Table = <T extends { id: string | number }>({
+  rows,
+  columns
+}: Props<T>) => {
   return (
     <TableJoy
       aria-labelledby='tableTitle'
@@ -35,7 +38,10 @@ const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) =
           {columns.map(({ associate, label }) => {
             if (associate === 'id')
               return (
-                <th style={{ padding: '12px 6px', minWidth: 120, zIndex: 5 }} key={associate.toString()}>
+                <th
+                  style={{ padding: '12px 6px', minWidth: 120, zIndex: 5 }}
+                  key={associate.toString()}
+                >
                   <Link
                     underline='none'
                     color='primary'
@@ -54,7 +60,10 @@ const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) =
               )
 
             return (
-              <th key={associate.toString()} style={{ padding: '12px 6px', minWidth: 120, zIndex: 5 }}>
+              <th
+                key={associate.toString()}
+                style={{ padding: '12px 6px', minWidth: 120, zIndex: 5 }}
+              >
                 {label}
               </th>
             )
@@ -66,7 +75,9 @@ const Table = <T extends { id: string | number }>({ rows, columns }: Props<T>) =
           return (
             <tr key={row.id}>
               {columns.map(({ associate, render }) => (
-                <td key={associate.toString()}>{render ? render(row) : row[associate as keyof T]}</td>
+                <td key={associate.toString()}>
+                  {render ? render(row) : row[associate as keyof T]}
+                </td>
               ))}
             </tr>
           )

@@ -14,7 +14,8 @@ function Page() {
   const navigate = useNavigate()
 
   const { isPending: loadingFile, mutateAsync: upload } = useMutation({
-    mutationFn: (data: { file: File }) => uploadApi.create(data, 'multipart/form-data')
+    mutationFn: (data: { file: File }) =>
+      uploadApi.create(data, 'multipart/form-data')
   })
   const { mutateAsync, isPending: loadingSubmit } = useMutation({
     mutationFn: (data: UserForm) => supplierApi.createDefaultRole(data)

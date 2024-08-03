@@ -36,25 +36,30 @@ const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
 
       if (updatedCategory) {
         toast.success(APP_MESSAGE.FORM.UPDATE_SUCCESS)
-        queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
-          if (!oldData || !oldData.data || !oldData.data.data) {
+        queryClient.setQueryData(
+          categoryApi.getKey('getList'),
+          (oldData: any) => {
+            if (!oldData || !oldData.data || !oldData.data.data) {
+              return {
+                data: {
+                  data: [updatedCategory]
+                }
+              }
+            }
+
             return {
+              ...oldData,
               data: {
-                data: [updatedCategory]
+                ...oldData.data,
+                data: oldData.data.data.map((category: any) =>
+                  category.id === updatedCategory.id
+                    ? updatedCategory
+                    : category
+                )
               }
             }
           }
-
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              data: oldData.data.data.map((category: any) =>
-                category.id === updatedCategory.id ? updatedCategory : category
-              )
-            }
-          }
-        })
+        )
       }
 
       setIsOpen(false)
@@ -114,7 +119,14 @@ const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
       >
         <div>
           <AspectRatio minHeight='120px' maxHeight='200px'>
-            {category.image && <img src={category.image} srcSet={category.image} loading='lazy' alt='' />}
+            {category.image && (
+              <img
+                src={category.image}
+                srcSet={category.image}
+                loading='lazy'
+                alt=''
+              />
+            )}
           </AspectRatio>
           <div>
             <Typography level='title-lg' sx={{ py: '16px' }}>
@@ -140,7 +152,12 @@ const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
             size='md'
             color='primary'
             aria-label='Explore Bahamas Islands'
-            sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600, width: '100%' }}
+            sx={{
+              ml: 'auto',
+              alignSelf: 'center',
+              fontWeight: 600,
+              width: '100%'
+            }}
             onClick={() => setIsOpen(true)}
           >
             Chỉnh sửa

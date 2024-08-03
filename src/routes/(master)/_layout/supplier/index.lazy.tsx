@@ -20,9 +20,17 @@ export const Route = createLazyFileRoute('/(master)/_layout/supplier/')({
 
 function Page() {
   const { navigate } = useRouter()
-  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
+  const [limitPagination, setLimitPagination] = useState(
+    APP_RULE.PAGINATION.LIMIT_PAGINATION
+  )
   const { search, setSearch, filter } = useSearchFilter()
-  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const {
+    pagination,
+    setPagination,
+    handleNextPage,
+    handlePrevPage,
+    handleChangePage
+  } = usePagination()
 
   const params = {
     page: pagination.currentPage,
@@ -37,7 +45,14 @@ function Page() {
     queryFn: () => supplierApi.getListPagination(params)
   })
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
+  useSetTotalPages(
+    isSuccess,
+    pagination,
+    setPagination,
+    data?.data,
+    search,
+    limitPagination
+  )
 
   const suppliers = data?.data.data.list || []
 
@@ -57,7 +72,12 @@ function Page() {
         <Typography level='h2' component='h1'>
           Nhà cung cấp
         </Typography>
-        <Button onClick={() => navigate({ to: '/supplier/create' })} color='primary' startDecorator={<Add />} size='sm'>
+        <Button
+          onClick={() => navigate({ to: '/supplier/create' })}
+          color='primary'
+          startDecorator={<Add />}
+          size='sm'
+        >
           Tạo mới
         </Button>
       </Box>
@@ -181,7 +201,13 @@ const ActionsHandle = ({ rowId }: { rowId: string }) => {
     navigate({ to: `update/${rowId}` })
   }
   return (
-    <Button variant='plain' color='primary' size='sm' onClick={handleNavigate} sx={{ width: 'max-content' }}>
+    <Button
+      variant='plain'
+      color='primary'
+      size='sm'
+      onClick={handleNavigate}
+      sx={{ width: 'max-content' }}
+    >
       Chi Tiết
     </Button>
   )

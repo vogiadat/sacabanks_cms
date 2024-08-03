@@ -1,9 +1,27 @@
 import { APP_MESSAGE } from '@/constants'
 import { generatePassword } from '@/utils'
-import { Autorenew, InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Button, FormControl, FormHelperText, FormLabel, Input, InputTypeMap } from '@mui/joy'
+import {
+  Autorenew,
+  InfoOutlined,
+  Visibility,
+  VisibilityOff
+} from '@mui/icons-material'
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+  InputTypeMap
+} from '@mui/joy'
 import { useState } from 'react'
-import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form'
+import {
+  Controller,
+  FieldValues,
+  Path,
+  PathValue,
+  UseFormReturn
+} from 'react-hook-form'
 import { toast } from 'sonner'
 
 type Props<T extends FieldValues> = {
@@ -13,7 +31,12 @@ type Props<T extends FieldValues> = {
   name: Path<T>
 }
 
-export const FormFieldInputPassword = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
+export const FormFieldInputPassword = <T extends FieldValues>({
+  inputProps,
+  label,
+  form,
+  name
+}: Props<T>) => {
   const { control, setValue } = form
   const [showPassword, setShowPassword] = useState(false)
 
@@ -45,7 +68,10 @@ export const FormFieldInputPassword = <T extends FieldValues>({ inputProps, labe
               }}
               endDecorator={
                 <>
-                  <Button variant='plain' onClick={() => setShowPassword(!showPassword)}>
+                  <Button
+                    variant='plain'
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </Button>
                   <Button

@@ -55,7 +55,10 @@ axiosClient.interceptors.response.use(
 )
 
 export const showToastQuerySuccess =
-  (type: 'ADD_SUCCESS' | 'UPDATE_SUCCESS' | 'DELETE_SUCCESS' | 'UPLOAD_SUCCESS') => (response: AxiosResponse) => {
+  (
+    type: 'ADD_SUCCESS' | 'UPDATE_SUCCESS' | 'DELETE_SUCCESS' | 'UPLOAD_SUCCESS'
+  ) =>
+  (response: AxiosResponse) => {
     const data = response?.data?.data
     if (data) {
       toast.success(APP_MESSAGE.FORM[type])

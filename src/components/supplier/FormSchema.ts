@@ -3,7 +3,9 @@ import { RoleEnum } from '@/types'
 import { z } from 'zod'
 
 export const formSchema = z.object({
-  username: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  username: z
+    .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
+    .min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   email: z
     .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
     .min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED })
@@ -39,8 +41,14 @@ export const formSchema = z.object({
   collab: z.string().optional().nullable(),
   profits: z.string().optional().nullable(),
   isActive: z.boolean().optional().nullable(),
-  avatar: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).optional().nullable(),
-  banner: z.string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED }).optional().nullable(),
+  avatar: z
+    .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
+    .optional()
+    .nullable(),
+  banner: z
+    .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })
+    .optional()
+    .nullable(),
 
   avatarFile: z
     .instanceof(File)
@@ -48,7 +56,10 @@ export const formSchema = z.object({
       (file) => file.size <= APP_RULE.FILE.MAX_FILE_SIZE,
       `${APP_MESSAGE.FILE.UPLOAD_LESS_THAN} ${APP_RULE.FILE.MAX_FILE_SIZE}`
     )
-    .refine((file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type), APP_MESSAGE.FILE.INVALID_FILE_TYPE)
+    .refine(
+      (file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type),
+      APP_MESSAGE.FILE.INVALID_FILE_TYPE
+    )
     .optional(),
 
   bannerFile: z
@@ -57,7 +68,10 @@ export const formSchema = z.object({
       (file) => file.size <= APP_RULE.FILE.MAX_FILE_SIZE,
       `${APP_MESSAGE.FILE.UPLOAD_LESS_THAN} ${APP_RULE.FILE.MAX_FILE_SIZE}`
     )
-    .refine((file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type), APP_MESSAGE.FILE.INVALID_FILE_TYPE)
+    .refine(
+      (file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type),
+      APP_MESSAGE.FILE.INVALID_FILE_TYPE
+    )
     .optional()
 
   //! Api error value

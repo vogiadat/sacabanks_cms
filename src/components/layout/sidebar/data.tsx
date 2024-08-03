@@ -1,6 +1,14 @@
 import { ReactNode } from '@tanstack/react-router'
 import { ADMIN_SUPER_ADMIN_ROLE, ALL_ROLE, RoleEnum } from '@/types'
-import { TextSnippet, HomeRounded, ColorLens, LocalOffer, ContactEmergency, Fax, GroupAdd } from '@mui/icons-material'
+import {
+  TextSnippet,
+  HomeRounded,
+  ColorLens,
+  LocalOffer,
+  ContactEmergency,
+  Fax,
+  GroupAdd
+} from '@mui/icons-material'
 
 type SidebarType = {
   title: string

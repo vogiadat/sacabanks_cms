@@ -25,189 +25,183 @@ const masterImport = createFileRoute('/(master)')()
 const authLoginLazyImport = createFileRoute('/(auth)/login')()
 const masterLayoutIndexLazyImport = createFileRoute('/(master)/_layout/')()
 const masterLayoutUserIndexLazyImport = createFileRoute(
-  '/(master)/_layout/user/',
+  '/(master)/_layout/user/'
 )()
 const masterLayoutSupplierIndexLazyImport = createFileRoute(
-  '/(master)/_layout/supplier/',
+  '/(master)/_layout/supplier/'
 )()
 const masterLayoutProductIndexLazyImport = createFileRoute(
-  '/(master)/_layout/product/',
+  '/(master)/_layout/product/'
 )()
 const masterLayoutOrderIndexLazyImport = createFileRoute(
-  '/(master)/_layout/order/',
+  '/(master)/_layout/order/'
 )()
 const masterLayoutNotFoundIndexLazyImport = createFileRoute(
-  '/(master)/_layout/not-found/',
+  '/(master)/_layout/not-found/'
 )()
 const masterLayoutCategoryIndexLazyImport = createFileRoute(
-  '/(master)/_layout/category/',
+  '/(master)/_layout/category/'
 )()
 const masterLayoutBannerIndexLazyImport = createFileRoute(
-  '/(master)/_layout/banner/',
+  '/(master)/_layout/banner/'
 )()
 const masterLayoutActiveUserIndexLazyImport = createFileRoute(
-  '/(master)/_layout/active-user/',
+  '/(master)/_layout/active-user/'
 )()
 const masterLayoutSupplierCreateLazyImport = createFileRoute(
-  '/(master)/_layout/supplier/create',
+  '/(master)/_layout/supplier/create'
 )()
 const masterLayoutProductCreateLazyImport = createFileRoute(
-  '/(master)/_layout/product/create',
+  '/(master)/_layout/product/create'
 )()
 
 // Create/Update Routes
 
 const masterRoute = masterImport.update({
   id: '/(master)',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRoute
 } as any)
 
 const authLoginLazyRoute = authLoginLazyImport
   .update({
     path: '/login',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => rootRoute
   } as any)
   .lazy(() => import('./routes/(auth)/login.lazy').then((d) => d.Route))
 
 const masterLayoutRoute = masterLayoutImport.update({
   id: '/_layout',
-  getParentRoute: () => masterRoute,
+  getParentRoute: () => masterRoute
 } as any)
 
 const masterLayoutIndexLazyRoute = masterLayoutIndexLazyImport
   .update({
     path: '/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/index.lazy').then((d) => d.Route),
+    import('./routes/(master)/_layout/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutUserIndexLazyRoute = masterLayoutUserIndexLazyImport
   .update({
     path: '/user/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/user/index.lazy').then((d) => d.Route),
+    import('./routes/(master)/_layout/user/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutSupplierIndexLazyRoute = masterLayoutSupplierIndexLazyImport
   .update({
     path: '/supplier/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/supplier/index.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(master)/_layout/supplier/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutProductIndexLazyRoute = masterLayoutProductIndexLazyImport
   .update({
     path: '/product/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/product/index.lazy').then((d) => d.Route),
+    import('./routes/(master)/_layout/product/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutOrderIndexLazyRoute = masterLayoutOrderIndexLazyImport
   .update({
     path: '/order/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/order/index.lazy').then((d) => d.Route),
+    import('./routes/(master)/_layout/order/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutNotFoundIndexLazyRoute = masterLayoutNotFoundIndexLazyImport
   .update({
     path: '/not-found/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
     import('./routes/(master)/_layout/not-found/index.lazy').then(
-      (d) => d.Route,
-    ),
+      (d) => d.Route
+    )
   )
 
 const masterLayoutCategoryIndexLazyRoute = masterLayoutCategoryIndexLazyImport
   .update({
     path: '/category/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/category/index.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(master)/_layout/category/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutBannerIndexLazyRoute = masterLayoutBannerIndexLazyImport
   .update({
     path: '/banner/',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/banner/index.lazy').then((d) => d.Route),
+    import('./routes/(master)/_layout/banner/index.lazy').then((d) => d.Route)
   )
 
 const masterLayoutActiveUserIndexLazyRoute =
   masterLayoutActiveUserIndexLazyImport
     .update({
       path: '/active-user/',
-      getParentRoute: () => masterLayoutRoute,
+      getParentRoute: () => masterLayoutRoute
     } as any)
     .lazy(() =>
       import('./routes/(master)/_layout/active-user/index.lazy').then(
-        (d) => d.Route,
-      ),
+        (d) => d.Route
+      )
     )
 
 const masterLayoutSupplierCreateLazyRoute = masterLayoutSupplierCreateLazyImport
   .update({
     path: '/supplier/create',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
     import('./routes/(master)/_layout/supplier/create.lazy').then(
-      (d) => d.Route,
-    ),
+      (d) => d.Route
+    )
   )
 
 const masterLayoutProductCreateLazyRoute = masterLayoutProductCreateLazyImport
   .update({
     path: '/product/create',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
   .lazy(() =>
-    import('./routes/(master)/_layout/product/create.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/(master)/_layout/product/create.lazy').then((d) => d.Route)
   )
 
 const masterLayoutSupplierUpdateIdRoute =
   masterLayoutSupplierUpdateIdImport.update({
     path: '/supplier/update/$id',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
 
 const masterLayoutProductUpdateIdRoute =
   masterLayoutProductUpdateIdImport.update({
     path: '/product/update/$id',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
 
 const masterLayoutProductDetailIdRoute =
   masterLayoutProductDetailIdImport.update({
     path: '/product/detail/$id',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
 
 const masterLayoutActiveUserUpdateIdRoute =
   masterLayoutActiveUserUpdateIdImport.update({
     path: '/active-user/update/$id',
-    getParentRoute: () => masterLayoutRoute,
+    getParentRoute: () => masterLayoutRoute
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -362,10 +356,10 @@ export const routeTree = rootRoute.addChildren({
       masterLayoutActiveUserUpdateIdRoute,
       masterLayoutProductDetailIdRoute,
       masterLayoutProductUpdateIdRoute,
-      masterLayoutSupplierUpdateIdRoute,
-    }),
+      masterLayoutSupplierUpdateIdRoute
+    })
   }),
-  authLoginLazyRoute,
+  authLoginLazyRoute
 })
 
 /* prettier-ignore-end */

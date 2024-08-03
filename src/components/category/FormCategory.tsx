@@ -24,7 +24,15 @@ interface Props {
   category?: CategoryType
 }
 
-const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', category, isLoading = false }: Props) => {
+const FormCategory = ({
+  defaultValues,
+  open,
+  setOpen,
+  onSubmit,
+  id = '',
+  category,
+  isLoading = false
+}: Props) => {
   const queryClient = useQueryClient()
 
   const isEdit = id ? true : false
@@ -38,16 +46,21 @@ const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', categor
   const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationFn: (id: string) => categoryApi.delete(id),
     onSuccess: () => {
-      queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
-        // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
-        return {
-          ...oldData,
-          data: {
-            ...oldData.data,
-            data: oldData.data.data.filter((item: ICategoryItem) => item.id !== id)
+      queryClient.setQueryData(
+        categoryApi.getKey('getList'),
+        (oldData: any) => {
+          // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              data: oldData.data.data.filter(
+                (item: ICategoryItem) => item.id !== id
+              )
+            }
           }
         }
-      })
+      )
 
       toast.success(APP_MESSAGE.FORM.DELETE_SUCCESS)
       // ? Reset data
@@ -83,8 +96,18 @@ const FormCategory = ({ defaultValues, open, setOpen, onSubmit, id = '', categor
       isEdit={isEdit}
       id={id}
     >
-      <FormFieldInput label='Tên hiển thị' inputProps={{ placeholder: 'nhập tên hiển thị' }} form={form} name='name' />
-      <FormFieldImage form={form} name='image' label='Ảnh hiển thị' defaultPreviewImage={'previewImage'} />
+      <FormFieldInput
+        label='Tên hiển thị'
+        inputProps={{ placeholder: 'nhập tên hiển thị' }}
+        form={form}
+        name='name'
+      />
+      <FormFieldImage
+        form={form}
+        name='image'
+        label='Ảnh hiển thị'
+        defaultPreviewImage={'previewImage'}
+      />
       {/* // ? Modal */}
       <ModalConfirmDelete
         name={category?.name}

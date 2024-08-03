@@ -1,5 +1,11 @@
 import { InfoOutlined } from '@mui/icons-material'
-import { FormControl, FormHelperText, FormLabel, Input, InputTypeMap } from '@mui/joy'
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+  InputTypeMap
+} from '@mui/joy'
 import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 type Props<T extends FieldValues> = {
@@ -9,7 +15,12 @@ type Props<T extends FieldValues> = {
   name: Path<T>
 }
 
-export const FormFieldInputNumber = <T extends FieldValues>({ inputProps, label, form, name }: Props<T>) => {
+export const FormFieldInputNumber = <T extends FieldValues>({
+  inputProps,
+  label,
+  form,
+  name
+}: Props<T>) => {
   const { control } = form
 
   return (

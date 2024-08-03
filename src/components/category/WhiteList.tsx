@@ -63,21 +63,32 @@ export default function WhiteList({ open, setOpen }: Props) {
             >
               List
             </Typography>
-            <List aria-labelledby='ellipsis-list-demo' sx={{ '--ListItemDecorator-size': '56px', width: '100%' }}>
+            <List
+              aria-labelledby='ellipsis-list-demo'
+              sx={{ '--ListItemDecorator-size': '56px', width: '100%' }}
+            >
               {[...Array(20).keys()].map((_, index) => (
                 <ListItem key={index} sx={{ mb: 1, width: '100%' }}>
                   <ListItemDecorator>
                     <Avatar src={getRandomImageUrl()} />
                   </ListItemDecorator>
                   <ListItemContent>
-                    <Typography level='title-sm'>Brunch this weekend?</Typography>
+                    <Typography level='title-sm'>
+                      Brunch this weekend?
+                    </Typography>
                     <Typography level='body-sm' noWrap>
-                      I&apos;ll be in your neighborhood doing errands this Tuesday.
+                      I&apos;ll be in your neighborhood doing errands this
+                      Tuesday.
                     </Typography>
                   </ListItemContent>
 
                   <ListItemDecorator>
-                    <IconButton sx={{ ml: 2 }} aria-label='Delete' size='sm' color='danger'>
+                    <IconButton
+                      sx={{ ml: 2 }}
+                      aria-label='Delete'
+                      size='sm'
+                      color='danger'
+                    >
                       <Delete />
                     </IconButton>
                   </ListItemDecorator>
@@ -88,7 +99,12 @@ export default function WhiteList({ open, setOpen }: Props) {
         </DialogContent>
 
         <Divider sx={{ mt: 'auto' }} />
-        <Stack direction='row' justifyContent='space-between' useFlexGap spacing={1}>
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          useFlexGap
+          spacing={1}
+        >
           <Button variant='outlined' color='neutral'>
             Clear
           </Button>

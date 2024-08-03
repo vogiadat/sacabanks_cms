@@ -8,13 +8,17 @@ class ProductApi extends BaseApi<IProductItem> {
     super('product')
   }
 
-  getPublic(params?: ParamsType): Promise<AxiosResponsePagination<IProductItem>> {
+  getPublic(
+    params?: ParamsType
+  ): Promise<AxiosResponsePagination<IProductItem>> {
     return axiosClient.get(`${this.endpoint}/public`, {
       params
     })
   }
 
-  getMyProduct(params?: ParamsType): Promise<AxiosResponsePagination<IProductItem>> {
+  getMyProduct(
+    params?: ParamsType
+  ): Promise<AxiosResponsePagination<IProductItem>> {
     return axiosClient.get(`${this.endpoint}/my_product`, {
       params
     })

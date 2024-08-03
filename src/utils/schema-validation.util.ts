@@ -9,7 +9,9 @@ export const schema = z.object({
     .min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   phoneNumber: z.string().min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
   password: z.string().min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
-  confirmPassword: z.string().min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
+  confirmPassword: z
+    .string()
+    .min(1, { message: APP_MESSAGE.FORM.FIELD_REQUIRED }),
 
   createdAt: z.string(),
   updatedAt: z.string()

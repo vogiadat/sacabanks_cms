@@ -17,8 +17,16 @@ export type RegisterType = {
 }
 
 // *************************** Authorization ***************************
-export const ALL_ROLE: RoleEnum[] = [RoleEnum.SUPPER_ADMIN, RoleEnum.CLIENT, RoleEnum.ADMIN, RoleEnum.VENDOR]
-export const ADMIN_SUPER_ADMIN_ROLE: RoleEnum[] = [RoleEnum.SUPPER_ADMIN, RoleEnum.ADMIN]
+export const ALL_ROLE: RoleEnum[] = [
+  RoleEnum.SUPPER_ADMIN,
+  RoleEnum.CLIENT,
+  RoleEnum.ADMIN,
+  RoleEnum.VENDOR
+]
+export const ADMIN_SUPER_ADMIN_ROLE: RoleEnum[] = [
+  RoleEnum.SUPPER_ADMIN,
+  RoleEnum.ADMIN
+]
 
 // Auth Router
 export const ALLOW_ROUTER_NOT_ADMIN = ['/', '/product', '/order']

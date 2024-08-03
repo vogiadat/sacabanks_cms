@@ -18,13 +18,17 @@ export const CreateImage = ({ productId }: Props) => {
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync: uploadMutate, isPending: isUploadPending } = useMutation({
-    mutationFn: (data: { file: File }) => uploadApi.create(data, 'multipart/form-data')
-  })
+  const { mutateAsync: uploadMutate, isPending: isUploadPending } = useMutation(
+    {
+      mutationFn: (data: { file: File }) =>
+        uploadApi.create(data, 'multipart/form-data')
+    }
+  )
 
-  const { mutateAsync: mutateListPhoto, isPending: isPendingListPhoto } = useMutation({
-    mutationFn: (data: ImageForm) => listPhotoApi.create(data)
-  })
+  const { mutateAsync: mutateListPhoto, isPending: isPendingListPhoto } =
+    useMutation({
+      mutationFn: (data: ImageForm) => listPhotoApi.create(data)
+    })
 
   const handleSubmit = async (_value: ImageForm) => {
     try {
@@ -52,7 +56,12 @@ export const CreateImage = ({ productId }: Props) => {
 
   return (
     <>
-      <Button color='primary' startDecorator={<Add />} size='sm' onClick={() => setOpen(true)}>
+      <Button
+        color='primary'
+        startDecorator={<Add />}
+        size='sm'
+        onClick={() => setOpen(true)}
+      >
         Tạo mới
       </Button>
       <FormImage

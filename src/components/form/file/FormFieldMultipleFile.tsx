@@ -2,7 +2,13 @@ import VisuallyHiddenInput from '@/components/input/VisuallyHiddenInput'
 import { AddAPhotoRounded } from '@mui/icons-material'
 import { Box, FormControl, FormLabel, Typography } from '@mui/joy'
 import { ChangeEventHandler } from 'react'
-import { Controller, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form'
+import {
+  Controller,
+  FieldValues,
+  Path,
+  PathValue,
+  UseFormReturn
+} from 'react-hook-form'
 
 type Props<T extends FieldValues> = {
   label?: string
@@ -27,10 +33,14 @@ export const FormFieldMultipleImages = <T extends FieldValues>({
         const error = fieldState.error?.message
         const previewFiles = form.watch(defaultPreviewImages as Path<T>) || []
 
-        const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+        const handleFileChange: ChangeEventHandler<HTMLInputElement> = (
+          event
+        ) => {
           const selectedFiles = Array.from(event.target.files || [])
 
-          const imageFiles = selectedFiles.filter((file) => file.type.startsWith('image/'))
+          const imageFiles = selectedFiles.filter((file) =>
+            file.type.startsWith('image/')
+          )
           console.log('🚀 ~ imageFiles:', imageFiles)
           if (!imageFiles.length) return
           const newPreviewFiles = imageFiles.map((file) => {
@@ -46,7 +56,10 @@ export const FormFieldMultipleImages = <T extends FieldValues>({
           Promise.all(newPreviewFiles).then((previewUrls) => {
             form.setValue(name, imageFiles as PathValue<T, Path<T>>)
             if (defaultPreviewImages) {
-              form.setValue(defaultPreviewImages, previewUrls as PathValue<T, Path<T>>)
+              form.setValue(
+                defaultPreviewImages,
+                previewUrls as PathValue<T, Path<T>>
+              )
             }
           })
         }
@@ -100,11 +113,21 @@ export const FormFieldMultipleImages = <T extends FieldValues>({
                 </Box>
               )}
 
-              <VisuallyHiddenInput ref={ref} type='file' multiple onChange={handleFileChange} />
+              <VisuallyHiddenInput
+                ref={ref}
+                type='file'
+                multiple
+                onChange={handleFileChange}
+              />
             </Box>
 
             {error && (
-              <Typography mt={1} fontSize={14} fontWeight={'400'} color='danger'>
+              <Typography
+                mt={1}
+                fontSize={14}
+                fontWeight={'400'}
+                color='danger'
+              >
                 {error}
               </Typography>
             )}

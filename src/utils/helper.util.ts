@@ -16,7 +16,9 @@ export function closeSidebar() {
 
 export function toggleSidebar() {
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-    const slideIn = window.getComputedStyle(document.documentElement).getPropertyValue('--SideNavigation-slideIn')
+    const slideIn = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--SideNavigation-slideIn')
     if (slideIn) {
       closeSidebar()
     } else {
@@ -36,10 +38,15 @@ export const getImageById = (id: string) => {
   return `${APP_CONFIG.BASE_URL.API}/upload/files/${id}`
 }
 
-export const sliceText = (text?: string, maxLength: number = 30, replaceText: string = '...'): string => {
+export const sliceText = (
+  text?: string,
+  maxLength: number = 30,
+  replaceText: string = '...'
+): string => {
   if (!text) return ''
   const newText = text?.replace(/(&nbsp;)/gi, ' ').replace(/(<([^>]+)>)/gi, '')
-  if (newText.length > maxLength) return `${newText.slice(0, maxLength)}${replaceText}`
+  if (newText.length > maxLength)
+    return `${newText.slice(0, maxLength)}${replaceText}`
 
   return newText
 }
@@ -53,7 +60,8 @@ export function generateSlug(input: string): string {
 }
 
 export const generatePassword = () => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#@$!'
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#@$!'
   let password = ''
 
   for (let i = 0; i < 12; i++) {
@@ -82,8 +90,10 @@ export const generateShortUUID = () => {
 
 export const formatUnikey = (str: string) => {
   const newStr = str.toLowerCase()
-  const specialChar = 'àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ'
-  const nonSpecialChar = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd'
+  const specialChar =
+    'àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ'
+  const nonSpecialChar =
+    'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd'
 
   let output = ''
   for (let i = 0; i < newStr.length; i++) {

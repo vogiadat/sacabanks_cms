@@ -5,12 +5,18 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { activeUserApi, supplierApi } from '@/apis'
 import FormActiveUser from '@/components/active-user/FormActiveUser'
-import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
+import {
+  getUsernameFromEmail,
+  showToastError,
+  showToastQuerySuccess
+} from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { UserForm } from '@/components/supplier/FormSchema'
 import { RoleEnum } from '@/types'
 
-export const Route = createFileRoute('/(master)/_layout/active-user/update/$id')({
+export const Route = createFileRoute(
+  '/(master)/_layout/active-user/update/$id'
+)({
   component: () => <Page />
 })
 

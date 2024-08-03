@@ -12,7 +12,10 @@ export const formSchemaImage = z
         (file) => file.size <= APP_RULE.FILE.MAX_FILE_SIZE,
         `${APP_MESSAGE.FILE.UPLOAD_LESS_THAN} ${APP_RULE.FILE.MAX_FILE_SIZE}`
       )
-      .refine((file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type), APP_MESSAGE.FILE.INVALID_FILE_TYPE)
+      .refine(
+        (file) => APP_RULE.FILE.ACCEPTED_IMAGE_TYPES.includes(file.type),
+        APP_MESSAGE.FILE.INVALID_FILE_TYPE
+      )
       .optional(),
     photoUrl: z.string().optional()
   })

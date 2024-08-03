@@ -22,7 +22,10 @@ export const usePagination = () => {
           currentPage
         }
       } else if (lambda > 1) {
-        currentPage = currentPage > pagination.totalPages ? pagination.totalPages : prev.currentPage + lambda
+        currentPage =
+          currentPage > pagination.totalPages
+            ? pagination.totalPages
+            : prev.currentPage + lambda
 
         return {
           ...prev,
@@ -87,9 +90,13 @@ export const useSetTotalPages = <T>(
   limitPagination?: number
 ) => {
   useEffect(() => {
-    const totalPages = data?.data.totalPage ?? getTotalPages(data?.data.count ?? 1)
+    const totalPages =
+      data?.data.totalPage ?? getTotalPages(data?.data.count ?? 1)
     console.log('🚀 ~ useEffect ~ totalPages:', totalPages)
-    console.log('🚀 ~ useEffect ~ pagination.totalPages:', pagination.totalPages)
+    console.log(
+      '🚀 ~ useEffect ~ pagination.totalPages:',
+      pagination.totalPages
+    )
     if (isSuccess && pagination.totalPages !== totalPages) {
       setPagination({
         ...pagination,

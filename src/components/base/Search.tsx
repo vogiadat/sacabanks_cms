@@ -15,7 +15,8 @@ type Props = {
 
 const Search = ({ label, inputProps, onDebounceChange }: Props) => {
   const [search, setSearch] = useState<string>(inputProps?.value as string)
-  const { debounceValue: searchDebounce, isLoading: isLoadingDebounce } = useDebounceValue(search)
+  const { debounceValue: searchDebounce, isLoading: isLoadingDebounce } =
+    useDebounceValue(search)
 
   useEffect(() => {
     onDebounceChange && onDebounceChange(searchDebounce)
@@ -26,7 +27,9 @@ const Search = ({ label, inputProps, onDebounceChange }: Props) => {
       <Input
         size='sm'
         placeholder={label ?? 'Tìm kiếm'}
-        startDecorator={isLoadingDebounce ? <LoadingItem size='sm' /> : <SearchIcon />}
+        startDecorator={
+          isLoadingDebounce ? <LoadingItem size='sm' /> : <SearchIcon />
+        }
         onChange={(e) => setSearch(e.target.value)}
         value={search}
         {...inputProps}

@@ -1,4 +1,9 @@
-import { IBaseItem, ICategoryItem, IUserItem, IListPhotoItem } from '@/interfaces'
+import {
+  IBaseItem,
+  ICategoryItem,
+  IUserItem,
+  IListPhotoItem
+} from '@/interfaces'
 
 export interface IProductItem extends IBaseItem {
   title: string

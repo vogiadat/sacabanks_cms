@@ -34,7 +34,12 @@ export default function Header() {
           }
         })}
       />
-      <IconButton onClick={() => toggleSidebar()} variant='outlined' color='neutral' size='sm'>
+      <IconButton
+        onClick={() => toggleSidebar()}
+        variant='outlined'
+        color='neutral'
+        size='sm'
+      >
         <MenuIcon />
       </IconButton>
     </Sheet>

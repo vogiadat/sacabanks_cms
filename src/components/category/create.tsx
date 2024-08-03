@@ -24,24 +24,27 @@ const Create = () => {
     onSuccess: (newValue) => {
       const newCategory = newValue?.data.data
       toast.success(APP_MESSAGE.FORM.ADD_SUCCESS)
-      queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
-        if (!oldData || !oldData.data || !oldData.data.data) {
+      queryClient.setQueryData(
+        categoryApi.getKey('getList'),
+        (oldData: any) => {
+          if (!oldData || !oldData.data || !oldData.data.data) {
+            return {
+              data: {
+                ...newCategory,
+                data: [newCategory]
+              }
+            }
+          }
+
           return {
+            ...oldData,
             data: {
-              ...newCategory,
-              data: [newCategory]
+              ...oldData.data,
+              data: [...oldData.data.data, newCategory]
             }
           }
         }
-
-        return {
-          ...oldData,
-          data: {
-            ...oldData.data,
-            data: [...oldData.data.data, newCategory]
-          }
-        }
-      })
+      )
       setOpen(false)
     }
   })
@@ -74,7 +77,12 @@ const Create = () => {
 
   return (
     <>
-      <Button color='primary' startDecorator={<Add />} size='sm' onClick={() => setOpen(true)}>
+      <Button
+        color='primary'
+        startDecorator={<Add />}
+        size='sm'
+        onClick={() => setOpen(true)}
+      >
         Tạo mới
       </Button>
       <FormCategory

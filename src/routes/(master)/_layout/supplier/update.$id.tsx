@@ -16,7 +16,8 @@ function Page() {
   const { navigate } = useRouter()
 
   const { isPending: loadingFile, mutateAsync: upload } = useMutation({
-    mutationFn: (data: { file: File }) => uploadApi.create(data, 'multipart/form-data')
+    mutationFn: (data: { file: File }) =>
+      uploadApi.create(data, 'multipart/form-data')
   })
 
   const { mutateAsync, isPending } = useMutation({

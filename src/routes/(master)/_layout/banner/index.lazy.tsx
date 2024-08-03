@@ -29,7 +29,12 @@ function Page() {
           Ảnh Bìa
         </Typography>
 
-        <Stack direction='row' justifyContent='center' alignItems='center' spacing={1}>
+        <Stack
+          direction='row'
+          justifyContent='center'
+          alignItems='center'
+          spacing={1}
+        >
           <Create />
         </Stack>
       </Box>

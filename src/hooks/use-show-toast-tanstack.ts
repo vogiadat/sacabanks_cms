@@ -3,7 +3,11 @@ import { useEffect } from 'react'
 import { APP_MESSAGE, IS_PRODUCTION } from '@/constants'
 import { toast } from 'sonner'
 
-export const useShowToastTanStack = (messageSuccess: string, isSuccess: boolean, error: any) => {
+export const useShowToastTanStack = (
+  messageSuccess: string,
+  isSuccess: boolean,
+  error: any
+) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(messageSuccess)
@@ -11,7 +15,8 @@ export const useShowToastTanStack = (messageSuccess: string, isSuccess: boolean,
 
     if (error) {
       !IS_PRODUCTION && console.log('useShowToastTanStack error :::', error)
-      !IS_PRODUCTION && console.log('useShowToastTanStack error status :::', error?.status)
+      !IS_PRODUCTION &&
+        console.log('useShowToastTanStack error status :::', error?.status)
 
       toast.error(error?.response?.data?.message ?? APP_MESSAGE.GENERAL.FAILED)
     }

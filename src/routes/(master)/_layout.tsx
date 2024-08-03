@@ -1,12 +1,22 @@
 import { useEffect } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { createFileRoute, Outlet, redirect, useLocation, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Outlet,
+  redirect,
+  useLocation,
+  useNavigate
+} from '@tanstack/react-router'
 
 import { userApi } from '@/apis/user.api'
 import { IUserItem } from '@/interfaces'
 import { useUserStore } from '@/stores'
-import { ADMIN_SUPER_ADMIN_ROLE, ALLOW_ROUTER_NOT_ADMIN, RoleEnum } from '@/types'
+import {
+  ADMIN_SUPER_ADMIN_ROLE,
+  ALLOW_ROUTER_NOT_ADMIN,
+  RoleEnum
+} from '@/types'
 import { checkAuthenticated } from '@/utils'
 
 import Header from '@/components/layout/Header'
@@ -59,7 +69,9 @@ function Page() {
       // ? Nếu không phải ADMIN || SUPER_ADMIN và router không nằm trong ALLOW_ROUTER_NOT_ADMIN thì cook
       if (
         resUserProfile &&
-        !ADMIN_SUPER_ADMIN_ROLE.includes(resUserProfile.role.name as RoleEnum) &&
+        !ADMIN_SUPER_ADMIN_ROLE.includes(
+          resUserProfile.role.name as RoleEnum
+        ) &&
         !ALLOW_ROUTER_NOT_ADMIN.includes(pathname)
       ) {
         navigate({ to: '/not-found' })
@@ -99,11 +111,22 @@ function Page() {
           >
             {getCurrentPath().map((item) =>
               item!.href === '/' ? (
-                <Link underline='none' color='neutral' href='/' aria-label='Home' key={item!.title}>
+                <Link
+                  underline='none'
+                  color='neutral'
+                  href='/'
+                  aria-label='Home'
+                  key={item!.title}
+                >
                   <HomeRoundedIcon />
                 </Link>
               ) : (
-                <Typography color='primary' fontWeight={500} fontSize={12} key={item!.title}>
+                <Typography
+                  color='primary'
+                  fontWeight={500}
+                  fontSize={12}
+                  key={item!.title}
+                >
                   {item!.title}
                 </Typography>
               )

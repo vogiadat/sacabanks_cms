@@ -4,9 +4,18 @@ import { useForm } from 'react-hook-form'
 import { RoleMap } from '@/types'
 
 import { userApi } from '@/apis/user.api'
-import { FormDrawer, FormFieldInput, FormFieldInputPassword, FormFieldSelect } from '@/components/form'
+import {
+  FormDrawer,
+  FormFieldInput,
+  FormFieldInputPassword,
+  FormFieldSelect
+} from '@/components/form'
 import { showToastError, showToastQuerySuccess } from '@/utils'
-import { InvalidateQueryFilters, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQueryClient
+} from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { ModalConfirmDelete } from '../modal'
 import { formSchema, UserFormSchema } from './FormSchema'
@@ -21,7 +30,15 @@ interface Props {
   userName?: string
 }
 
-const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, isLoading = false }: Props) => {
+const FormUser = ({
+  defaultValues,
+  open,
+  setOpen,
+  onSubmit,
+  id = '',
+  userName,
+  isLoading = false
+}: Props) => {
   const isEdit = id ? true : false
   const queryClient = useQueryClient()
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -93,7 +110,12 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, i
         form={form}
         name='phoneNumber'
       />
-      <FormFieldInput label='Địa chỉ' inputProps={{ placeholder: 'Nhập địa chỉ' }} form={form} name='address' />
+      <FormFieldInput
+        label='Địa chỉ'
+        inputProps={{ placeholder: 'Nhập địa chỉ' }}
+        form={form}
+        name='address'
+      />
       {isEdit ? (
         <></>
       ) : (

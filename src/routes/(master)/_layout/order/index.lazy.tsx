@@ -22,7 +22,11 @@ export const Route = createLazyFileRoute('/(master)/_layout/order/')({
           <Typography level='h2' component='h1'>
             Orders
           </Typography>
-          <Button color='primary' startDecorator={<DownloadRoundedIcon />} size='sm'>
+          <Button
+            color='primary'
+            startDecorator={<DownloadRoundedIcon />}
+            size='sm'
+          >
             Download PDF
           </Button>
         </Box>

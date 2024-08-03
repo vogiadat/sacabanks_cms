@@ -25,7 +25,8 @@ function Page() {
   })
 
   const { isPending: isPendingUpload, mutateAsync: upload } = useMutation({
-    mutationFn: (data: { file: File }) => uploadApi.create(data, 'multipart/form-data')
+    mutationFn: (data: { file: File }) =>
+      uploadApi.create(data, 'multipart/form-data')
   })
 
   const handleSubmit = async (_value: ProductForm) => {
@@ -70,7 +71,9 @@ function Page() {
             <FormProduct
               defaultValues={initProduct}
               onSubmit={handleSubmit}
-              isLoading={isPendingUpload || isPendingUpload || isPendingMutation}
+              isLoading={
+                isPendingUpload || isPendingUpload || isPendingMutation
+              }
             />
           </CardContent>
         </Card>

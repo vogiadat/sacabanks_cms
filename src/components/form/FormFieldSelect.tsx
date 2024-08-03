@@ -1,4 +1,11 @@
-import { FormControl, FormHelperText, FormLabel, Option, Select, SelectTypeMap } from '@mui/joy'
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Option,
+  Select,
+  SelectTypeMap
+} from '@mui/joy'
 import { InfoOutlined } from '@mui/icons-material'
 import { Controller, FieldValues, Path, UseFormReturn } from 'react-hook-form'
 import { ReactNode } from 'react'
@@ -13,7 +20,13 @@ type Props<T extends FieldValues> = {
   name: Path<T>
 }
 
-export const FormFieldSelect = <T extends FieldValues>({ label, items, selectProps, form, name }: Props<T>) => {
+export const FormFieldSelect = <T extends FieldValues>({
+  label,
+  items,
+  selectProps,
+  form,
+  name
+}: Props<T>) => {
   const { control } = form
 
   return (

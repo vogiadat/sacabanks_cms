@@ -15,10 +15,20 @@ const Create = () => {
 
   return (
     <>
-      <Button color='primary' startDecorator={<Add />} size='sm' onClick={() => setOpen(true)}>
+      <Button
+        color='primary'
+        startDecorator={<Add />}
+        size='sm'
+        onClick={() => setOpen(true)}
+      >
         Tạo mới
       </Button>
-      <FormBanner open={open} setOpen={setOpen} defaultValues={defaultValues} onSubmit={handleSubmit} />
+      <FormBanner
+        open={open}
+        setOpen={setOpen}
+        defaultValues={defaultValues}
+        onSubmit={handleSubmit}
+      />
     </>
   )
 }

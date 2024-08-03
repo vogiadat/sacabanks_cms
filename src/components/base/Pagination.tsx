@@ -182,10 +182,17 @@ const LimitPagination = ({ pageOptions }: { pageOptions?: PageOptionType }) => {
       }}
     >
       <Dropdown>
-        <MenuButton endDecorator={<ArrowDropDown />}>{limit} / Trang</MenuButton>
+        <MenuButton endDecorator={<ArrowDropDown />}>
+          {limit} / Trang
+        </MenuButton>
         <Menu sx={{ minWidth: 160, '--ListItemDecorator-size': '24px' }}>
           {APP_RULE.PAGINATION.LIMIT_RANGE.map((limit) => (
-            <MenuItem key={limit} onClick={() => pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)}>
+            <MenuItem
+              key={limit}
+              onClick={() =>
+                pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)
+              }
+            >
               {limit} / Trang
             </MenuItem>
           ))}

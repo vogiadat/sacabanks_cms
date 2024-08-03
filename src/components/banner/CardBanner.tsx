@@ -27,7 +27,14 @@ const CardBanner = ({ category }: Props) => {
           <Typography level='body-sm'>April 24 to May 02, 2021</Typography>
         </div>
         <AspectRatio minHeight='120px' maxHeight='200px'>
-          {category.image && <img src={category.image} srcSet={category.image} loading='lazy' alt='' />}
+          {category.image && (
+            <img
+              src={category.image}
+              srcSet={category.image}
+              loading='lazy'
+              alt=''
+            />
+          )}
         </AspectRatio>
         <CardContent orientation='horizontal'>
           <Button
@@ -35,7 +42,12 @@ const CardBanner = ({ category }: Props) => {
             size='md'
             color='primary'
             aria-label='Explore Bahamas Islands'
-            sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600, flexGrow: 1 }}
+            sx={{
+              ml: 'auto',
+              alignSelf: 'center',
+              fontWeight: 600,
+              flexGrow: 1
+            }}
             onClick={() => setIsOpen(true)}
           >
             Chỉnh sửa

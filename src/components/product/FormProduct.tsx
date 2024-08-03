@@ -1,11 +1,25 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Button, Checkbox, Chip, Divider, Grid, Typography } from '@mui/joy'
+import {
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Divider,
+  Grid,
+  Typography
+} from '@mui/joy'
 import { useForm } from 'react-hook-form'
 
 import { checkSomeBoolean, generateSlug } from '@/utils'
 
 import { categoryApi } from '@/apis'
-import { FormFieldImage, FormFieldInput, FormFieldInputNumber, FormFieldSelect, FormTextArea } from '@/components/form'
+import {
+  FormFieldImage,
+  FormFieldInput,
+  FormFieldInputNumber,
+  FormFieldSelect,
+  FormTextArea
+} from '@/components/form'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { ProductForm, formSchema } from './FormSchema'
@@ -94,7 +108,10 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
                 name='slug'
                 form={form}
                 label='Đường Dẫn Sản Phẩm'
-                inputProps={{ placeholder: 'Đường dẫn sản phẩm', disabled: true }}
+                inputProps={{
+                  placeholder: 'Đường dẫn sản phẩm',
+                  disabled: true
+                }}
               />
             </Grid>
 
@@ -123,7 +140,9 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
                 name='finishing'
                 form={form}
                 label='Độ Hoàn Thiện'
-                inputProps={{ placeholder: 'Trạng thái hoàn thiện của sản phẩm' }}
+                inputProps={{
+                  placeholder: 'Trạng thái hoàn thiện của sản phẩm'
+                }}
               />
             </Grid>
 
@@ -139,13 +158,24 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
         </Grid>
 
         {/*//SECTION: Image */}
-        <Grid xs={12} lg={4} columns={12} container sx={{ height: 'max-content' }}>
+        <Grid
+          xs={12}
+          lg={4}
+          columns={12}
+          container
+          sx={{ height: 'max-content' }}
+        >
           <Grid xs={12}>
             <Typography level='h4' component='h3' mt={{ xs: 0, lg: -1.5 }}>
               Hình ảnh
             </Typography>
 
-            <FormFieldImage label='Ảnh chính' name='mainPhotoFile' form={form} defaultPreviewImage={'mainPhoto'} />
+            <FormFieldImage
+              label='Ảnh chính'
+              name='mainPhotoFile'
+              form={form}
+              defaultPreviewImage={'mainPhoto'}
+            />
           </Grid>
 
           {/* <Grid xs={12}>
@@ -164,12 +194,19 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
           name='desc'
           form={form}
           label='Mô Tả'
-          textAreaProps={{ placeholder: 'Thêm mô tả cho sản phẩm của bạn', minRows: 5 }}
+          textAreaProps={{
+            placeholder: 'Thêm mô tả cho sản phẩm của bạn',
+            minRows: 5
+          }}
         />
       </Box>
 
       <Box>
-        <Checkbox label='Thêm tùy chọn' onChange={handleCheckboxChange} checked={showOptions} />
+        <Checkbox
+          label='Thêm tùy chọn'
+          onChange={handleCheckboxChange}
+          checked={showOptions}
+        />
       </Box>
 
       {showOptions && (
@@ -186,23 +223,47 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FormFieldInputNumber name='quantity' form={form} label='Số lượng' />
+            <FormFieldInputNumber
+              name='quantity'
+              form={form}
+              label='Số lượng'
+            />
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FormFieldInputNumber name='dimensionL' form={form} label='Chiều Dài' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber
+              name='dimensionL'
+              form={form}
+              label='Chiều Dài'
+              inputProps={{ placeholder: '10' }}
+            />
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FormFieldInputNumber name='dimensionW' form={form} label='Chiều Rộng' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber
+              name='dimensionW'
+              form={form}
+              label='Chiều Rộng'
+              inputProps={{ placeholder: '10' }}
+            />
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FormFieldInputNumber name='dimensionH' form={form} label='Chiều Cao' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber
+              name='dimensionH'
+              form={form}
+              label='Chiều Cao'
+              inputProps={{ placeholder: '10' }}
+            />
           </Grid>
 
           <Grid xs={12} lg={6}>
-            <FormFieldInputNumber name='netWeight' form={form} label='Khối Lượng' inputProps={{ placeholder: '10' }} />
+            <FormFieldInputNumber
+              name='netWeight'
+              form={form}
+              label='Khối Lượng'
+              inputProps={{ placeholder: '10' }}
+            />
           </Grid>
         </Grid>
       )}

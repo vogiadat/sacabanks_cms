@@ -26,10 +26,17 @@ export function NotFoundPage() {
         padding: 2
       }}
     >
-      <Typography component='h1' sx={{ fontSize: '4rem', mb: 2 }} color='danger'>
+      <Typography
+        component='h1'
+        sx={{ fontSize: '4rem', mb: 2 }}
+        color='danger'
+      >
         404
       </Typography>
-      <Typography component='p' sx={{ mb: 2, fontSize: '20px', fontWeight: '500' }}>
+      <Typography
+        component='p'
+        sx={{ mb: 2, fontSize: '20px', fontWeight: '500' }}
+      >
         Trang này không tồn tại
       </Typography>
       <Button variant='solid' onClick={handleGoHome}>

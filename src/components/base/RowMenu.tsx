@@ -10,7 +10,10 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded'
 export default function RowMenu() {
   return (
     <Dropdown>
-      <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}>
+      <MenuButton
+        slots={{ root: IconButton }}
+        slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}
+      >
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size='sm' sx={{ minWidth: 140 }}>

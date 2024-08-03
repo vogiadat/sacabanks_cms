@@ -1,4 +1,5 @@
-export const IS_PRODUCTION = import.meta.env.VITE_NODE_ENV === 'production' ? true : false
+export const IS_PRODUCTION =
+  import.meta.env.VITE_NODE_ENV === 'production' ? true : false
 console.log('🚀 ~ IS_PRODUCTION:', IS_PRODUCTION)
 
 export const APP_CONFIG = {

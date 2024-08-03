@@ -18,9 +18,11 @@ export const CardImage = ({ item }: Props) => {
   const queryClient = useQueryClient()
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
 
-  const { mutateAsync: mutateDelete, isPending: isPendingDelete } = useMutation({
-    mutationFn: (id: string) => listPhotoApi.delete(id)
-  })
+  const { mutateAsync: mutateDelete, isPending: isPendingDelete } = useMutation(
+    {
+      mutationFn: (id: string) => listPhotoApi.delete(id)
+    }
+  )
 
   const handleDelete = () => {
     mutateDelete(item.id)
@@ -52,14 +54,28 @@ export const CardImage = ({ item }: Props) => {
           variant='soft'
           color='danger'
           size='sm'
-          sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem', zIndex: 1 }}
+          sx={{
+            position: 'absolute',
+            top: '0.875rem',
+            right: '0.5rem',
+            zIndex: 1
+          }}
           onClick={() => setDeleteModalOpen(true)}
         >
           <DeleteIcon />
         </IconButton>
       </div>
-      <AspectRatio minHeight='120px' maxHeight='200px' sx={{ borderRadius: 'md' }}>
-        <img src={getImageById(item.photoUrl)} srcSet={getImageById(item.photoUrl)} loading='lazy' alt='' />
+      <AspectRatio
+        minHeight='120px'
+        maxHeight='200px'
+        sx={{ borderRadius: 'md' }}
+      >
+        <img
+          src={getImageById(item.photoUrl)}
+          srcSet={getImageById(item.photoUrl)}
+          loading='lazy'
+          alt=''
+        />
       </AspectRatio>
 
       {/* // ? Modal */}

@@ -23,7 +23,8 @@ function Page() {
     queryFn: () => productApi.findById(id)
   })
   const { isPending: isPendingUpload, mutateAsync: upload } = useMutation({
-    mutationFn: (data: { file: File }) => uploadApi.create(data, 'multipart/form-data')
+    mutationFn: (data: { file: File }) =>
+      uploadApi.create(data, 'multipart/form-data')
   })
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: ProductForm) => productApi.patch(id, data)

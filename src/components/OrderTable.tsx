@@ -233,7 +233,10 @@ type Order = 'asc' | 'desc'
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
-): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy)
@@ -243,7 +246,10 @@ function getComparator<Key extends keyof any>(
 // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
+) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
@@ -258,7 +264,10 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 function RowMenu() {
   return (
     <Dropdown>
-      <MenuButton slots={{ root: IconButton }} slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}>
+      <MenuButton
+        slots={{ root: IconButton }}
+        slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}
+      >
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size='sm' sx={{ minWidth: 140 }}>
@@ -280,7 +289,11 @@ export default function OrderTable() {
     <React.Fragment>
       <FormControl size='sm'>
         <FormLabel>Status</FormLabel>
-        <Select size='sm' placeholder='Filter by status' slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}>
+        <Select
+          size='sm'
+          placeholder='Filter by status'
+          slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+        >
           <Option value='paid'>Paid</Option>
           <Option value='pending'>Pending</Option>
           <Option value='refunded'>Refunded</Option>
@@ -320,8 +333,18 @@ export default function OrderTable() {
           gap: 1
         }}
       >
-        <Input size='sm' placeholder='Search' startDecorator={<SearchIcon />} sx={{ flexGrow: 1 }} />
-        <IconButton size='sm' variant='outlined' color='neutral' onClick={() => setOpen(true)}>
+        <Input
+          size='sm'
+          placeholder='Search'
+          startDecorator={<SearchIcon />}
+          sx={{ flexGrow: 1 }}
+        />
+        <IconButton
+          size='sm'
+          variant='outlined'
+          color='neutral'
+          onClick={() => setOpen(true)}
+        >
           <FilterAltIcon />
         </IconButton>
         <Modal open={open} onClose={() => setOpen(false)}>
@@ -355,7 +378,11 @@ export default function OrderTable() {
       >
         <FormControl sx={{ flex: 1 }} size='sm'>
           <FormLabel>Search for order</FormLabel>
-          <Input size='sm' placeholder='Search' startDecorator={<SearchIcon />} />
+          <Input
+            size='sm'
+            placeholder='Search'
+            startDecorator={<SearchIcon />}
+          />
         </FormControl>
         {renderFilters()}
       </Box>
@@ -376,24 +403,36 @@ export default function OrderTable() {
           stickyHeader
           hoverRow
           sx={{
-            '--TableCell-headBackground': 'var(--joy-palette-background-level1)',
+            '--TableCell-headBackground':
+              'var(--joy-palette-background-level1)',
             '--Table-headerUnderlineThickness': '1px',
-            '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
+            '--TableRow-hoverBackground':
+              'var(--joy-palette-background-level1)',
             '--TableCell-paddingY': '4px',
             '--TableCell-paddingX': '8px'
           }}
         >
           <thead>
             <tr>
-              <th style={{ width: 48, textAlign: 'center', padding: '12px 6px' }}>
+              <th
+                style={{ width: 48, textAlign: 'center', padding: '12px 6px' }}
+              >
                 <Checkbox
                   size='sm'
-                  indeterminate={selected.length > 0 && selected.length !== rows.length}
+                  indeterminate={
+                    selected.length > 0 && selected.length !== rows.length
+                  }
                   checked={selected.length === rows.length}
                   onChange={(event) => {
-                    setSelected(event.target.checked ? rows.map((row) => row.id) : [])
+                    setSelected(
+                      event.target.checked ? rows.map((row) => row.id) : []
+                    )
                   }}
-                  color={selected.length > 0 || selected.length === rows.length ? 'primary' : undefined}
+                  color={
+                    selected.length > 0 || selected.length === rows.length
+                      ? 'primary'
+                      : undefined
+                  }
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
@@ -408,7 +447,8 @@ export default function OrderTable() {
                   sx={{
                     '& svg': {
                       transition: '0.2s',
-                      transform: order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)'
+                      transform:
+                        order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)'
                     }
                   }}
                 >
@@ -431,7 +471,9 @@ export default function OrderTable() {
                     color={selected.includes(row.id) ? 'primary' : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
-                        event.target.checked ? ids.concat(row.id) : ids.filter((itemId) => itemId !== row.id)
+                        event.target.checked
+                          ? ids.concat(row.id)
+                          : ids.filter((itemId) => itemId !== row.id)
                       )
                     }}
                     slotProps={{ checkbox: { sx: { textAlign: 'left' } } }}
@@ -470,8 +512,12 @@ export default function OrderTable() {
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                     <Avatar size='sm'>{row.customer.initial}</Avatar>
                     <div>
-                      <Typography level='body-xs'>{row.customer.name}</Typography>
-                      <Typography level='body-xs'>{row.customer.email}</Typography>
+                      <Typography level='body-xs'>
+                        {row.customer.name}
+                      </Typography>
+                      <Typography level='body-xs'>
+                        {row.customer.email}
+                      </Typography>
                     </div>
                   </Box>
                 </td>
@@ -500,19 +546,34 @@ export default function OrderTable() {
           }
         }}
       >
-        <Button size='sm' variant='outlined' color='neutral' startDecorator={<KeyboardArrowLeftIcon />}>
+        <Button
+          size='sm'
+          variant='outlined'
+          color='neutral'
+          startDecorator={<KeyboardArrowLeftIcon />}
+        >
           Previous
         </Button>
 
         <Box sx={{ flex: 1 }} />
         {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
-          <IconButton key={page} size='sm' variant={Number(page) ? 'outlined' : 'plain'} color='neutral'>
+          <IconButton
+            key={page}
+            size='sm'
+            variant={Number(page) ? 'outlined' : 'plain'}
+            color='neutral'
+          >
             {page}
           </IconButton>
         ))}
         <Box sx={{ flex: 1 }} />
 
-        <Button size='sm' variant='outlined' color='neutral' endDecorator={<KeyboardArrowRightIcon />}>
+        <Button
+          size='sm'
+          variant='outlined'
+          color='neutral'
+          endDecorator={<KeyboardArrowRightIcon />}
+        >
           Next
         </Button>
       </Box>

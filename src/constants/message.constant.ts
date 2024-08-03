@@ -55,7 +55,8 @@ export const APP_MESSAGE = {
     POLICY_REQUIRED: 'Please review and accept our Policy before registering',
     LOGIN_REQUIRED: 'Please login before continue access this feature',
 
-    REGISTER_SUCCESS: 'Successfully ! Check inbox or spam on your email to continue verify',
+    REGISTER_SUCCESS:
+      'Successfully ! Check inbox or spam on your email to continue verify',
     LOGIN_SUCCESS: 'Đăng nhập thành công',
     LOGOUT_SUCCESS: 'You have logged out successfully!',
     VERIFY_SUCCESS: 'Your email has been verified! You can now login',

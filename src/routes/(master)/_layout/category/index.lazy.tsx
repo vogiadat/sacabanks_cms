@@ -42,8 +42,18 @@ function Page() {
           Danh Mục
         </Typography>
 
-        <Stack direction='row' justifyContent='center' alignItems='center' spacing={1}>
-          <Button color='success' startDecorator={<HeartBroken />} size='sm' onClick={() => setOpenWhiteList(true)}>
+        <Stack
+          direction='row'
+          justifyContent='center'
+          alignItems='center'
+          spacing={1}
+        >
+          <Button
+            color='success'
+            startDecorator={<HeartBroken />}
+            size='sm'
+            onClick={() => setOpenWhiteList(true)}
+          >
             Nổi Bật
           </Button>
           <Create />

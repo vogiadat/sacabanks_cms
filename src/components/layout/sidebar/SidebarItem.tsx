@@ -5,7 +5,11 @@ import Typography from '@mui/joy/Typography'
 import { Link } from '@tanstack/react-router'
 import * as React from 'react'
 
-const SidebarItem = (props: { href: string; title: string; icon: React.ReactNode }) => {
+const SidebarItem = (props: {
+  href: string
+  title: string
+  icon: React.ReactNode
+}) => {
   const { href, title, icon } = props
 
   return (

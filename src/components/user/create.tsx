@@ -1,10 +1,18 @@
 import { Add } from '@mui/icons-material'
 import { Button } from '@mui/joy'
-import { InvalidateQueryFilters, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQueryClient
+} from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 
 import { userApi } from '@/apis/user.api'
-import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
+import {
+  getUsernameFromEmail,
+  showToastError,
+  showToastQuerySuccess
+} from '@/utils'
 import { UserFormSchema, defaultValues } from './FormSchema'
 import FormUser from './FormUser'
 
@@ -43,7 +51,12 @@ const CreateUser = () => {
 
   return (
     <>
-      <Button color='primary' startDecorator={<Add />} size='sm' onClick={() => setOpen(true)}>
+      <Button
+        color='primary'
+        startDecorator={<Add />}
+        size='sm'
+        onClick={() => setOpen(true)}
+      >
         Tạo mới
       </Button>
       <FormUser

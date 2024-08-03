@@ -1,4 +1,9 @@
-import { FormFieldImage, FormFieldInput, FormFieldInputPassword, FormTextArea } from '@/components/form'
+import {
+  FormFieldImage,
+  FormFieldInput,
+  FormFieldInputPassword,
+  FormTextArea
+} from '@/components/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid } from '@mui/joy'
 import { useForm } from 'react-hook-form'
@@ -105,16 +110,28 @@ const FormSupplier = ({ defaultValues, onSubmit, isLoading }: Props) => {
               name='implementerPhone'
               form={form}
               label='Số Điện Thoại Người Triển Khai'
-              inputProps={{ placeholder: 'Nhập số điện thoại người triển khai' }}
+              inputProps={{
+                placeholder: 'Nhập số điện thoại người triển khai'
+              }}
             />
           </Grid>
 
           <Grid xs={12} lg={8}>
-            <FormFieldImage name='bannerFile' form={form} label='Ảnh nền' defaultPreviewImage='banner' />
+            <FormFieldImage
+              name='bannerFile'
+              form={form}
+              label='Ảnh nền'
+              defaultPreviewImage='banner'
+            />
           </Grid>
 
           <Grid xs={12} lg={4}>
-            <FormFieldImage name='avatarFile' form={form} label='Ảnh đại diện' defaultPreviewImage='avatar' />
+            <FormFieldImage
+              name='avatarFile'
+              form={form}
+              label='Ảnh đại diện'
+              defaultPreviewImage='avatar'
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -124,7 +141,10 @@ const FormSupplier = ({ defaultValues, onSubmit, isLoading }: Props) => {
           name='description'
           form={form}
           label='Mô Tả Doanh Nghiệp'
-          textAreaProps={{ placeholder: 'Thêm mô tả cho doanh nghiệp', minRows: 5 }}
+          textAreaProps={{
+            placeholder: 'Thêm mô tả cho doanh nghiệp',
+            minRows: 5
+          }}
         />
       </Box>
 

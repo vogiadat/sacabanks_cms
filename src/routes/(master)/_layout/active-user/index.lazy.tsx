@@ -16,9 +16,17 @@ export const Route = createLazyFileRoute('/(master)/_layout/active-user/')({
 })
 
 function Page() {
-  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
+  const [limitPagination, setLimitPagination] = useState(
+    APP_RULE.PAGINATION.LIMIT_PAGINATION
+  )
   const { search, setSearch, filter } = useSearchFilter()
-  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+  const {
+    pagination,
+    setPagination,
+    handleNextPage,
+    handlePrevPage,
+    handleChangePage
+  } = usePagination()
 
   const { data, isFetching, isLoading, isSuccess } = useQuery({
     queryKey: activeUserApi.getKey('getListPagination', {
@@ -38,7 +46,14 @@ function Page() {
       })
   })
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
+  useSetTotalPages(
+    isSuccess,
+    pagination,
+    setPagination,
+    data?.data,
+    search,
+    limitPagination
+  )
 
   const activeUserList = data?.data.data.list ?? []
 
@@ -94,7 +109,10 @@ function Page() {
                 overflow: 'auto'
               }}
             >
-              <Table<IActiveUserItem> rows={activeUserList} columns={columnDef} />
+              <Table<IActiveUserItem>
+                rows={activeUserList}
+                columns={columnDef}
+              />
             </Sheet>
           ) : (
             <EmptyItem />
@@ -148,7 +166,11 @@ const columnDef: ColumDef<IActiveUserItem>[] = [
     associate: 'isActive',
     label: 'Trạng Thái',
     render: (row) => (
-      <Chip variant='soft' size='sm' color={row.isActive ? 'success' : 'warning'}>
+      <Chip
+        variant='soft'
+        size='sm'
+        color={row.isActive ? 'success' : 'warning'}
+      >
         {row.isActive ? 'Đã Kích Hoạt' : 'Chưa Kích Hoạt'}
       </Chip>
     )
