@@ -65,7 +65,7 @@ function Page() {
 
   console.log('🚀 ~ Page ~ productPublicData:', data)
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search)
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
 
   const productList = data?.data.data.list
 

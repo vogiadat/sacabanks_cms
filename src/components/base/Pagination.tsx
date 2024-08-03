@@ -14,6 +14,10 @@ import Menu from '@mui/joy/Menu'
 import MenuButton from '@mui/joy/MenuButton'
 import MenuItem from '@mui/joy/MenuItem'
 
+type PageOptionType = {
+  limit?: number
+  onLimitChange?: (limit: number) => void
+}
 interface Props {
   handlePrevPage?: any
   handleNextPage?: any
@@ -21,10 +25,7 @@ interface Props {
   currentPage: number
   totalPages: number
   lambda?: number
-  pageOptions?: {
-    limit?: number
-    onLimitChange?: (limit: number) => void
-  }
+  pageOptions?: PageOptionType
 }
 
 const Pagination = ({
@@ -39,7 +40,6 @@ const Pagination = ({
   const pageItems = generatePageItems(currentPage, totalPages)
   const isPrev = currentPage > 1
   const isNext = currentPage < totalPages
-  const limit = pageOptions?.limit || APP_RULE.PAGINATION.LIMIT_PAGINATION
 
   const isMobile = useCheckBreakpointScreen()
 
@@ -65,22 +65,8 @@ const Pagination = ({
           marginTop: 'auto'
         }}
       >
-        <Box
-          sx={{
-            textAlign: 'right'
-          }}
-        >
-          <Dropdown>
-            <MenuButton endDecorator={<ArrowDropDown />}>{limit} / Trang</MenuButton>
-            <Menu sx={{ minWidth: 160, '--ListItemDecorator-size': '24px' }}>
-              {APP_RULE.PAGINATION.LIMIT_RANGE.map((limit) => (
-                <MenuItem key={limit} onClick={() => pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)}>
-                  {limit} / Trang
-                </MenuItem>
-              ))}
-            </Menu>
-          </Dropdown>
-        </Box>
+        {/* // * PC */}
+        {isMobile && <LimitPagination pageOptions={pageOptions} />}
         <Box
           sx={{
             gap: !isMobile ? 1 : 0.5,
@@ -133,7 +119,6 @@ const Pagination = ({
             </Fragment>
           ))}
           <Box sx={{ flex: 1 }} />
-
           <Button
             onClick={() => handleNextPage()}
             size='sm'
@@ -151,6 +136,7 @@ const Pagination = ({
               }}
             />
           </Button>
+          {!isMobile && <LimitPagination pageOptions={pageOptions} />}
         </Box>
       </Box>
     </>
@@ -185,6 +171,28 @@ const generatePageItems = (currentPage: number, totalPages: number) => {
   }
 
   return pageItems
+}
+
+const LimitPagination = ({ pageOptions }: { pageOptions?: PageOptionType }) => {
+  const limit = pageOptions?.limit || APP_RULE.PAGINATION.LIMIT_PAGINATION
+  return (
+    <Box
+      sx={{
+        textAlign: 'right'
+      }}
+    >
+      <Dropdown>
+        <MenuButton endDecorator={<ArrowDropDown />}>{limit} / Trang</MenuButton>
+        <Menu sx={{ minWidth: 160, '--ListItemDecorator-size': '24px' }}>
+          {APP_RULE.PAGINATION.LIMIT_RANGE.map((limit) => (
+            <MenuItem key={limit} onClick={() => pageOptions?.onLimitChange && pageOptions.onLimitChange(limit)}>
+              {limit} / Trang
+            </MenuItem>
+          ))}
+        </Menu>
+      </Dropdown>
+    </Box>
+  )
 }
 
 export default Pagination
