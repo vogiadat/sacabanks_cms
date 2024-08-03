@@ -6,7 +6,7 @@ import { RoleMap } from '@/types'
 import { userApi } from '@/apis/user.api'
 import { FormDrawer, FormFieldInput, FormFieldInputPassword, FormFieldSelect } from '@/components/form'
 import { showToastError, showToastQuerySuccess } from '@/utils'
-import { useMutation } from '@tanstack/react-query'
+import { InvalidateQueryFilters, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { ModalConfirmDelete } from '../modal'
 import { formSchema, UserFormSchema } from './FormSchema'
@@ -23,6 +23,7 @@ interface Props {
 
 const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, isLoading = false }: Props) => {
   const isEdit = id ? true : false
+  const queryClient = useQueryClient()
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
   const userRoleSelect = Object.entries(RoleMap).map(([key, value]) => ({
     value: key,
@@ -38,6 +39,7 @@ const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, i
     mutationFn: (id: string) => userApi.delete(id),
     onSuccess: (data) => {
       showToastQuerySuccess('DELETE_SUCCESS')(data)
+      queryClient.invalidateQueries(userApi.getKey() as InvalidateQueryFilters)
       setDeleteModalOpen(false)
       handleCloseModal()
     },

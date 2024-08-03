@@ -1,10 +1,10 @@
 import { Add } from '@mui/icons-material'
 import { Button } from '@mui/joy'
+import { InvalidateQueryFilters, useMutation, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 
 import { userApi } from '@/apis/user.api'
 import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { UserFormSchema, defaultValues } from './FormSchema'
 import FormUser from './FormUser'
 
@@ -15,26 +15,8 @@ const CreateUser = () => {
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: any) => userApi.create(data),
     onSuccess: (newValue) => {
-      const newUser = newValue?.data.data
       showToastQuerySuccess('ADD_SUCCESS')(newValue)
-      queryClient.setQueryData(userApi.getKey('getList'), (oldData: any) => {
-        if (!oldData || !oldData.data || !oldData.data.data) {
-          return {
-            data: {
-              ...newUser,
-              data: [newUser]
-            }
-          }
-        }
-
-        return {
-          ...oldData,
-          data: {
-            ...oldData.data,
-            data: [...oldData.data.data, newUser]
-          }
-        }
-      })
+      queryClient.invalidateQueries(userApi.getKey() as InvalidateQueryFilters)
       setOpen(false)
     },
     onError: showToastError

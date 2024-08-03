@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Sheet, Typography } from '@mui/joy'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { InvalidateQueryFilters, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -176,11 +176,13 @@ const columnDef: ColumDef<UserForm>[] = [
 
 const ActionsHandle = ({ user }: { user: UserForm }) => {
   const [open, setOpen] = useState(false)
+  const queryClient = useQueryClient()
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: UserFormSchema) => userApi.patch(user.id, data),
     onSuccess: (data) => {
       showToastQuerySuccess('UPDATE_SUCCESS')(data)
+      queryClient.invalidateQueries(userApi.getKey() as InvalidateQueryFilters)
       setOpen(false)
     },
     onError: showToastError
