@@ -1,5 +1,3 @@
-import { IBaseItem } from '@/interfaces'
-
 export interface IReport {
   userQuantity: number
   productQuantity: number
