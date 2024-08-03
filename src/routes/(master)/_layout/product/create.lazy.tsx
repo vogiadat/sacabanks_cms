@@ -1,13 +1,13 @@
 import { Box, Typography } from '@mui/joy'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { categoryApi, productApi, uploadApi } from '@/apis'
+import { productApi, uploadApi } from '@/apis'
 import FormProduct from '@/components/product/FormProduct'
 import { initProduct, ProductForm } from '@/components/product/FormSchema'
 import { showToastError, showToastQuerySuccess } from '@/utils'
 import Card from '@mui/joy/Card'
 import CardContent from '@mui/joy/CardContent'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 export const Route = createLazyFileRoute('/(master)/_layout/product/create')({
   component: () => <Page />
@@ -70,7 +70,7 @@ function Page() {
             <FormProduct
               defaultValues={initProduct}
               onSubmit={handleSubmit}
-              isLoading={isPendingUpload || isPendingUpload}
+              isLoading={isPendingUpload || isPendingUpload || isPendingMutation}
             />
           </CardContent>
         </Card>

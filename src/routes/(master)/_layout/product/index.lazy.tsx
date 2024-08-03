@@ -6,7 +6,7 @@ import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
 import { productApi } from '@/apis'
 import { APP_RULE } from '@/constants'
 import { image_default } from '@/constants/image.constant'
-import { useDebounceValue, usePagination, useSetTotalPages } from '@/hooks'
+import { usePagination, useSetTotalPages } from '@/hooks'
 import { IProductItem } from '@/interfaces'
 import { getImageById } from '@/utils'
 
@@ -83,10 +83,7 @@ function Page() {
           }
         }}
       >
-        <Search
-          label='Tìm kiếm sản phẩm'
-          onDebounceChange={setSearch}
-        />
+        <Search label='Tìm kiếm sản phẩm' onDebounceChange={setSearch} />
 
         <Filter
           name='Danh Mục'

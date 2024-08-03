@@ -2,22 +2,18 @@ import { Add } from '@mui/icons-material'
 import { Button } from '@mui/joy'
 import React from 'react'
 
-import { FormImage } from './FormImage'
-import { ImageForm, defaultValues } from './FormSchemaImage'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { categoryApi } from '@/apis/category.api'
-import { APP_MESSAGE } from '@/constants'
-import { toast } from 'sonner'
 import { productApi, uploadApi } from '@/apis'
 import { listPhotoApi } from '@/apis/list-photo.api'
 import { showToastError, showToastQuerySuccess } from '@/utils'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { FormImage } from './FormImage'
+import { ImageForm } from './FormSchemaImage'
 
 interface Props {
   productId: string
 }
 
 export const CreateImage = ({ productId }: Props) => {
-  console.log('🚀 ~ CreateImage ~ productId:', productId)
   const [open, setOpen] = React.useState(false)
 
   const queryClient = useQueryClient()

@@ -4,19 +4,11 @@ import { useForm } from 'react-hook-form'
 
 import { checkSomeBoolean, generateSlug } from '@/utils'
 
-import {
-  FormFieldImage,
-  FormFieldInput,
-  FormFieldInputNumber,
-  FormFieldMultipleImages,
-  FormFieldSelect,
-  FormTextArea
-} from '@/components/form'
-import { formSchema, ProductForm } from './FormSchema'
-import { RoleMap } from '@/types'
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { categoryApi } from '@/apis'
+import { FormFieldImage, FormFieldInput, FormFieldInputNumber, FormFieldSelect, FormTextArea } from '@/components/form'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { ProductForm, formSchema } from './FormSchema'
 
 interface Props {
   defaultValues: ProductForm
@@ -29,7 +21,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
     queryKey: categoryApi.getKeyForList(),
     queryFn: () => categoryApi.getList()
   })
-  
+
   const categoryList = categoryData?.data.data ?? []
 
   const [showOptions, setShowOptions] = useState<boolean>(
@@ -48,7 +40,7 @@ const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
     defaultValues
   })
 
-  const userRoleSelect = categoryList.map((item, index) => ({
+  const userRoleSelect = categoryList.map((item) => ({
     value: item.id,
     label: item.name
   }))

@@ -18,7 +18,7 @@ interface Props {
   onSubmit: (_value: UserFormSchema) => void
   id?: string
   isLoading?: boolean
-  userName: string
+  userName?: string
 }
 
 const FormUser = ({ defaultValues, open, setOpen, onSubmit, id = '', userName, isLoading = false }: Props) => {
