@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { UserFormSchema } from '@/components/user/FormSchema'
 import { showToastError, showToastQuerySuccess } from '@/utils'
 import { APP_RULE } from '@/constants'
-import { usePagination, useSetTotalPages } from '@/hooks'
+import { usePagination, useSearchFilter, useSetTotalPages } from '@/hooks'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
 
@@ -24,7 +24,9 @@ export const Route = createLazyFileRoute('/(master)/_layout/user/')({
 function Page() {
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
 
-  const params = { page: pagination.currentPage }
+  const { search, setSearch, filter, setFilter, sort, setSort } = useSearchFilter()
+
+  const params = { page: pagination.currentPage, search, ...filter }
   const { data, isSuccess, isFetching, isLoading } = useQuery({
     queryKey: userApi.getKey('getListPagination', { params }),
     queryFn: () => userApi.getListPagination(params)
@@ -65,7 +67,7 @@ function Page() {
           }
         }}
       >
-        <Search label='Tìm kiếm người dùng' />
+        <Search label='Tìm kiếm người dùng' onDebounceChange={setSearch} />
 
         <Filter
           name='Quyền Hạn'
@@ -77,18 +79,6 @@ function Page() {
           ]}
           selectProps={{
             placeholder: 'Lọc theo quyền'
-          }}
-          onChange={console.log}
-        />
-
-        <Filter
-          name='Sắp xếp'
-          items={[
-            { value: 'ASC', label: 'Giá tăng dần' },
-            { value: 'DESC', label: 'Giá giảm dần' }
-          ]}
-          selectProps={{
-            placeholder: 'Sắp xếp theo'
           }}
           onChange={console.log}
         />
