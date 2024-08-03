@@ -86,8 +86,8 @@ export const APP_MESSAGE = {
     UNPROCESSABLE: 'Oops! Some data on your request not correct !', // 422
     MAINTENANCE: {
       // 503
-      PAGE: 'Oops! This page is being maintained',
-      DEVELOP: 'Comming soon!'
+      PAGE: 'Trang này đang trong giai đoạn phát triển',
+      DEVELOP: 'Coming soon!'
     },
 
     // Prisma Error Throw:
