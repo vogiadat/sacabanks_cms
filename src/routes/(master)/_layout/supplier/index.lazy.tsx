@@ -21,10 +21,11 @@ export const Route = createLazyFileRoute('/(master)/_layout/supplier/')({
 function Page() {
   const { navigate } = useRouter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
-
+  
+  const params = { page: pagination.currentPage }
   const { data, isFetching, isLoading, isSuccess } = useQuery({
-    queryKey: supplierApi.getKeyForList({ page: pagination.currentPage }),
-    queryFn: () => supplierApi.getListPagination({ page: pagination.currentPage })
+    queryKey: supplierApi.getKey('getListPagination', { params }),
+    queryFn: () => supplierApi.getListPagination(params)
   })
 
   useSetTotalPages(isSuccess, pagination, setPagination, data?.data)

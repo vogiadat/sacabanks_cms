@@ -24,7 +24,7 @@ const Create = () => {
     onSuccess: (newValue) => {
       const newCategory = newValue?.data.data
       toast.success(APP_MESSAGE.FORM.ADD_SUCCESS)
-      queryClient.setQueryData(categoryApi.getKeyForList(), (oldData: any) => {
+      queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
         if (!oldData || !oldData.data || !oldData.data.data) {
           return {
             data: {

@@ -23,9 +23,11 @@ export const Route = createLazyFileRoute('/(master)/_layout/user/')({
 
 function Page() {
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+
+  const params = { page: pagination.currentPage }
   const { data, isSuccess, isFetching, isLoading } = useQuery({
-    queryKey: userApi.getKeyForList({ page: pagination.currentPage }),
-    queryFn: () => userApi.getListPagination({ page: pagination.currentPage })
+    queryKey: userApi.getKey('getListPagination', { params }),
+    queryFn: () => userApi.getListPagination(params)
   })
 
   useSetTotalPages(isSuccess, pagination, setPagination, data?.data)

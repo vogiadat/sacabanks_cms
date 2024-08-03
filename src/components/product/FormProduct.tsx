@@ -18,7 +18,7 @@ interface Props {
 
 const FormProduct = ({ defaultValues, onSubmit, isLoading }: Props) => {
   const { data: categoryData } = useQuery({
-    queryKey: categoryApi.getKeyForList(),
+    queryKey: categoryApi.getKey('getList'),
     queryFn: () => categoryApi.getList()
   })
 

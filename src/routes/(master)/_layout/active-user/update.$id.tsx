@@ -18,7 +18,7 @@ function Page() {
   const { id } = Route.useParams()
   // console.log('🚀 ~ Page ~ id:', id)
   const { data } = useQuery({
-    queryKey: activeUserApi.getKeyForFindById(id),
+    queryKey: activeUserApi.getKey('findById', { id }),
     queryFn: () => activeUserApi.findById(id)
   })
 

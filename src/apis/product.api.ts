@@ -8,23 +8,10 @@ class ProductApi extends BaseApi<IProductItem> {
     super('product')
   }
 
-  getMyProduct(params?: ParamsType) {
-    return axiosClient.get(`${this.endpoint}/my_product`, {
-      params
-    })
-  }
-  getKeyForMyProduct(params?: ParamsType) {
-    return [this.key, 'getListPagination', 'my_product', params]
-  }
-
   getPublic(params?: ParamsType) {
     return axiosClient.get(`${this.endpoint}/public`, {
       params
     })
-  }
-  getKeyForPublic(params?: ParamsType) {
-    const paramsArray = params ? Object.entries(params) : []
-    return [this.key, 'getListPagination', 'public', ...paramsArray]
   }
 }
 

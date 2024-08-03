@@ -19,7 +19,7 @@ function Page() {
   const [openWhiteList, setOpenWhiteList] = useState(false)
 
   const { data, isLoading } = useQuery({
-    queryKey: categoryApi.getKeyForList(),
+    queryKey: categoryApi.getKey('getList'),
     queryFn: () => categoryApi.getList()
   })
 

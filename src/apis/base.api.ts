@@ -11,38 +11,61 @@ import { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 // ! Add api type here before call super('')
 type EndpointType = 'category' | 'upload' | 'user' | 'product' | 'register_vendor' | 'list_photo'
 
-type KeyType = 'getList' | 'getListPagination' | 'findById'
+type KeyType = 'getList' | 'getListPagination' | 'other' | 'findById'
 type GeneralKeyDataType = {
   params?: ParamsType
   id?: string
 }
 export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
+  // ? Using in Constructor
   protected endpoint: string
   protected key: string
+  // ? Using in children
+  protected subKey: string = ''
 
   constructor(endpoint: EndpointType) {
     this.endpoint = `/${endpoint}`
     this.key = endpoint
   }
 
-  getKeyForListPagination(params?: ParamsType) {
-    return [this.key, 'getListPagination', ...this.convertParamsToArray(params)]
+  // * Getter & Setter
+  setSubKey(subKey: string) {
+    this.subKey = subKey
   }
 
+  getKey(type: KeyType = 'getList', keyData?: GeneralKeyDataType, subKey?: string) {
+    let keyArrays: Array<KeyType | ParamsType | string | undefined> = []
+
+    if (subKey) this.setSubKey(subKey)
+
+    switch (type) {
+      case 'getList':
+        keyArrays = [this.key, type, ...this.convertParamsToArray(keyData?.params)]
+        break
+      case 'getListPagination':
+        keyArrays = [this.key, type, ...this.convertParamsToArray(keyData?.params)]
+        break
+      case 'findById':
+        keyArrays = [this.key, type, keyData?.id]
+        break
+      case 'other':
+        keyArrays = [this.key, type, this.subKey, ...this.convertParamsToArray(keyData?.params)]
+        break
+      default:
+        break
+    }
+
+    return keyArrays
+  }
+  // * END Getter & Setter
+
+  // * Main API Function
   getListPagination(params?: ParamsType): Promise<AxiosResponsePagination<TGet>> {
     return axiosClient.get(`${this.endpoint}`, { params })
   }
 
-  getKeyForList(params?: ParamsType) {
-    return [this.key, 'getList', ...this.convertParamsToArray(params)]
-  }
-
   getList(params?: ParamsType): Promise<AxiosResponse<ResponseApi<TGet[]>>> {
     return axiosClient.get(`${this.endpoint}`, { params })
-  }
-
-  getKeyForFindById(id: string) {
-    return [this.key, 'findById', id]
   }
 
   findById(id: string): Promise<AxiosResponseApi<TGet>> {
@@ -68,30 +91,11 @@ export class BaseApi<TGet = any, TBody = any, TPatch = any, TDelete = any> {
   delete(id: string): Promise<AxiosResponseApi<TDelete>> {
     return axiosClient.delete(`${this.endpoint}/${id}`)
   }
+  // * END Main API Function
 
   // * General helper function
   protected convertParamsToArray(params?: ParamsType) {
-    return params ? Object.entries(params) : []
-  }
-
-  protected getGeneralKey(type: KeyType = 'getList', keyData?: GeneralKeyDataType) {
-    let keyArrays: Array<KeyType | ParamsType | string | undefined> = []
-
-    switch (type) {
-      case 'getList':
-        keyArrays = [this.key, type, ...this.convertParamsToArray(keyData?.params)]
-        break
-      case 'getListPagination':
-        keyArrays = [this.key, type, ...this.convertParamsToArray(keyData?.params)]
-        break
-      case 'findById':
-        keyArrays = [this.key, type, keyData?.id]
-        break
-      default:
-        break
-    }
-
-    return keyArrays
+    return params ? Object.entries(params).map(([key, value]) => `${key}_${value}`) : []
   }
 
   protected getHeaderRequest(headerType?: HeaderType): RawAxiosRequestHeaders {

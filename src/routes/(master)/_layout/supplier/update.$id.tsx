@@ -24,7 +24,7 @@ function Page() {
   })
 
   const { data, isFetching: isLoadingData } = useQuery({
-    queryKey: supplierApi.getKeyForFindById(id),
+    queryKey: supplierApi.getKey('findById', { id }),
     queryFn: () => supplierApi.findById(id)
   })
   // console.log({ id, isLoadingData })

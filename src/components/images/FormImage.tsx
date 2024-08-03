@@ -38,7 +38,7 @@ export const FormImage = ({ defaultValues, open, setOpen, onSubmit, id = '', cat
   const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationFn: (id: string) => categoryApi.delete(id),
     onSuccess: () => {
-      queryClient.setQueryData(categoryApi.getKeyForList(), (oldData: any) => {
+      queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
         // console.log('🚀 ~ queryClient.setQueryData ~ oldData:', oldData)
         return {
           ...oldData,

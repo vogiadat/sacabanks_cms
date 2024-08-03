@@ -19,7 +19,7 @@ function Page() {
   const { navigate } = useRouter()
 
   const { data } = useQuery({
-    queryKey: productApi.getKeyForFindById(id),
+    queryKey: productApi.getKey('findById', { id }),
     queryFn: () => productApi.findById(id)
   })
   const { isPending: isPendingUpload, mutateAsync: upload } = useMutation({

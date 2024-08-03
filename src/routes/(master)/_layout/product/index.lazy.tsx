@@ -27,21 +27,25 @@ function Page() {
   const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
   const [search, setSearch] = useState('')
   // const { debounceValue: searchDebounce, isLoading: isLoadingSearchDebounce } = useDebounceValue(search)
-
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+
   const { data, isFetching, isSuccess } = useQuery({
-    queryKey: productApi.getKeyForPublic({
-      page: pagination.currentPage,
-      limit: limitPagination,
-      // search: searchDebounce
-      search
-    }),
+    queryKey: productApi.getKey(
+      'other',
+      {
+        params: {
+          page: pagination.currentPage,
+          limit: limitPagination,
+          search
+        }
+      },
+      'public'
+    ),
     queryFn: () =>
       productApi.getPublic({
         page: pagination.currentPage,
         limit: limitPagination,
         search
-        //  search: searchDebounce
       })
   })
   console.log('🚀 ~ Page ~ productPublicData:', data)

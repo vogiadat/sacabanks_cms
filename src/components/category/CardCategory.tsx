@@ -36,7 +36,7 @@ const CardCategory = ({ category, onAddToCategoryHome }: Props) => {
 
       if (updatedCategory) {
         toast.success(APP_MESSAGE.FORM.UPDATE_SUCCESS)
-        queryClient.setQueryData(categoryApi.getKeyForList(), (oldData: any) => {
+        queryClient.setQueryData(categoryApi.getKey('getList'), (oldData: any) => {
           if (!oldData || !oldData.data || !oldData.data.data) {
             return {
               data: {

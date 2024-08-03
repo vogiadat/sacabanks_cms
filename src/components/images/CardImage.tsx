@@ -26,10 +26,10 @@ export const CardImage = ({ item }: Props) => {
     mutateDelete(item.id)
       .then((res) => {
         queryClient.invalidateQueries({
-          queryKey: productApi.getKeyForFindById(item.productId),
+          queryKey: productApi.getKey('findById', { id: item.productId }),
           exact: true
         })
-        
+
         // ? Reset data
         setDeleteModalOpen(false)
         showToastQuerySuccess('DELETE_SUCCESS')(res)

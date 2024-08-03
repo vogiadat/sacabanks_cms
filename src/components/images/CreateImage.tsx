@@ -35,14 +35,13 @@ export const CreateImage = ({ productId }: Props) => {
       await mutateListPhoto({
         ..._value,
         photoUrl: uploadedFile.data.data
-      }).then(showToastQuerySuccess("UPLOAD_SUCCESS"))
-
+      }).then(showToastQuerySuccess('UPLOAD_SUCCESS'))
 
       queryClient.invalidateQueries({
-        queryKey: productApi.getKeyForFindById(productId),
+        queryKey: productApi.getKey('findById', { id: productId }),
         exact: true
       })
-      
+
       setOpen(false)
     } catch (error) {
       showToastError(error as Error)
