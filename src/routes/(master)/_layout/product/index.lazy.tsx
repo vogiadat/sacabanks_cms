@@ -168,7 +168,13 @@ function Page() {
         lambda={APP_RULE.PAGINATION.LAMBDA}
         pageOptions={{
           limit: limitPagination,
-          onLimitChange: setLimitPagination
+          onLimitChange: (limit) => {
+            setLimitPagination(limit)
+            setPagination({
+              ...pagination,
+              currentPage: 1
+            })
+          }
         }}
       />
     </>
