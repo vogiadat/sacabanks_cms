@@ -23,7 +23,8 @@ class ProductApi extends BaseApi<IProductItem> {
     })
   }
   getKeyForPublic(params?: ParamsType) {
-    return [this.key, 'getListPagination', 'public', params]
+    const paramsArray = params ? Object.entries(params) : []
+    return [this.key, 'getListPagination', 'public', ...paramsArray]
   }
 }
 

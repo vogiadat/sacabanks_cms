@@ -82,15 +82,16 @@ export const useSetTotalPages = <T>(
   isSuccess: boolean,
   pagination: PaginationType,
   setPagination: Dispatch<React.SetStateAction<PaginationType>>,
-  data?: ResponsePagination<T>
+  data?: ResponsePagination<T>,
+  search?: string
 ) => {
   useEffect(() => {
-    if (isSuccess && pagination.totalPages === -1) {
-      const totalPages = data?.data.totalPage ?? getTotalPages(data?.data.count ?? 1)
+    const totalPages = data?.data.totalPage ?? getTotalPages(data?.data.count ?? 1)
+    if ((isSuccess && pagination.totalPages === -1) || pagination.totalPages !== totalPages) {
       setPagination({
         ...pagination,
         totalPages
       })
     }
-  }, [isSuccess])
+  }, [isSuccess, search])
 }

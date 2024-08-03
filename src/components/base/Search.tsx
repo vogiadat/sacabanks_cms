@@ -22,14 +22,14 @@ const Search = ({ label, inputProps, onDebounceChange }: Props) => {
   }, [searchDebounce])
   return (
     <FormControl sx={{ flex: 1 }} size='sm'>
-      <FormLabel>{label || 'Tìm kiếm'}</FormLabel>
+      <FormLabel>{label ?? 'Tìm kiếm'}</FormLabel>
       <Input
         size='sm'
-        placeholder='Tìm kiếm'
+        placeholder={label ?? 'Tìm kiếm'}
         startDecorator={isLoadingDebounce ? <LoadingItem size='sm' /> : <SearchIcon />}
-        {...inputProps}
         onChange={(e) => setSearch(e.target.value)}
         value={search}
+        {...inputProps}
       />
     </FormControl>
   )
