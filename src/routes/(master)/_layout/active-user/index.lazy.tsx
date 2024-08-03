@@ -1,23 +1,46 @@
 import { activeUserApi } from '@/apis'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
-import { Search, Table } from '@/components/base'
-import Filter from '@/components/base/Filter'
+import { Pagination, Search, Table } from '@/components/base'
 import { ColumDef } from '@/components/base/Table'
 import { IActiveUserItem } from '@/interfaces'
 import { Box, Button, Chip, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
+import { LoadingFullPage } from '@/components/loading'
+import { EmptyItem } from '@/components/common'
+import { APP_RULE } from '@/constants'
+import { usePagination, useSearchFilter, useSetTotalPages } from '@/hooks'
+import { useState } from 'react'
 
 export const Route = createLazyFileRoute('/(master)/_layout/active-user/')({
   component: Page
 })
 
 function Page() {
-  const { data } = useQuery({
-    queryKey: activeUserApi.getKey('getList'),
-    queryFn: () => activeUserApi.getList()
+  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
+  const { search, setSearch, filter } = useSearchFilter()
+  const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
+
+  const { data, isFetching, isLoading, isSuccess } = useQuery({
+    queryKey: activeUserApi.getKey('getListPagination', {
+      params: {
+        page: pagination.currentPage,
+        limit: limitPagination,
+        search,
+        ...filter
+      }
+    }),
+    queryFn: () =>
+      activeUserApi.getListPagination({
+        page: pagination.currentPage,
+        limit: limitPagination,
+        search,
+        ...filter
+      })
   })
 
-  const activeList = data?.data.data
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
+
+  const activeUserList = data?.data.data.list ?? []
 
   return (
     <>
@@ -50,60 +73,52 @@ function Page() {
           }
         }}
       >
-        <Search label='Tìm kiếm người dùng' />
-
-        <Filter
-          name='Quyền Hạn'
-          items={[
-            { value: 1, label: 'Quản Trị Viên Cao Cấp' },
-            { value: 2, label: 'Quản Trị Viên' },
-            { value: 3, label: 'Nhà Cung Cấp' },
-            { value: 4, label: 'Khách Hàng' }
-          ]}
-          selectProps={{
-            placeholder: 'Lọc theo quyền'
-          }}
-          onChange={console.log}
-        />
-
-        <Filter
-          name='Sắp xếp'
-          items={[
-            { value: 'ASC', label: 'Giá tăng dần' },
-            { value: 'DESC', label: 'Giá giảm dần' }
-          ]}
-          selectProps={{
-            placeholder: 'Sắp xếp theo'
-          }}
-          onChange={console.log}
-        />
+        <Search label='Tìm kiếm doanh nghiệp' onDebounceChange={setSearch} />
       </Box>
 
-      <Sheet
-        className='OrderTableContainer custom-scrollbar'
-        variant='outlined'
-        sx={{
-          display: 'initial',
-          width: '100%',
-          borderRadius: 'sm',
-          flexShrink: 1,
-          minHeight: 0,
-          overflow: 'auto'
-        }}
-      >
-        <Table<IActiveUserItem> rows={activeList ?? []} columns={columnDef} />
-      </Sheet>
-
       {/* <Pagination /> */}
+      {isFetching || isLoading ? (
+        <LoadingFullPage />
+      ) : (
+        <>
+          {activeUserList && activeUserList.length > 0 ? (
+            <Sheet
+              className='OrderTableContainer custom-scrollbar'
+              variant='outlined'
+              sx={{
+                display: 'initial',
+                width: '100%',
+                borderRadius: 'sm',
+                flexShrink: 1,
+                minHeight: 0,
+                overflow: 'auto'
+              }}
+            >
+              <Table<IActiveUserItem> rows={activeUserList} columns={columnDef} />
+            </Sheet>
+          ) : (
+            <EmptyItem />
+          )}
+
+          <Pagination
+            handleNextPage={handleNextPage}
+            handlePrevPage={handlePrevPage}
+            handleChangePage={handleChangePage}
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            lambda={APP_RULE.PAGINATION.LAMBDA}
+            pageOptions={{
+              limit: limitPagination,
+              onLimitChange: setLimitPagination
+            }}
+          />
+        </>
+      )}
     </>
   )
 }
 
-interface ActiveForm extends IActiveUserItem {
-  actions?: string
-}
-
-const columnDef: ColumDef<ActiveForm>[] = [
+const columnDef: ColumDef<IActiveUserItem>[] = [
   {
     associate: 'email',
     label: 'Thông Tin',

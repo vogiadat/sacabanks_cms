@@ -2,16 +2,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Grid } from '@mui/joy'
 import { useForm } from 'react-hook-form'
 import { FormFieldInput, FormTextArea, FormFieldInputPassword } from '@/components/form'
-import { formSchema, ActiveUserFormSchema } from './FormSchema'
+import { formSchema } from './FormSchema'
+import { UserForm } from '@/components/supplier/FormSchema'
 
 interface Props {
-  defaultValues: ActiveUserFormSchema
-  onSubmit: (_value: ActiveUserFormSchema) => void
+  defaultValues: UserForm
+  onSubmit: (_value: UserForm) => void
   isLoading?: boolean
 }
 
 const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
-  const form = useForm<ActiveUserFormSchema>({
+  const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
     defaultValues
   })

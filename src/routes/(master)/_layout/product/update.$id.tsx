@@ -32,7 +32,7 @@ function Page() {
   const productData = data?.data?.data
 
   const handleSubmit = async (_value: ProductForm) => {
-    _value.mainPhoto = productData?.mainPhoto!
+    _value.mainPhoto = productData!.mainPhoto
 
     if (_value.mainPhotoFile) {
       await upload({ file: _value.mainPhotoFile })
@@ -53,6 +53,7 @@ function Page() {
       sx={{
         overflow: 'scroll'
       }}
+      className='custom-scrollbar'
     >
       <Tabs aria-label='Basic tabs' size='sm' defaultValue={0}>
         <TabList>

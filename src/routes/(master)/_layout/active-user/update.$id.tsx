@@ -1,20 +1,21 @@
 import { Box, Typography } from '@mui/joy'
 import Card from '@mui/joy/Card'
 import CardContent from '@mui/joy/CardContent'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
-import { activeUserApi } from '@/apis'
-import { userApi } from '@/apis/user.api'
-import { ActiveUserFormSchema } from '@/components/active-user'
+import { activeUserApi, supplierApi } from '@/apis'
 import FormActiveUser from '@/components/active-user/FormActiveUser'
-import { showToastError, showToastQuerySuccess } from '@/utils'
+import { getUsernameFromEmail, showToastError, showToastQuerySuccess } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { UserForm } from '@/components/supplier/FormSchema'
+import { RoleEnum } from '@/types'
 
 export const Route = createFileRoute('/(master)/_layout/active-user/update/$id')({
   component: () => <Page />
 })
 
 function Page() {
+  const navigate = useNavigate()
   const { id } = Route.useParams()
   // console.log('🚀 ~ Page ~ id:', id)
   const { data } = useQuery({
@@ -22,20 +23,27 @@ function Page() {
     queryFn: () => activeUserApi.findById(id)
   })
 
-  const { isPending } = useMutation({
-    mutationFn: (data: any) => userApi.create(data),
-    onSuccess: showToastQuerySuccess('ADD_SUCCESS'),
-    onError: showToastError
+  const { mutateAsync: mutateAsyncDelete } = useMutation({
+    mutationFn: (id: string) => activeUserApi.delete(id)
   })
 
-  const resData = data?.data.data
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: UserForm) => supplierApi.createDefaultRole(data)
+  })
 
-  // console.log('🚀 ~ Page ~ activeUserData:', activeUserData)
+  const formData = data?.data.data
 
-  const handleSubmit = (_value: ActiveUserFormSchema) => {
-    const dataSubmit: ActiveUserFormSchema = { ..._value, isActive: true }
-    // mutate(dataSubmit)
-    console.log(dataSubmit)
+  const handleSubmit = async (_value: UserForm) => {
+    await mutateAsync(_value)
+      .then((data) => {
+        showToastQuerySuccess('ADD_SUCCESS')(data)
+        mutateAsyncDelete(id)
+          .then(() => navigate({ to: '/supplier' }))
+          .catch((error) => {
+            throw error
+          })
+      })
+      .catch(showToastError)
   }
 
   return (
@@ -68,12 +76,13 @@ function Page() {
             <Typography level='title-lg'>Thông tin cơ bản</Typography>
           </div>
           <CardContent>
-            {resData && (
+            {formData && (
               <FormActiveUser
                 defaultValues={{
-                  ...resData,
-                  username: '',
-                  phoneNumber: resData.phone,
+                  ...formData,
+                  username: getUsernameFromEmail(formData.email),
+                  role: RoleEnum.VENDOR,
+                  phoneNumber: formData.phone,
                   password: null
                 }}
                 onSubmit={handleSubmit}

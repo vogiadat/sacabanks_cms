@@ -1,18 +1,18 @@
 import { supplierApi } from '@/apis'
 import { Pagination, Search } from '@/components/base'
-import Filter from '@/components/base/Filter'
 import Table, { ColumDef } from '@/components/base/Table'
 import { EmptyItem } from '@/components/common'
 import { LoadingFullPage } from '@/components/loading'
 import { APP_RULE } from '@/constants'
 import { image_default } from '@/constants/image.constant'
-import { usePagination, useSetTotalPages } from '@/hooks'
+import { usePagination, useSearchFilter, useSetTotalPages } from '@/hooks'
 import { IUserItem } from '@/interfaces'
 import { getImageById } from '@/utils'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Sheet, Typography } from '@mui/joy'
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute, useRouter } from '@tanstack/react-router'
+import { useState } from 'react'
 
 export const Route = createLazyFileRoute('/(master)/_layout/supplier/')({
   component: Page
@@ -20,15 +20,29 @@ export const Route = createLazyFileRoute('/(master)/_layout/supplier/')({
 
 function Page() {
   const { navigate } = useRouter()
+  const [limitPagination, setLimitPagination] = useState(APP_RULE.PAGINATION.LIMIT_PAGINATION)
+  const { search, setSearch, filter } = useSearchFilter()
   const { pagination, setPagination, handleNextPage, handlePrevPage, handleChangePage } = usePagination()
-  
-  const params = { page: pagination.currentPage }
+
   const { data, isFetching, isLoading, isSuccess } = useQuery({
-    queryKey: supplierApi.getKey('getListPagination', { params }),
-    queryFn: () => supplierApi.getListPagination(params)
+    queryKey: supplierApi.getKey('getListPagination', {
+      params: {
+        page: pagination.currentPage,
+        limit: limitPagination,
+        search,
+        ...filter
+      }
+    }),
+    queryFn: () =>
+      supplierApi.getListPagination({
+        page: pagination.currentPage,
+        limit: limitPagination,
+        search,
+        ...filter
+      })
   })
 
-  useSetTotalPages(isSuccess, pagination, setPagination, data?.data)
+  useSetTotalPages(isSuccess, pagination, setPagination, data?.data, search, limitPagination)
 
   const suppliers = data?.data.data.list || []
 
@@ -65,33 +79,7 @@ function Page() {
           }
         }}
       >
-        <Search label='Tìm kiếm nhà cung cấp' />
-
-        <Filter
-          name='Quyền Hạn'
-          items={[
-            { value: 1, label: 'Quản Trị Viên Cao Cấp' },
-            { value: 2, label: 'Quản Trị Viên' },
-            { value: 3, label: 'Nhà Cung Cấp' },
-            { value: 4, label: 'Khách Hàng' }
-          ]}
-          selectProps={{
-            placeholder: 'Lọc theo quyền'
-          }}
-          onChange={console.log}
-        />
-
-        <Filter
-          name='Sắp xếp'
-          items={[
-            { value: 'ASC', label: 'Giá tăng dần' },
-            { value: 'DESC', label: 'Giá giảm dần' }
-          ]}
-          selectProps={{
-            placeholder: 'Sắp xếp theo'
-          }}
-          onChange={console.log}
-        />
+        <Search label='Tìm kiếm nhà cung cấp' onDebounceChange={setSearch} />
       </Box>
 
       {isFetching || isLoading ? (
@@ -122,8 +110,12 @@ function Page() {
             handlePrevPage={handlePrevPage}
             handleChangePage={handleChangePage}
             currentPage={pagination.currentPage}
-            totalPages={pagination.totalPages || 0}
+            totalPages={pagination.totalPages}
             lambda={APP_RULE.PAGINATION.LAMBDA}
+            pageOptions={{
+              limit: limitPagination,
+              onLimitChange: setLimitPagination
+            }}
           />
         </>
       )}

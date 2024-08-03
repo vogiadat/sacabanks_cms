@@ -12,7 +12,7 @@ type SidebarType = {
 
 export const sidebarList: SidebarType[] = [
   {
-    title: 'Home',
+    title: 'Trang Chủ',
     href: '/',
     allowRole: ALL_ROLE,
     icon: <HomeRounded />

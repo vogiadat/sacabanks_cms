@@ -1,6 +1,5 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 // import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 // import SupportRoundedIcon from '@mui/icons-material/SupportRounded'
 import Avatar from '@mui/joy/Avatar'
@@ -8,7 +7,6 @@ import Box from '@mui/joy/Box'
 import Divider from '@mui/joy/Divider'
 import GlobalStyles from '@mui/joy/GlobalStyles'
 import IconButton from '@mui/joy/IconButton'
-import Input from '@mui/joy/Input'
 import List from '@mui/joy/List'
 import ListItem from '@mui/joy/ListItem'
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton'
@@ -120,7 +118,7 @@ export default function Sidebar() {
         <Typography level='title-lg'>Sacabanks</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
-      <Input size='sm' startDecorator={<SearchRoundedIcon />} placeholder='Search' />
+      {/* <Input size='sm' startDecorator={<SearchRoundedIcon />} placeholder='Search' /> */}
       <Box
         sx={{
           minHeight: 0,
@@ -213,11 +211,15 @@ export default function Sidebar() {
         {userProfile?.avatar ? (
           <Avatar variant='outlined' size='sm' src={userProfile.avatar} />
         ) : (
-          <Avatar size='sm'>{userProfile?.email ?? ''}</Avatar>
+          <Avatar size='sm'>{(userProfile?.email && userProfile.email.at(0)) ?? ''}</Avatar>
         )}
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level='title-sm'>{(userProfile?.companyName || userProfile?.username) ?? 'username'}</Typography>
-          <Typography level='body-xs'>{userProfile?.email ?? 'email@example.com'}</Typography>
+          <Typography level='title-sm' noWrap>
+            {(userProfile?.companyName || userProfile?.username) ?? 'username'}
+          </Typography>
+          <Typography level='body-xs' noWrap>
+            {userProfile?.email ?? 'email@example.com'}
+          </Typography>
         </Box>
         <IconButton size='sm' variant='plain' color='neutral' onClick={handleLogout}>
           <LogoutRoundedIcon />
