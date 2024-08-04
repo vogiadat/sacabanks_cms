@@ -12,7 +12,7 @@ import {
 } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { UserForm } from '@/components/supplier/FormSchema'
-import { RoleEnum } from '@/types'
+import { CollabEnum, ProfitsEnum, RoleEnum } from '@/types'
 
 export const Route = createFileRoute(
   '/(master)/_layout/active-user/update/$id'
@@ -43,11 +43,7 @@ function Page() {
     await mutateAsync(_value)
       .then((data) => {
         showToastQuerySuccess('ADD_SUCCESS')(data)
-        mutateAsyncDelete(id)
-          .then(() => navigate({ to: '/supplier' }))
-          .catch((error) => {
-            throw error
-          })
+        mutateAsyncDelete(id).then(() => navigate({ to: '/supplier' }))
       })
       .catch(showToastError)
   }
@@ -89,7 +85,19 @@ function Page() {
                   username: getUsernameFromEmail(formData.email),
                   role: RoleEnum.VENDOR,
                   phoneNumber: formData.phone,
-                  password: null
+                  companyGroup: formData.companyGroup ?? '',
+                  mainProductGroup: formData.mainProductGroup ?? '',
+                  numberProductService: formData.numberProductService ?? '',
+                  revenueEachYear: formData.revenueEachYear ?? '',
+                  listCertificate: formData.listCertificate ?? '',
+                  listLinkProduct: formData.listLinkProduct ?? '',
+                  companyWishesCooperate: formData.companyWishesCooperate ?? '',
+                  linkProfile: formData.linkProfile ?? '',
+                  collab: formData.collab ?? CollabEnum.COMMERCE,
+                  profits: formData.profits ?? ProfitsEnum.UNDER5_PER,
+                  implementerName: formData.implementerName ?? '',
+                  implementerPhone: formData.implementerPhone ?? '',
+                  password: ''
                 }}
                 onSubmit={handleSubmit}
                 isLoading={isPending}

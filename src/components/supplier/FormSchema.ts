@@ -1,5 +1,5 @@
 import { APP_MESSAGE, APP_RULE } from '@/constants'
-import { RoleEnum } from '@/types'
+import { CollabEnum, ProfitsEnum, RoleEnum } from '@/types'
 import { z } from 'zod'
 
 export const formSchema = z.object({
@@ -38,8 +38,8 @@ export const formSchema = z.object({
   implementerPhone: z.string().optional().nullable(),
   linkWebsite: z.string().optional().nullable(),
   shortNameCompany: z.string().optional().nullable(),
-  collab: z.string().optional().nullable(),
-  profits: z.string().optional().nullable(),
+  collab: z.nativeEnum(CollabEnum).optional().nullable(),
+  profits: z.nativeEnum(ProfitsEnum).optional().nullable(),
   isActive: z.boolean().optional().nullable(),
   avatar: z
     .string({ message: APP_MESSAGE.FORM.FIELD_REQUIRED })

@@ -4,3 +4,15 @@ export enum RoleEnum {
   ADMIN = 'ADMIN',
   VENDOR = 'VENDOR'
 }
+
+export enum ProfitsEnum {
+  UNDER5_PER = 'UNDER5_PER',
+  UNDER10_PER = 'UNDER10_PER',
+  OVER10_PER = 'OVER10_PER'
+}
+
+export enum CollabEnum {
+  MEDIA = 'MEDIA',
+  COMMERCE = 'COMMERCE',
+  BOTH = 'BOTH'
+}

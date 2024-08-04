@@ -37,7 +37,8 @@ const FormActiveUser = ({ defaultValues, onSubmit, isLoading }: Props) => {
             <FormFieldInputPassword
               label='Mật khẩu'
               inputProps={{
-                placeholder: 'Nhập mật khẩu'
+                placeholder: 'Nhập mật khẩu',
+                required: true
               }}
               form={form}
               name='password'

@@ -1,4 +1,5 @@
 import { IBaseItem } from '@/interfaces'
+import { CollabEnum, ProfitsEnum } from '@/types'
 import { ResponseApi, ResponsePagination } from '@/utils'
 
 export interface IRoleItem extends IBaseItem {
@@ -28,8 +29,8 @@ export interface IUserItem extends IBaseItem {
   shortNameCompany: string
   avatar: string
   banner: string
-  collab: string
-  profits: string
+  collab: CollabEnum
+  profits: ProfitsEnum
 }
 
 export type UserResponseItem = ResponseApi<IUserItem>
