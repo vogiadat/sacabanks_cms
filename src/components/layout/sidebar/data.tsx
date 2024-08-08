@@ -7,7 +7,8 @@ import {
   LocalOffer,
   ContactEmergency,
   Fax,
-  GroupAdd
+  GroupAdd,
+  PostAdd
 } from '@mui/icons-material'
 
 type SidebarType = {
@@ -64,5 +65,11 @@ export const sidebarList: SidebarType[] = [
     href: '/active-user',
     allowRole: ADMIN_SUPER_ADMIN_ROLE,
     icon: <GroupAdd />
+  },
+  {
+    title: 'Bài viết',
+    href: '/blog',
+    allowRole: ADMIN_SUPER_ADMIN_ROLE,
+    icon: <PostAdd />
   }
 ]

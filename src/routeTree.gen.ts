@@ -42,6 +42,9 @@ const masterLayoutNotFoundIndexLazyImport = createFileRoute(
 const masterLayoutCategoryIndexLazyImport = createFileRoute(
   '/(master)/_layout/category/',
 )()
+const masterLayoutBlogIndexLazyImport = createFileRoute(
+  '/(master)/_layout/blog/',
+)()
 const masterLayoutBannerIndexLazyImport = createFileRoute(
   '/(master)/_layout/banner/',
 )()
@@ -141,6 +144,15 @@ const masterLayoutCategoryIndexLazyRoute = masterLayoutCategoryIndexLazyImport
     import('./routes/(master)/_layout/category/index.lazy').then(
       (d) => d.Route,
     ),
+  )
+
+const masterLayoutBlogIndexLazyRoute = masterLayoutBlogIndexLazyImport
+  .update({
+    path: '/blog/',
+    getParentRoute: () => masterLayoutRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(master)/_layout/blog/index.lazy').then((d) => d.Route),
   )
 
 const masterLayoutBannerIndexLazyRoute = masterLayoutBannerIndexLazyImport
@@ -270,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof masterLayoutBannerIndexLazyImport
       parentRoute: typeof masterLayoutImport
     }
+    '/(master)/_layout/blog/': {
+      id: '/_layout/blog/'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof masterLayoutBlogIndexLazyImport
+      parentRoute: typeof masterLayoutImport
+    }
     '/(master)/_layout/category/': {
       id: '/_layout/category/'
       path: '/category'
@@ -353,6 +372,7 @@ export const routeTree = rootRoute.addChildren({
       masterLayoutSupplierCreateLazyRoute,
       masterLayoutActiveUserIndexLazyRoute,
       masterLayoutBannerIndexLazyRoute,
+      masterLayoutBlogIndexLazyRoute,
       masterLayoutCategoryIndexLazyRoute,
       masterLayoutNotFoundIndexLazyRoute,
       masterLayoutOrderIndexLazyRoute,
@@ -395,6 +415,7 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/supplier/create",
         "/_layout/active-user/",
         "/_layout/banner/",
+        "/_layout/blog/",
         "/_layout/category/",
         "/_layout/not-found/",
         "/_layout/order/",
@@ -428,6 +449,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/banner/": {
       "filePath": "(master)/_layout/banner/index.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/blog/": {
+      "filePath": "(master)/_layout/blog/index.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/category/": {
