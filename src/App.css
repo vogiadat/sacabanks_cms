@@ -155,3 +155,7 @@
   color: #000;
   box-shadow: 5px 5px 0 #b3b3b3;
 }
+
+.ck .ck-powered-by {
+  display: none !important;
+}
