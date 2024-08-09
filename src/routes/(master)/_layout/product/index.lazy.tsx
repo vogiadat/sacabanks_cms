@@ -184,6 +184,7 @@ function Page() {
           )}
         </>
       )}
+
       <Pagination
         handleNextPage={handleNextPage}
         handlePrevPage={handlePrevPage}

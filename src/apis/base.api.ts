@@ -22,6 +22,7 @@ type EndpointType =
   | 'register_vendor'
   | 'list_photo'
   | 'report'
+  | 'blog'
 
 type KeyType = 'getList' | 'getListPagination' | 'other' | 'findById'
 type GeneralKeyDataType = {

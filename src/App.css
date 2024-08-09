@@ -21,12 +21,10 @@
 }
 
 .editor-container_include-block-toolbar {
-  margin-left: 42px;
 }
 
 .editor-container_balloon-editor .editor-container__editor {
-  min-width: 795px;
-  max-width: 795px;
+  width: 100%;
 }
 
 .ck-content h3.category {
@@ -158,4 +156,13 @@
 
 .ck .ck-powered-by {
   display: none !important;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+  outline: none;
+  border: var(--ck-focus-ring);
+}
+
+.ck.ck-editor__editable {
+  border: 1px dashed hsl(var(--ck-color-focus-border-coordinates)) !important;
 }
