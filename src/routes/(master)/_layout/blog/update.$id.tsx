@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/joy'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 
-import { blogApi } from '@/apis'
+import { blogApi, uploadApi } from '@/apis'
 import FormBlog from '@/components/blog/FormBlog'
 import { BlogForm } from '@/components/blog/FormSchema'
-import { showToastError, showToastQuerySuccess } from '@/utils'
+import { getImageById, showToastError, showToastQuerySuccess } from '@/utils'
 import { Stack } from '@mui/joy'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
@@ -15,6 +15,11 @@ export const Route = createFileRoute('/(master)/_layout/blog/update/$id')({
 function Page() {
   const { id } = Route.useParams()
   const { navigate } = useRouter()
+
+  const { isPending: loadingFile, mutateAsync: upload } = useMutation({
+    mutationFn: (data: { file: File }) =>
+      uploadApi.create(data, 'multipart/form-data')
+  })
 
   const { data } = useQuery({
     queryKey: blogApi.getKey('findById', { id }),
@@ -28,8 +33,16 @@ function Page() {
 
   const blog = data?.data.data
 
-  const handleSubmit = (_value: BlogForm) => {
-    mutateAsync({ ..._value, id })
+  const handleSubmit = async (_value: BlogForm) => {
+    _value.image = blog?.image
+
+    if (_value.imageFile) {
+      await upload({ file: _value.imageFile })
+        .then((res) => (_value.image = res.data.data))
+        .catch(showToastError)
+    }
+
+    await mutateAsync({ ..._value, id })
       .then((data) => {
         showToastQuerySuccess('UPDATE_SUCCESS')(data)
         navigate({ to: '/blog' })
@@ -74,10 +87,11 @@ function Page() {
           <FormBlog
             defaultValues={{
               ...blog,
-              focusKeywords: blog.focusKeywords || []
+              focusKeywords: blog.focusKeywords || [],
+              image: getImageById(blog.image)
             }}
             onSubmit={handleSubmit}
-            isLoading={loadingSubmit}
+            isLoading={loadingFile || loadingSubmit}
           />
         )}
       </Box>

@@ -5,4 +5,6 @@ export interface IBlog extends IBaseItem {
   title: string
   focusKeywords?: string[] | null
   slug: string
+  image: string
+  shortDesc: string
 }

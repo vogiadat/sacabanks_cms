@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Grid, Stack } from '@mui/joy'
 import { useForm } from 'react-hook-form'
-import { FormFieldInput } from '../form'
+import { FormFieldImage, FormFieldInput, FormTextArea } from '../form'
 import { FormFieldTextEditor } from '../form/FormFieldTextEditor'
 import { BlogForm, formSchema } from './FormSchema'
 import FormTags from './FormTags'
@@ -39,6 +39,27 @@ const FormBlog = ({ defaultValues, onSubmit, isLoading }: Props) => {
 
         <Grid xs={12} lg={6}>
           <FormTags form={form} />
+        </Grid>
+
+        <Grid xs={12}>
+          <FormTextArea
+            name='shortDesc'
+            form={form}
+            label='Mô tả ngắn'
+            textAreaProps={{
+              placeholder: 'Thêm mô tả cho cho bài viết',
+              minRows: 3
+            }}
+          />
+        </Grid>
+
+        <Grid xs={12}>
+          <FormFieldImage
+            form={form}
+            name='imageFile'
+            label='Ảnh hiển thị'
+            defaultPreviewImage={'image'}
+          />
         </Grid>
 
         <Grid xs={12}>

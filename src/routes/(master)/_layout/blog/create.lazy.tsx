@@ -2,7 +2,7 @@ import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import FormBlog from '@/components/blog/FormBlog'
 import { BlogForm, initBlog } from '@/components/blog/FormSchema'
 import { Box, Stack, Typography } from '@mui/joy'
-import { blogApi } from '@/apis'
+import { blogApi, uploadApi } from '@/apis'
 import { useMutation } from '@tanstack/react-query'
 import { showToastError, showToastQuerySuccess } from '@/utils'
 
@@ -11,14 +11,26 @@ export const Route = createLazyFileRoute('/(master)/_layout/blog/create')({
 })
 
 function Page() {
+  const { isPending: loadingFile, mutateAsync: upload } = useMutation({
+    mutationFn: (data: { file: File }) =>
+      uploadApi.create(data, 'multipart/form-data')
+  })
   const { mutateAsync, isPending: loadingSubmit } = useMutation({
     mutationFn: (data: BlogForm) => blogApi.create(data)
   })
 
   const navigate = useNavigate()
 
-  const handleSubmit = (_value: BlogForm) => {
-    mutateAsync(_value)
+  const handleSubmit = async (_value: BlogForm) => {
+    // console.log(_value)
+
+    if (_value.imageFile) {
+      await upload({ file: _value.imageFile })
+        .then((res) => (_value.image = res.data.data))
+        .catch(showToastError)
+    }
+
+    await mutateAsync(_value)
       .then((data) => {
         showToastQuerySuccess('ADD_SUCCESS')(data)
         navigate({ to: '/blog' })
@@ -62,7 +74,7 @@ function Page() {
         <FormBlog
           defaultValues={initBlog}
           onSubmit={handleSubmit}
-          isLoading={loadingSubmit}
+          isLoading={loadingFile || loadingSubmit}
         />
       </Box>
     </>
